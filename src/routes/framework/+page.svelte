@@ -10,6 +10,8 @@
 		{#if data.framework}
 			<h2 class="h2">Framework created by {data.framework.author.fullName}</h2>
 			<FrameworkView framework={data.framework} />
+		{:else}
+			<h2 class="h2">Framework not found</h2>
 		{/if}
 	</div>
 </div>

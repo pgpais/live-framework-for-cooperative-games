@@ -1,7 +1,12 @@
 import { users, type User } from './user';
 import { relations, type InferModel } from 'drizzle-orm';
 import { pgTable, text, integer, uniqueIndex, timestamp, serial } from 'drizzle-orm/pg-core';
-import { categories, type Category, type CategoryWithMaybeEverything } from './category';
+import {
+	categories,
+	type Category,
+	type CategoryWithMaybeEverything,
+	type CategoryWithSubCategories
+} from './category';
 
 export const frameworks = pgTable('frameworks', {
 	id: serial('id').primaryKey(),
@@ -33,5 +38,5 @@ export type FrameworkCategories = Framework & {
 
 export type FrameworkAuthorCategories = Framework & {
 	author: User;
-	categories: CategoryWithMaybeEverything[];
+	categories: CategoryWithSubCategories[];
 };
