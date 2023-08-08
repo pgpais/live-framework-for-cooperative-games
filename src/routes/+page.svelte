@@ -5,6 +5,7 @@
 		<h2 class="h2">Living Framework for Cooperative Games</h2>
 		<!-- / -->
 		<div class="flex justify-center space-x-2">
+			<a class="btn variant-filled" href="/framework" rel="noreferrer"> See framework </a>
 			<a class="btn variant-filled" target="_blank" href="/newreport" rel="noreferrer">
 				Create new Report
 			</a>
