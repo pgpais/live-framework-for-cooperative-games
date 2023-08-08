@@ -35,3 +35,7 @@ experimental/**/*.db
 .nuxt
 dev.db
 *.env*
+prisma/manel.db
+prisma/manel.db-journal
+prisma/migrations/migration_lock.toml
+prisma/migrations/20230808121028_init/migration.sql
