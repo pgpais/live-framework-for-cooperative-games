@@ -1,8 +1,7 @@
-import { subCategories } from './subcategory';
-import { dimensions } from './dimension';
-import { frameworks, type Framework } from './framework';
+import { dimensions, type Dimension } from './dimension';
+import { frameworks } from './framework';
 import { relations, type InferModel } from 'drizzle-orm';
-import { pgTable, text, integer, uniqueIndex, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
 
 export const categories = pgTable('categories', {
 	id: serial('id').primaryKey(),
@@ -49,3 +48,13 @@ export type CategoryWithMaybeEverything = Category &
 		superCategory: Category;
 		subCategories: Category[];
 	}>;
+
+export type CategoryWithDimensions = Category & {
+	dimensions: Dimension[];
+};
+
+export type FullCategory = Category & {
+	dimensions: Dimension[];
+	subCategories?: FullCategory[];
+	superCategory: Category;
+};

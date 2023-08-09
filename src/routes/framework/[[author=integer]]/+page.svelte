@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FrameworkView from '$lib/components/FrameworkView.svelte';
-	import type { PageData } from './$types';
+	import type { PageData } from '../$types';
 
 	export let data: PageData;
 </script>

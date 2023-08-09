@@ -17,3 +17,5 @@ export const dimensionsRelations = relations(dimensions, ({ one }) => ({
 		references: [categories.id]
 	})
 }));
+
+export type Dimension = InferModel<typeof dimensions>;

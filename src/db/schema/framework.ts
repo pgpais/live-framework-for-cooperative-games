@@ -4,8 +4,10 @@ import { pgTable, text, integer, uniqueIndex, timestamp, serial } from 'drizzle-
 import {
 	categories,
 	type Category,
+	type CategoryWithDimensions,
 	type CategoryWithMaybeEverything,
-	type CategoryWithSubCategories
+	type CategoryWithSubCategories,
+	type FullCategory
 } from './category';
 
 export const frameworks = pgTable('frameworks', {
@@ -39,4 +41,14 @@ export type FrameworkCategories = Framework & {
 export type FrameworkAuthorCategories = Framework & {
 	author: User;
 	categories: CategoryWithSubCategories[];
+};
+
+export type FirstLevelFramework = Framework & {
+	author: User;
+	categories: CategoryWithDimensions[];
+};
+
+export type FullFramework = Framework & {
+	author: User;
+	categories: FullCategory[];
 };
