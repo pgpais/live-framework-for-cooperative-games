@@ -6,8 +6,8 @@ import {
 	type FullFramework
 } from '$db/schema';
 import { eq } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 // populate subcategories of categories in framework in a new function
 const makeFullFramework = (framework: FirstLevelFramework) => {
