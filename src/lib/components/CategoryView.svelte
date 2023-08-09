@@ -1,13 +1,7 @@
 <script lang="ts">
 	import DimensionView from '$lib/components/DimensionView.svelte';
+	import type { FullCategory } from '$lib/db/schema';
 	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
-	import type {
-		Category,
-		CategoryWithMaybeEverything,
-		CategoryWithSubCategories,
-		FullCategory
-	} from '../../db/schema';
-
 	export let category: FullCategory;
 </script>
 
@@ -24,7 +18,7 @@
 		{/if}
 		{#if category.subCategories && category.subCategories.length > 0}
 			<TreeViewItem open={true}>
-				<h2 class="text-tertiary-500/25 text-xs">Subcategories</h2>
+				<h2 class="text-xs text-tertiary-500/25">Subcategories</h2>
 				<svelte:fragment slot="children">
 					{#each category.subCategories as subCategory}
 						<svelte:self category={subCategory} />

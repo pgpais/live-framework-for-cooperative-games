@@ -1,12 +1,14 @@
 <script>
-	import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { LightSwitch, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="justify-between flex bg-black p-5">
+<div class="flex justify-between bg-black p-5">
 	<div>Put logo here pls</div>
-	<div>
-		<h1 class="text-6xl font-bold">Hello</h1>
-	</div>
+	<TabGroup>
+		<TabAnchor href="/frameworks">Framework</TabAnchor>
+		<TabAnchor href="/categories">Categories</TabAnchor>
+		<TabAnchor href="/dimensions">Dimensions</TabAnchor>
+	</TabGroup>
 	<div>
 		<p>put my stuff at the end</p>
 		<LightSwitch />

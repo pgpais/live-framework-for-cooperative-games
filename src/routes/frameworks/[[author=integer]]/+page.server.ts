@@ -1,10 +1,10 @@
-import db from '$db';
+import db from '$lib/db';
 import {
 	frameworks,
 	type FirstLevelFramework,
 	type FullCategory,
 	type FullFramework
-} from '$db/schema';
+} from '$lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';

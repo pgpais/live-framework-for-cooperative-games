@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Dimension } from '$db/schema';
+	import type { Dimension } from '$lib/db/schema';
 
 	export let dimension: Dimension;
 </script>

@@ -1,15 +1,21 @@
 <script lang="ts">
 	import FrameworkView from '$lib/components/FrameworkView.svelte';
+	import { Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
-<div class="container pt-10 h-full mx-auto flex justify-left">
-	<div class="space-y-10 flex flex-col">
+<div class="justify-left container mx-auto flex h-full pt-10">
+	<div class="flex flex-col space-y-10">
 		{#if data.framework}
 			<h2 class="h2">Framework created by {data.framework.author.fullName}</h2>
 			<FrameworkView framework={data.framework} />
+			<a
+				class="btn-icon variant-filled self-end"
+				type="button"
+				href="/reports/new/{data.framework.id}"><Plus /></a
+			>
 		{:else}
 			<h2 class="h2">Framework not found</h2>
 		{/if}
