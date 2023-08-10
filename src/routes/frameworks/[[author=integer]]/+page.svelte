@@ -8,16 +8,15 @@
 
 <div class="justify-left container mx-auto flex h-full pt-10">
 	<div class="flex flex-col space-y-10">
-		{#if data.framework}
-			<h2 class="h2">Framework created by {data.framework.author.fullName}</h2>
-			<FrameworkView framework={data.framework} />
-			<a
-				class="btn-icon variant-filled self-end"
-				type="button"
-				href="/reports/new/{data.framework.id}"><Plus /></a
+		{#await data.framework}
+			ola
+		{:then framework}
+			<FrameworkView {framework} />
+			<a class="btn-icon variant-filled self-end" type="button" href="/reports/new/{framework.id}"
+				><Plus /></a
 			>
-		{:else}
-			<h2 class="h2">Framework not found</h2>
-		{/if}
+		{:catch error}
+			<h2 class="h2">{error.status}: {error.message}</h2>
+		{/await}
 	</div>
 </div>

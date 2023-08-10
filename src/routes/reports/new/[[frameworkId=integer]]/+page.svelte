@@ -7,6 +7,7 @@
 
 <div class="flex">
 	<div class="flex-grow">report form</div>
-	<div class="float-right flex-shrink justify-self-end">framework preview</div>
-	<!-- <FrameworkView framework={data.framework}/> -->
+	<div class="float-right mr-14 flex-shrink justify-self-end">
+		<FrameworkView framework={data.framework} />
+	</div>
 </div>

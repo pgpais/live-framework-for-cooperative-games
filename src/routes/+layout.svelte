@@ -8,6 +8,7 @@
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
 	import { autoModeWatcher } from '@skeletonlabs/skeleton';
+	import { navigating } from '$app/stores';
 </script>
 
 <svelte:head
@@ -20,5 +21,8 @@
 		<Header />
 	</svelte:fragment>
 	<!-- Page Route Content -->
+	{#if $navigating}
+		ola
+	{/if}
 	<slot />
 </AppShell>

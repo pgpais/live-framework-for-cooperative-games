@@ -6,19 +6,19 @@
 </script>
 
 <TreeViewItem open={true}>
-	<h1>
+	<h3>
 		{category.title}
-	</h1>
+	</h3>
 	<svelte:fragment slot="children">
 		{#if category.dimensions && category.dimensions.length > 0}
-			<h2 class="variant-soft-secondary">Dimensions</h2>
+			<h4 class="variant-soft-secondary">Dimensions</h4>
 			{#each category.dimensions as dimension}
 				<DimensionView {dimension} />
 			{/each}
 		{/if}
 		{#if category.subCategories && category.subCategories.length > 0}
 			<TreeViewItem open={true}>
-				<h2 class="text-xs text-tertiary-500/25">Subcategories</h2>
+				<h4 class="text-xs text-tertiary-500/25">Subcategories</h4>
 				<svelte:fragment slot="children">
 					{#each category.subCategories as subCategory}
 						<svelte:self category={subCategory} />
