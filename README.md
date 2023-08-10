@@ -1,22 +1,20 @@
-# create-svelte
+# Living Framework for Cooperative Games
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Dependencies
 
-## Creating a project
+This project is using sveltekit.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Additionally, it is using:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- skeleton UI toolkit
+- drizzleORM for DB queries and schema
+- lucide for icons
+- superforms for forms
+- zod for typechecking
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've cloned the repository, start a development server:
 
 ```bash
 npm run dev
@@ -27,7 +25,7 @@ npm run dev -- --open
 
 ## Building
 
-To create a production version of your app:
+To create a production version:
 
 ```bash
 npm run build
