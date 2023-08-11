@@ -12,7 +12,7 @@ import { eq } from 'drizzle-orm';
 // populate subcategories of categories in framework in a new function
 const makeFullFramework = (framework: FirstLevelFramework) => {
 	const categories = framework.categories;
-	const fullCategories: FullCategory[] = [];
+	let fullCategories: FullCategory[] = [];
 	for (let i = 0; i < categories.length; i++) {
 		const category = categories[i];
 		const subCategories: FullCategory[] = categories.filter(
@@ -23,6 +23,8 @@ const makeFullFramework = (framework: FirstLevelFramework) => {
 		fullCategory.subCategories = subCategories;
 		fullCategories.push(fullCategory);
 	}
+
+	fullCategories = fullCategories.filter((c) => c.superCategoryId === 0);
 
 	const fullFramework: FullFramework = framework as FullFramework;
 	fullFramework.categories = fullCategories;

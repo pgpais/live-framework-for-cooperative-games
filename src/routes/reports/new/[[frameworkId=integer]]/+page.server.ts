@@ -8,6 +8,5 @@ export const load = (async ({ params }) => {
 	const framework = await GetFullFrameworkById(frameworkId);
 
 	const form = await superValidate(framework, reportSchema);
-
 	return { framework, form };
 }) satisfies PageServerLoad;

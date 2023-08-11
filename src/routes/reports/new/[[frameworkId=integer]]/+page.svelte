@@ -28,9 +28,7 @@
 		<Separator />
 		<form method="POST" class="flex w-full flex-col gap-3">
 			{#each $form.categories as category, i}
-				{#if $form.categories[i].superCategoryId == 0}
-					<CategoryForm bind:value={$form.categories[i]} />
-				{/if}
+				<CategoryForm bind:value={$form.categories[i]} />
 			{/each}
 			<div><button class="btn variant-soft-primary my-2">Submit</button></div>
 		</form>
