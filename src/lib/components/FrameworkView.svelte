@@ -10,7 +10,7 @@
 <h2 class="h2">Framework created by {framework.author.fullName}</h2>
 <TreeView>
 	{#each framework.categories as category}
-		{#if category.superCategoryId === null}
+		{#if category.superCategoryId == 0}
 			<CategoryView {category} />
 		{/if}
 	{/each}

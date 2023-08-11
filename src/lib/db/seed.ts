@@ -1,7 +1,7 @@
 //seed using drizzle
 
 import db from '.';
-import { users, type User, frameworks, type Framework } from './schema';
+import { users, frameworks, type NewFramework, type NewUser } from './schema';
 
 const usersValues = [
 	{
@@ -18,7 +18,7 @@ const usersValues = [
 		fullName: 'Alice Smith',
 		password: '123456'
 	}
-] satisfies Omit<User, 'id'>[];
+] satisfies NewUser[];
 
 await db.insert(users).values(usersValues);
 
@@ -29,6 +29,6 @@ const frameworksValues = [
 		createdAt: new Date(),
 		updatedAt: new Date()
 	}
-] satisfies Omit<Framework, 'id'>[];
+] satisfies NewFramework[];
 
 await db.insert(frameworks).values(frameworksValues);

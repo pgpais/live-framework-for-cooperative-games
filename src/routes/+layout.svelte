@@ -23,6 +23,7 @@
 	<!-- Page Route Content -->
 	{#if $navigating}
 		ola
+	{:else}
+		<slot />
 	{/if}
-	<slot />
 </AppShell>

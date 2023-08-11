@@ -11,4 +11,4 @@ export const users = pgTable('users', {
 });
 
 export type User = InferModel<typeof users>; // return type when queried
-export type InsertUser = InferModel<typeof users, 'insert'>; // insert type
+export type NewUser = InferModel<typeof users, 'insert'>; // insert type

@@ -30,6 +30,8 @@ export const frameworksRelations = relations(frameworks, ({ one, many }) => ({
 
 export type Framework = InferModel<typeof frameworks>;
 
+export type NewFramework = InferModel<typeof frameworks, 'insert'>;
+
 export type FrameworkAuthor = Framework & {
 	author: User;
 };

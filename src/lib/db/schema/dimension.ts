@@ -1,6 +1,6 @@
 import { categories } from './category';
 import { relations, type InferModel } from 'drizzle-orm';
-import { pgTable, text, integer, uniqueIndex, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
 
 export const dimensions = pgTable('dimensions', {
 	id: serial('id').primaryKey(),

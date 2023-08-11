@@ -10,7 +10,7 @@ export const categories = pgTable('categories', {
 	frameworkId: integer('framework_id')
 		.references(() => frameworks.id)
 		.notNull(),
-	superCategoryId: integer('super_category_id')
+	superCategoryId: integer('super_category_id').notNull().default(0)
 });
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
