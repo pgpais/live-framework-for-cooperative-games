@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 export const dimensionReportSchema = z.object({
-	id: z.number(),
+	id: z.number(), //TODO: change to dimensionId. Find out how to map this when fetching from db
 	title: z.string(),
-	checked: z.boolean().optional(),
-	example: z.string().optional()
+	included: z.boolean().optional(),
+	example: z.string().nonempty().optional()
 });
 
 const baseCategoryReportSchema = z.object({

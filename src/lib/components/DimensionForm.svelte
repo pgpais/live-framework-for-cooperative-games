@@ -3,18 +3,17 @@
 	import type { DimensionReportSchema } from '$lib/schemas/report';
 	import type { SuperValidated } from 'sveltekit-superforms';
 
-	export let dimensionName: string;
-	export let value: { checked?: boolean; example?: string };
+	export let value: DimensionReportSchema;
 </script>
 
 <label for="name">
-	<span>{dimensionName}</span>
-	<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.checked} />
-	{#if value.checked}
+	<span>{value.title}</span>
+	<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
+	{#if value.included}
 		<input
 			class="input"
 			type="text"
-			name={'dimension ' + dimensionName}
+			name={'dimension ' + value.title}
 			bind:value={value.example}
 			placeholder="Write a description of blah blah"
 		/>

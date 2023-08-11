@@ -11,12 +11,12 @@
 	<Separator width={2} />
 	<div class="ml-2 grid gap-3">
 		{#each value.dimensions as dimension, j}
-			<DimensionForm dimensionName={value.dimensions[j].title} bind:value={value.dimensions[j]} />
+			<DimensionForm bind:value={value.dimensions[j]} />
 		{/each}
 	</div>
 	{#if value.subCategories && value.subCategories.length > 0}
 		{#each value.subCategories as subcategory, i}
-			<svelte:self value={value.subCategories[i]} />
+			<svelte:self bind:value={value.subCategories[i]} />
 		{/each}
 	{/if}
 </div>
