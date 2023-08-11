@@ -1,11 +1,10 @@
 import { users, type User } from './user';
 import { relations, type InferModel } from 'drizzle-orm';
-import { pgTable, text, integer, uniqueIndex, timestamp, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, timestamp, serial } from 'drizzle-orm/pg-core';
 import {
 	categories,
 	type Category,
 	type CategoryWithDimensions,
-	type CategoryWithMaybeEverything,
 	type CategoryWithSubCategories,
 	type FullCategory
 } from './category';
