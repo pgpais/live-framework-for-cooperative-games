@@ -6,8 +6,6 @@
 	import Separator from '$lib/components/Separator.svelte';
 	import CategoryForm from '$lib/components/CategoryForm.svelte';
 	import type { NewReport } from '$lib/db/schema/report';
-	import type { NewDimensionExample } from '$lib/db/schema/dimensionExample';
-	import DimensionForm from '$lib/components/DimensionForm.svelte';
 
 	export let data: PageData;
 
@@ -17,7 +15,6 @@
 		authorId: 1, //TODO: get from session
 		gameId: 1 //TODO: get from somwehre
 	};
-	const dimensionExamples: NewDimensionExample[] = [];
 
 	const { form } = superForm(data.form, {
 		dataType: 'json'

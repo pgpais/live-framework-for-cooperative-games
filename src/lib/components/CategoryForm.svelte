@@ -10,10 +10,10 @@
 	export let value: CategoryReportSchema;
 </script>
 
-<div class="ml-3">
+<div class="ml-2">
 	<h4 class="h4 mt-3">{value.title}</h4>
 	<Separator width={2} />
-	<div class="grid gap-3">
+	<div class="ml-2 grid gap-3">
 		{#each value.dimensions as dimension, j}
 			<DimensionForm dimensionName={value.dimensions[j].title} bind:value={value.dimensions[j]} />
 		{/each}
