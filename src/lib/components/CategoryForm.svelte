@@ -1,11 +1,7 @@
 <script lang="ts">
 	import Separator from '$lib/components/Separator.svelte';
-	import type { CategoryWithDimensions, Dimension } from '$lib/db/schema';
 	import DimensionForm from '$lib/components/DimensionForm.svelte';
-	import type { CategoryReportSchema, categoryReportSchema } from '$lib/schemas/report';
-	import type { SuperValidated } from 'sveltekit-superforms';
-	import { superForm } from 'sveltekit-superforms/client';
-	import { subCategories } from '$lib/db/schema/subcategory';
+	import type { CategoryReportSchema } from '$lib/schemas/report';
 
 	export let value: CategoryReportSchema;
 </script>
