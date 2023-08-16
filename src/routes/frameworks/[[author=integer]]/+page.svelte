@@ -6,8 +6,8 @@
 	export let data: PageData;
 </script>
 
-<div class="justify-left container mx-auto flex h-full pt-10">
-	<div class="flex flex-col space-y-10">
+<div class="flex h-full justify-center py-10">
+	<div class="flex flex-col">
 		<FrameworkView framework={data.framework} />
 		<a
 			class="btn-icon variant-filled self-end"
