@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import Separator from '$lib/components/Separator.svelte';
 	import CategoryForm from '$lib/components/CategoryForm.svelte';
+	import { TreeView } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
 	const framework = data.framework;
@@ -20,9 +21,11 @@
 		<h2 class="h2">New report for Game</h2>
 		<Separator />
 		<form method="POST" use:enhance class="flex w-full flex-col gap-3">
-			{#each $form.categories as category, i}
-				<CategoryForm bind:value={$form.categories[i]} />
-			{/each}
+			<TreeView>
+				{#each $form.categories as category, i}
+					<CategoryForm bind:value={$form.categories[i]} />
+				{/each}
+			</TreeView>
 			<button class="btn variant-soft-primary my-2">Submit</button>
 		</form>
 	</div>
