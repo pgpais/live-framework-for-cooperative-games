@@ -7,7 +7,7 @@
 	export let framework: FullFramework;
 </script>
 
-<h2 class="h2">Framework created by {framework.author.fullName}</h2>
+<h2 class="h2">Framework "{framework.title}" created by {framework.author.fullName}</h2>
 <TreeView>
 	{#each framework.categories as category}
 		{#if category.superCategoryId == 0}
