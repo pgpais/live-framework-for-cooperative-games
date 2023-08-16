@@ -9,10 +9,8 @@ import {
 } from '$lib/schemas/report';
 import { fail, redirect } from '@sveltejs/kit';
 import db from '$lib/db';
-import { reports, type NewReport } from '$lib/db/schema/report';
+import { reports } from '$lib/db/schema/report';
 import { dimensionExamples, type NewDimensionExample } from '$lib/db/schema/dimensionExample';
-import type DimensionForm from '$lib/components/DimensionForm.svelte';
-import type { Dimension } from '$lib/db/schema';
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
 import type { N } from 'drizzle-orm/query-promise.d-31db3408';
 import type { M } from 'drizzle-orm/select.types.d-3ce070d1';

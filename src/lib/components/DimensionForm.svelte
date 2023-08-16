@@ -1,13 +1,15 @@
 <script lang="ts">
+	import DimensionWithHover from '$lib/components/DimensionWithHover.svelte';
 	import type { Dimension } from '$lib/db/schema';
 	import type { DimensionReportSchema } from '$lib/schemas/report';
 	import type { SuperValidated } from 'sveltekit-superforms';
 
 	export let value: DimensionReportSchema;
+	export let dimension: Dimension;
 </script>
 
 <label for="name">
-	<span>{value.title}</span>
+	<DimensionWithHover {dimension} />
 	<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
 	{#if value.included}
 		<input

@@ -1,3 +1,7 @@
+<script>
+	import FrameworkView from '$lib/components/FrameworkView.svelte';
+</script>
+
 <!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 
 <div class="container mx-auto flex h-full justify-center pt-10">
