@@ -2,7 +2,6 @@
 	import DimensionDetail from '$lib/components/DimensionDetail.svelte';
 	import type { Dimension } from '$lib/db/schema';
 	import { detailComponent, detailInfoStore } from '$lib/stores/detailView';
-	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
 	export let dimension: Dimension;
 

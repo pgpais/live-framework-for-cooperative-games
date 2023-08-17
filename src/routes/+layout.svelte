@@ -9,9 +9,6 @@
 	import Header from '$lib/components/Header.svelte';
 	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 	import { navigating } from '$app/stores';
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
-	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
 
 <svelte:head>
