@@ -27,3 +27,10 @@ export const dimensionExamplesRelations = relations(dimensionExamples, ({ one })
 }));
 
 export type NewDimensionExample = InferModel<typeof dimensionExamples, 'insert'>;
+
+export type DimensionExample = InferModel<typeof dimensionExamples>;
+
+export type PlainDimensionExample = {
+	included: boolean;
+	example: string;
+};

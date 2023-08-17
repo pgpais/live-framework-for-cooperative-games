@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DimensionWithHover from '$lib/components/DimensionWithHover.svelte';
+	import DimensionWithHover from '$lib/components/DimensionDetailButton.svelte';
 	import type { Dimension } from '$lib/db/schema';
 	import type { DimensionReportSchema } from '$lib/schemas/report';
 	import type { SuperValidated } from 'sveltekit-superforms';

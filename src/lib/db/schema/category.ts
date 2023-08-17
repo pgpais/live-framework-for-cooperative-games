@@ -1,4 +1,4 @@
-import { dimensions, type Dimension } from './dimension';
+import { dimensions, type Dimension, type PlainDimension } from './dimension';
 import { frameworks } from './framework';
 import { relations, type InferModel } from 'drizzle-orm';
 import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
@@ -57,4 +57,11 @@ export type FullCategory = Category & {
 	dimensions: Dimension[];
 	subCategories?: FullCategory[];
 	superCategory: Category;
+};
+
+export type PlainCategory = {
+	title: string;
+	description: string;
+	dimensions?: PlainDimension[];
+	subCategories?: PlainCategory[];
 };

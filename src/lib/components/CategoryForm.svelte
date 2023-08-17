@@ -7,10 +7,6 @@
 	import { Info, InfoIcon } from 'lucide-svelte';
 
 	export let value: CategoryReportSchema;
-	export let selected = {
-		isCategory: false,
-		id: 0
-	};
 </script>
 
 <TreeViewItem>
