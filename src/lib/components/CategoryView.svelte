@@ -5,12 +5,12 @@
 	export let category: FullCategory;
 </script>
 
-<TreeViewItem open={true}>
+<TreeViewItem open={true} spacing="space-x-4">
 	<h3>
 		{category.title}
 	</h3>
 	<svelte:fragment slot="children">
-		<div class="ml-2 grid gap-3">
+		<div class="ml-6 grid gap-3">
 			{#if category.dimensions && category.dimensions.length > 0}
 				{#each category.dimensions as dimension}
 					<DimensionView {dimension} />

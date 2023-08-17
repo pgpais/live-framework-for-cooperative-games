@@ -8,7 +8,7 @@
 </script>
 
 <h2 class="h2">Framework "{framework.title}" created by {framework.author.fullName}</h2>
-<TreeView>
+<TreeView padding="py-2 px-1" indent="ml-2">
 	{#each framework.categories as category}
 		{#if category.superCategoryId == 0}
 			<CategoryView {category} />
