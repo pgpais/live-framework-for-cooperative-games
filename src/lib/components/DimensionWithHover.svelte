@@ -6,7 +6,7 @@
 
 	const popupHover: PopupSettings = {
 		event: 'hover',
-		target: 'popupHover',
+		target: 'popupHover' + dimension.id,
 		placement: 'top'
 	};
 
@@ -15,7 +15,7 @@
 
 <b use:popup={popupHover} class="text-primary-500-400-token">{dimension.title}</b>
 
-<div class="card p-4 bg-surface-active-token" data-popup="popupHover">
+<div class="card p-4 bg-surface-active-token" data-popup={'popupHover' + dimension.id}>
 	<h1 class="h1">{dimension.title}</h1>
 	<p>{dimension.description}</p>
 	<div class="arrow bg-surface-active-token" />
