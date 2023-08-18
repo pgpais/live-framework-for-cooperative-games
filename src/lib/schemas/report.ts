@@ -11,6 +11,7 @@ export const dimensionReportSchema = z.object({
 
 const baseCategoryReportSchema = z.object({
 	id: z.number(),
+	frameworkId: z.number(),
 	title: z.string(),
 	description: z.string(),
 	superCategoryId: z.number(),

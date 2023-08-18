@@ -14,6 +14,6 @@
 	};
 </script>
 
-<button on:click={changeDetailView}>
+<button type="button" on:click={changeDetailView}>
 	{category.title}
 </button>

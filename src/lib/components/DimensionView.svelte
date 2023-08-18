@@ -7,5 +7,5 @@
 
 <div class="text-left">
 	<!-- {dimension.title} -->
-	<p><DimensionDetailButton {dimension} /></p>
+	<DimensionDetailButton {dimension} />
 </div>

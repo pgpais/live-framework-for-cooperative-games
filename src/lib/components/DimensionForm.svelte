@@ -7,7 +7,8 @@
 	export let dimension: Dimension;
 </script>
 
-<label for="name">
+<!-- TODO: fix this label for property -->
+<label for="name" class="text-left">
 	<DimensionDetailButton {dimension} />
 	<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
 	{#if value.included}

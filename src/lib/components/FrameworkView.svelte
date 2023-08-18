@@ -13,9 +13,7 @@
 	{#each framework.categories as category}
 		{#if category.superCategoryId == 0}
 			<li>
-				<span class="flex-auto">
-					<CategoryView {category} />
-				</span>
+				<CategoryView {category} />
 			</li>
 		{/if}
 	{/each}
