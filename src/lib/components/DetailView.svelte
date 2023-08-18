@@ -9,4 +9,6 @@
 	{:else if $detailInfoStore.type === 'category'}
 		<p>categoryDetail</p>
 	{/if}
+{:else}
+	<p>no detail info</p>
 {/if}
