@@ -31,7 +31,7 @@
 		<form method="POST" use:enhance class="flex w-full flex-col gap-3">
 			<TreeView>
 				{#each $form.categories as category, i}
-					<CategoryForm bind:value={$form.categories[i]} bind:selected />
+					<CategoryForm bind:value={$form.categories[i]} />
 				{/each}
 			</TreeView>
 			<button class="btn variant-soft-primary my-2">Submit</button>

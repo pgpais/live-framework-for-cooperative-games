@@ -7,6 +7,7 @@
 	console.log(dimension);
 
 	const changeDetailView = () => {
+		console.log('setting detail view');
 		detailInfoStore.set({
 			type: 'dimension',
 			data: dimension
