@@ -1,24 +1,15 @@
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
-import {
-	reportSchema,
-	type DimensionReportSchema,
-	type ReportSchema,
-	type CategoryReportSchema
-} from '$lib/schemas/report';
+import { reportSchema, type ReportSchema, type CategoryReportSchema } from '$lib/schemas/report';
 import { fail, redirect } from '@sveltejs/kit';
 import db from '$lib/db';
 import { reports } from '$lib/db/schema/report';
 import { dimensionExamples, type NewDimensionExample } from '$lib/db/schema/dimensionExample';
-import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
-import type { N } from 'drizzle-orm/query-promise.d-31db3408';
-import type { M } from 'drizzle-orm/select.types.d-3ce070d1';
-import { env } from '$env/dynamic/private';
 
 //TODO: move transactions out of sub methods (return array of dimension examples, then insert them all at once)
 
-export const load = (async ({ params, fetch }) => {
+export const load = (async ({ params }) => {
 	const frameworkId = params.frameworkId ? +params.frameworkId : 1;
 	const framework = await GetFullFrameworkById(frameworkId);
 
@@ -45,46 +36,27 @@ export const actions = {
 	}
 };
 
-type Transaction = M<
-	PostgresJsQueryResultHKT,
-	typeof import('$lib/db/schema'),
-	N<typeof import('$lib/db/schema')>
->;
-
-const uploadDimensionExample = async (
-	dimension: DimensionReportSchema,
-	reportId: number,
-	tx: Transaction
-) => {
-	const dimensionInReport: NewDimensionExample = {
-		dimensionId: dimension.id, //TODO: Figure out how to make this mapping when fetching from DB
-		included: dimension.included,
-		example: dimension.example,
-		reportId
-	};
-	console.log('DB: Inserting dimension', dimensionInReport);
-	const ret = await tx
-		.insert(dimensionExamples)
-		.values(dimensionInReport)
-		.returning({ insertedId: dimensionExamples.id });
-	console.log('DB: Inserted dimension', { insertedId: ret[0].insertedId, ...dimensionInReport });
-};
-
-const uploadReportCategory = async (
+function pushCategory(
+	dimensionExamples: NewDimensionExample[],
 	category: CategoryReportSchema,
-	reportId: number,
-	tx: Transaction
-) => {
-	for (const dimensionExample of category.dimensions) {
-		await uploadDimensionExample(dimensionExample, reportId, tx);
+	reportId: number
+) {
+	for (const dimension of category.dimensions) {
+		dimensionExamples.push({
+			dimensionId: dimension.id,
+			included: dimension.included,
+			example: dimension.example,
+			reportId
+		});
+		console.log('DB: Inserting dimension', dimension);
 	}
 
 	if (category.subCategories) {
 		for (const subCategories of category.subCategories) {
-			await uploadReportCategory(subCategories, reportId, tx);
+			pushCategory(dimensionExamples, subCategories, reportId);
 		}
 	}
-};
+}
 
 const uploadReport = async (report: ReportSchema) => {
 	await db.transaction(async (tx) => {
@@ -97,8 +69,12 @@ const uploadReport = async (report: ReportSchema) => {
 		const insertedReportId = insertedReport[0].insertedId;
 
 		console.log('DB: Inserting dimensions');
+		const newDimensionExamples: NewDimensionExample[] = [];
 		for (const category of report.categories) {
-			await uploadReportCategory(category, insertedReportId, tx);
+			pushCategory(newDimensionExamples, category, insertedReportId);
+			// await uploadReportCategory(category, insertedReportId, tx);
 		}
+		await tx.insert(dimensionExamples).values(newDimensionExamples);
+		console.log('DB: Inserted dimensions');
 	});
 };
