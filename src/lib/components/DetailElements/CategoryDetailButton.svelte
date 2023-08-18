@@ -5,12 +5,10 @@
 	export let category: Category;
 
 	const changeDetailView = () => {
-		console.log('setting detail view');
 		$detailInfoStore = {
 			type: 'category',
 			data: category
 		};
-		console.log(detailInfoStore);
 	};
 </script>
 

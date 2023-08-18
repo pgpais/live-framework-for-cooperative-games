@@ -4,15 +4,11 @@
 
 	export let dimension: Dimension;
 
-	console.log(dimension);
-
 	const changeDetailView = () => {
-		console.log('setting detail view');
 		$detailInfoStore = {
 			type: 'dimension',
 			data: dimension
 		};
-		console.log($detailInfoStore);
 	};
 </script>
 

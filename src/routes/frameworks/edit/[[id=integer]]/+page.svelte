@@ -14,13 +14,11 @@
 	let { form } = superForm(data.form);
 
 	const ConcatenateSubCategories = (category: FullCategory) => {
-		console.log('concatenate', category.title);
 		let subCategories: FullCategory[] = [];
 		if (category.subCategories) {
 			for (const subCategory of category.subCategories) {
 				subCategories.push(subCategory);
 				subCategories.push(...ConcatenateSubCategories(subCategory));
-				console.log(subCategories);
 			}
 		}
 		return subCategories;
@@ -31,8 +29,6 @@
 		categories.push(category);
 		categories.push(...ConcatenateSubCategories(category));
 	}
-
-	console.log(categories);
 
 	const modalComponent: ModalComponent = {
 		ref: FrameworkEditModal,
@@ -47,19 +43,18 @@
 	};
 
 	const addCategory = (category: FullCategory) => {
-		console.log('add category');
 		// add
 	};
 </script>
 
-	<ThreeColumnLayout>
-		<svelte:fragment slot="left">
-			<SuperDebug data={$form} />
-		</svelte:fragment>
-		<div class="flex flex-col">
-			<FrameworkView framework={data.framework} />
-			<button class="btn-icon variant-filled self-end" on:click={() => modalStore.trigger(modal)}
-				><Edit /></button
-				>
-			</div>
-		</ThreeColumnLayout>
+<ThreeColumnLayout>
+	<svelte:fragment slot="left">
+		<SuperDebug data={$form} />
+	</svelte:fragment>
+	<div class="flex flex-col">
+		<FrameworkView framework={data.framework} />
+		<button class="btn-icon variant-filled self-end" on:click={() => modalStore.trigger(modal)}
+			><Edit /></button
+		>
+	</div>
+</ThreeColumnLayout>

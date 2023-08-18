@@ -14,10 +14,11 @@ import { dimensionExamples, type NewDimensionExample } from '$lib/db/schema/dime
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
 import type { N } from 'drizzle-orm/query-promise.d-31db3408';
 import type { M } from 'drizzle-orm/select.types.d-3ce070d1';
+import { env } from '$env/dynamic/private';
 
 //TODO: move transactions out of sub methods (return array of dimension examples, then insert them all at once)
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, fetch }) => {
 	const frameworkId = params.frameworkId ? +params.frameworkId : 1;
 	const framework = await GetFullFrameworkById(frameworkId);
 
