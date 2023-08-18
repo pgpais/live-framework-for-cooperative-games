@@ -7,6 +7,7 @@
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 
 	import DetailView from '$lib/components/DetailView.svelte';
+	import ReportForm from '$lib/components/ReportForm.svelte';
 
 	export let data: PageData;
 	const framework = data.framework;
@@ -30,13 +31,7 @@
 		<Separator />
 		<form method="POST" use:enhance>
 			<!-- <TreeView> -->
-			<ul class="ml-2 list-inside list-disc gap-2">
-				{#each $form.categories as category, i}
-					<li>
-						<CategoryForm bind:value={$form.categories[i]} />
-					</li>
-				{/each}
-			</ul>
+			<ReportForm bind:value={$form} />
 			<!-- </TreeView> -->
 			<button class="btn variant-soft-primary my-2">Submit</button>
 		</form>
