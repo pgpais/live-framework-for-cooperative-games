@@ -1,21 +1,19 @@
 <script lang="ts">
-	import type { Dimension } from '$lib/db/schema';
+	import type { Category } from '$lib/db/schema';
 	import { detailInfoStore } from '$lib/stores/detailView';
 
-	export let dimension: Dimension;
-
-	console.log(dimension);
+	export let category: Category;
 
 	const changeDetailView = () => {
 		console.log('setting detail view');
 		$detailInfoStore = {
-			type: 'dimension',
-			data: dimension
+			type: 'category',
+			data: category
 		};
-		console.log($detailInfoStore);
+		console.log(detailInfoStore);
 	};
 </script>
 
 <button on:click={changeDetailView}>
-	{dimension.title}
+	{category.title}
 </button>

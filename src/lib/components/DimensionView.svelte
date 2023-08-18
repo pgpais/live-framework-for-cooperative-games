@@ -6,5 +6,6 @@
 </script>
 
 <div class="text-left">
-	<DimensionDetailButton {dimension} />
+	<!-- {dimension.title} -->
+	<p><DimensionDetailButton {dimension} /></p>
 </div>
