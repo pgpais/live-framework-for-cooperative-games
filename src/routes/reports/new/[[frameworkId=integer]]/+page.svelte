@@ -19,13 +19,6 @@
 		isCategory: false,
 		id: 0
 	};
-
-	async function getGame(name: string) {
-		const res = await fetch(`/games?name=${name}`);
-		const data = await res.json();
-		console.log(data);
-		return data;
-	}
 </script>
 
 <ThreeColumnLayout>
@@ -36,7 +29,7 @@
 		<h2 class="h2">New report for Game X</h2>
 		<Separator />
 
-		<form method="POST" use:enhance>
+		<form method="POST" use:enhance on:keydown={(event) => event.key != 'Enter'}>
 			<!-- <TreeView> -->
 			<ReportForm bind:value={$form} />
 			<!-- </TreeView> -->

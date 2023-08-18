@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ fetch, url }) => {
-	return new Response('Not implemented', { status: 501 });
+	// return new Response('Not implemented', { status: 501 });
 
 	const name = url.searchParams.get('name');
 
@@ -20,7 +20,7 @@ export const GET: RequestHandler = async ({ fetch, url }) => {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: 'fields name, involved_companies; search "Halo";'
+		body: `fields name, involved_companies; search "${name}";`
 	});
 	if (gamesResponse.status !== 200) return new Response('Error fetching games', { status: 500 });
 
