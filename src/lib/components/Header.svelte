@@ -2,7 +2,7 @@
 	import { LightSwitch, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="flex justify-between p-5 bg-surface-100-800-token">
+<div class="bg-surface-100-800-token flex justify-between p-5">
 	<div>logo</div>
 	<TabGroup>
 		<TabAnchor href="/frameworks">Framework</TabAnchor>

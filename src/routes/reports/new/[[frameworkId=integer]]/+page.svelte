@@ -22,13 +22,13 @@
 </script>
 
 <ThreeColumnLayout>
-	<div slot="left" class="h-full overflow-y-auto">
+	<div slot="left">
 		<SuperDebug data={$form} />
 	</div>
 	<div class="px-5">
 		<h2 class="h2">New report for Game X</h2>
 		<Separator />
-		<form method="POST" use:enhance class="flex w-full flex-col gap-3">
+		<form method="POST" use:enhance>
 			<TreeView>
 				{#each $form.categories as category, i}
 					<CategoryForm bind:value={$form.categories[i]} />
@@ -37,7 +37,7 @@
 			<button class="btn variant-soft-primary my-2">Submit</button>
 		</form>
 	</div>
-	<div class=" h-full overflow-y-auto px-14" slot="right">
+	<div class="px-14" slot="right">
 		Detail view of dimension/category
 		{#if selected.id > 0}
 			{#if selected.isCategory}

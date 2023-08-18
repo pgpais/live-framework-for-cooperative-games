@@ -16,15 +16,13 @@
 </svelte:head>
 <Modal />
 <!-- App Shell -->
-<AppShell>
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<Header />
-	</svelte:fragment>
+<div class="flex h-screen flex-col">
+	<!-- App Bar -->
+	<Header />
 	<!-- Page Route Content -->
 	{#if $navigating}
 		loading
 	{:else}
 		<slot />
 	{/if}
-</AppShell>
+</div>
