@@ -15,6 +15,8 @@ import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
 import type { N } from 'drizzle-orm/query-promise.d-31db3408';
 import type { M } from 'drizzle-orm/select.types.d-3ce070d1';
 
+//TODO: move transactions out of sub methods (return array of dimension examples, then insert them all at once)
+
 export const load = (async ({ params }) => {
 	const frameworkId = params.frameworkId ? +params.frameworkId : 1;
 	const framework = await GetFullFrameworkById(frameworkId);
