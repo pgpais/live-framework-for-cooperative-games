@@ -1,7 +1,5 @@
-import FrameworkView from '$lib/components/FrameworkView.svelte';
 import type { PlainCategory, PlainDimension } from '$lib/db/schema';
 import type { PlainDimensionExample } from '$lib/db/schema/dimensionExample';
-import type { SvelteComponent } from 'svelte';
 import type { SvelteComponentDev } from 'svelte/internal';
 import { writable, type Writable } from 'svelte/store';
 

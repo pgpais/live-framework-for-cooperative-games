@@ -1,7 +1,6 @@
 <script lang="ts">
-	import DimensionDetail from '$lib/components/DimensionDetail.svelte';
 	import type { Dimension } from '$lib/db/schema';
-	import { detailComponent, detailInfoStore } from '$lib/stores/detailView';
+	import { detailInfoStore } from '$lib/stores/detailView';
 
 	export let dimension: Dimension;
 

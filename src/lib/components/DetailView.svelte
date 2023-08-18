@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DimensionDetail from '$lib/components/DimensionDetail.svelte';
-	import { detailComponent, detailInfoStore } from '$lib/stores/detailView';
+	import DimensionDetail from '$lib/components/DetailElements/DimensionDetail.svelte';
+	import { detailInfoStore } from '$lib/stores/detailView';
 </script>
 
 {#if $detailInfoStore}
