@@ -24,14 +24,14 @@
 
 <ul class="ml-2 list-inside list-disc gap-2">
 	<div class="flex items-center">
-		<input type="text" class="input w-1/4" placeholder="game" bind:value={gameName} />
-		<button type="button" class="btn variant-soft-primary ml-2" on:click={() => getGame(gameName)}
-			><Search /></button
-		>
+		<input type="text" class="input w-1/4" placeholder="Search for a Game" bind:value={gameName} />
+		<button type="button" class="btn variant-soft-primary ml-2" on:click={() => getGame(gameName)}>
+			<Search />
+		</button>
 		{#if isSearching === true}
 			<Loader2 class="ml-5 animate-spin" />
 		{:else if isSearching === false}
-			<select class="select ml-5">
+			<select class="select ml-5" placeholder="Select your game">
 				{#each gameData as game}
 					<option value={game.name}>{game.name}</option>
 				{/each}
