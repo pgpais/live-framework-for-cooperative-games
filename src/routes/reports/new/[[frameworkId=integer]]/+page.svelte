@@ -7,6 +7,11 @@
 
 	import DetailView from '$lib/components/DetailView.svelte';
 	import ReportForm from '$lib/components/ReportForm.svelte';
+	import { Loader2, Search } from 'lucide-svelte';
+	import type { NewGenre } from '$lib/db/schema/genre';
+	import type { NewCompany } from '$lib/db/schema/company';
+	import type { NewPlatform } from '$lib/db/schema/platform';
+	import type { NewGame } from '$lib/db/schema/game';
 
 	export let data: PageData;
 	const framework = data.framework;
@@ -15,21 +20,67 @@
 		dataType: 'json'
 	});
 
-	let selected = {
-		isCategory: false,
-		id: 0
-	};
+	let isSearching: Boolean | undefined = undefined;
+
+	async function getGame(name: string) {
+		isSearching = true;
+		const res = await fetch(`/games?name=${name}`);
+		const data = await res.json();
+		console.log(data);
+		gamesData = data;
+		isSearching = false;
+	}
+
+	function updateSelectedGameName() {
+		selectedGameName = $form.game.name;
+	}
+
+	let gameNameQuery: string;
+
+	let gamesData: NewGame[];
+	let selectedGameName: string;
 </script>
 
 <ThreeColumnLayout>
 	<div slot="left">
 		<SuperDebug data={$form} />
 	</div>
-	<div class="px-5">
-		<h2 class="h2">New report for Game X</h2>
+	<div class="m-5">
+		<h2 class="h2">New report for {selectedGameName ? selectedGameName : 'an unselected game'}</h2>
 		<Separator />
 
-		<form method="POST" use:enhance on:keydown={(event) => event.key != 'Enter'}>
+		<div class="my-5 flex items-center">
+			<form>
+				<input
+					type="text"
+					class="input w-1/4"
+					placeholder="Search for a Game"
+					bind:value={gameNameQuery}
+				/>
+				<button
+					type="button"
+					class="btn variant-soft-primary ml-2"
+					on:click={() => getGame(gameNameQuery)}
+				>
+					<Search />
+				</button>
+			</form>
+		</div>
+		<form method="POST" use:enhance>
+			{#if isSearching === true}
+				<Loader2 class="mx-5 animate-spin" />
+			{:else if isSearching === false}
+				<select
+					class="select mx-5"
+					placeholder="Select your game"
+					bind:value={$form.game}
+					on:change={updateSelectedGameName}
+				>
+					{#each gamesData as gameData}
+						<option value={gameData}>{gameData.name}</option>
+					{/each}
+				</select>
+			{/if}
 			<!-- <TreeView> -->
 			<ReportForm bind:value={$form} />
 			<!-- </TreeView> -->
