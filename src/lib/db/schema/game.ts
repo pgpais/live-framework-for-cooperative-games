@@ -1,9 +1,9 @@
-import { platforms, type NewPlatform } from '$lib/db/schema/platform';
+import { platforms, type NewPlatform } from './platform';
 import { reports } from './report';
 import { relations, type InferModel } from 'drizzle-orm';
 import { integer, pgTable, primaryKey, serial, text, timestamp } from 'drizzle-orm/pg-core';
-import { genres, type NewGenre } from '$lib/db/schema/genre';
-import { companies, type NewCompany } from '$lib/db/schema/company';
+import { genres, type NewGenre } from './genre';
+import { companies, type NewCompany } from './company';
 
 export const games = pgTable('games', {
 	id: integer('id').primaryKey(),

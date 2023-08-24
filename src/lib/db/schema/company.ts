@@ -1,4 +1,4 @@
-import { games } from '$lib/db/schema/game';
+import { games } from './game';
 import { relations, type InferModel } from 'drizzle-orm';
 import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
