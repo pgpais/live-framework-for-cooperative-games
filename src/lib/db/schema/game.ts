@@ -14,35 +14,9 @@ export const games = pgTable('games', {
 });
 
 export const gamesRelations = relations(games, ({ many }) => ({
-	reports: many(gamesToReports),
+	reports: many(reports),
 	platforms: many(gamesToPlatforms),
 	genres: many(gamesToGenres)
-}));
-
-export const gamesToReports = pgTable(
-	'games_to_reports',
-	{
-		gameId: integer('game_id')
-			.notNull()
-			.references(() => games.id),
-		reportId: integer('report_id')
-			.notNull()
-			.references(() => reports.id)
-	},
-	(t) => ({
-		pk: primaryKey(t.gameId, t.reportId)
-	})
-);
-
-export const gamesToReportsRelations = relations(gamesToReports, ({ one }) => ({
-	game: one(games, {
-		fields: [gamesToReports.gameId],
-		references: [games.id]
-	}),
-	report: one(reports, {
-		fields: [gamesToReports.reportId],
-		references: [reports.id]
-	})
 }));
 
 export const gamesToPlatforms = pgTable(

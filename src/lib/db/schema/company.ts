@@ -1,9 +1,9 @@
 import { gamesToCompanies } from './game';
 import { relations, type InferModel } from 'drizzle-orm';
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const companies = pgTable('companies', {
-	id: serial('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()

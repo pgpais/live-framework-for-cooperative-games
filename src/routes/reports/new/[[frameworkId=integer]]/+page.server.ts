@@ -12,8 +12,7 @@ import {
 	type FullGame,
 	gamesToGenres,
 	gamesToCompanies,
-	gamesToPlatforms,
-	gamesToReports
+	gamesToPlatforms
 } from '$lib/db/schema/game';
 import { companies } from '$lib/db/schema/company';
 import { genres } from '$lib/db/schema/genre';
@@ -58,13 +57,13 @@ function pushCategoryReportIntoArray(
 ) {
 	for (const dimension of category.dimensions) {
 		if (dimension.included) {
-		dimensionExamples.push({
-			dimensionId: dimension.id,
-			example: dimension.example,
-			reportId
-		});
-		console.log('DB: Inserting dimension', dimension);
-	}
+			dimensionExamples.push({
+				dimensionId: dimension.id,
+				example: dimension.example,
+				reportId
+			});
+			console.log('DB: Inserting dimension', dimension);
+		}
 	}
 
 	if (category.subCategories) {
@@ -79,72 +78,41 @@ const uploadReport = async (report: ReportSchema) => {
 		console.log('DB: Inserting report', report);
 
 		const response = await getFullGameInfo(report.game.id);
+		if (response.status !== 200) throw new Error('Error fetching game info');
 		const game: FullGame = await response.json();
 
-		const insertedGenres = await tx
-			.insert(genres)
-			.values(game.genres)
-			.onConflictDoNothing()
-			.returning({ insertedId: genres.id });
-		const insertedCompanies = await tx
-			.insert(companies)
-			.values(game.companies)
-			.onConflictDoNothing()
-			.returning({ insertedId: companies.id });
-		const insertedPlatforms = await tx
-			.insert(platforms)
-			.values(game.platforms)
-			.onConflictDoNothing()
-			.returning({ insertedId: platforms.id });
+		await tx.insert(genres).values(game.genres).onConflictDoNothing();
 
-		const insertedGame = await tx
+		await tx.insert(companies).values(game.companies).onConflictDoNothing();
+
+		await tx.insert(platforms).values(game.platforms).onConflictDoNothing();
+
+		await tx
 			.insert(games)
 			.values({ id: game.id, name: game.name, releaseDate: game.releaseDate })
-			.onConflictDoNothing()
-			.returning({ insertedId: games.id });
+			.onConflictDoNothing();
 
 		await tx
 			.insert(gamesToGenres)
-			.values(
-				insertedGenres.map((genre) => ({
-					gameId: insertedGame[0].insertedId,
-					genreId: genre.insertedId
-				}))
-			)
+			.values(game.genres.map((genre) => ({ gameId: game.id, genreId: genre.id })))
 			.onConflictDoNothing();
 
 		await tx
 			.insert(gamesToCompanies)
-			.values(
-				insertedCompanies.map((company) => ({
-					gameId: insertedGame[0].insertedId,
-					companyId: company.insertedId
-				}))
-			)
+			.values(game.companies.map((company) => ({ gameId: game.id, companyId: company.id })))
 			.onConflictDoNothing();
 
 		await tx
 			.insert(gamesToPlatforms)
-			.values(
-				insertedPlatforms.map((platform) => ({
-					gameId: insertedGame[0].insertedId,
-					platformId: platform.insertedId
-				}))
-			)
+			.values(game.platforms.map((platform) => ({ gameId: game.id, platformId: platform.id })))
 			.onConflictDoNothing();
 
 		const insertedReport = await tx
 			.insert(reports)
-			.values({ authorId: 1, gameId: insertedGame[0].insertedId, frameworkId: report.frameworkId })
+			.values({ authorId: 1, gameId: game.id, frameworkId: report.frameworkId })
 			.returning({ insertedId: reports.id });
 		console.log('DB: Inserted repot', insertedReport);
 		const insertedReportId = insertedReport[0].insertedId;
-
-		await tx
-			.insert(gamesToReports)
-			.values({ gameId: insertedGame[0].insertedId, reportId: insertedReportId });
-
-		//TODO: What to do if this transaction fails?
 
 		console.log('DB: Inserting dimensions');
 		const newDimensionExamples: NewDimensionExample[] = [];
@@ -154,5 +122,7 @@ const uploadReport = async (report: ReportSchema) => {
 		}
 		await tx.insert(dimensionExamples).values(newDimensionExamples);
 		console.log('DB: Inserted dimensions');
+
+		console.log('DB: Finished report Insertion');
 	});
 };
