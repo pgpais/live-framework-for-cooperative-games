@@ -31,14 +31,10 @@
 		isSearching = false;
 	}
 
-	function updateSelectedGameName() {
-		selectedGameName = $form.game.name;
-	}
-
 	let gameNameQuery: string;
 
 	let gamesData: NewGame[];
-	let selectedGameName: string;
+	let selectedGameId: number = 0;
 </script>
 
 <ThreeColumnLayout>
@@ -46,7 +42,11 @@
 		<SuperDebug data={$form} />
 	</div>
 	<div class="m-5">
-		<h2 class="h2">New report for {selectedGameName ? selectedGameName : 'an unselected game'}</h2>
+		<h2 class="h2">
+			Report for <i>{$form.game.name ? $form.game.name : 'an unselected game'}</i> based on
+			Framework
+			<i>{framework.title}</i>
+		</h2>
 		<Separator />
 
 		<div class="my-5 flex items-center">
@@ -73,11 +73,18 @@
 				<select
 					class="select mx-5"
 					placeholder="Select your game"
-					bind:value={$form.game}
-					on:change={updateSelectedGameName}
+					bind:value={selectedGameId}
+					on:change={() => {
+						let game = gamesData.find((game) => game.id === selectedGameId);
+						if (game) {
+							$form.game = game;
+						}
+					}}
 				>
 					{#each gamesData as gameData}
-						<option value={gameData}>{gameData.name}</option>
+						<option value={gameData.id}>
+							{gameData.name}
+						</option>
 					{/each}
 				</select>
 			{/if}
