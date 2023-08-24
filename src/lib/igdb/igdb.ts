@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/private';
 import type { NewCompany } from '$lib/db/schema/company';
-import type { FullGame, NewGame } from '$lib/db/schema/game';
+import type { FullGame } from '$lib/db/schema/game';
 import type { NewGenre } from '$lib/db/schema/genre';
 import type { NewPlatform } from '$lib/db/schema/platform';
 import { json } from '@sveltejs/kit';
@@ -13,7 +13,6 @@ export async function igdbAuth() {
 		}
 	);
 	const data = await response.json();
-	console.log(data);
 	return data.access_token;
 }
 
@@ -39,7 +38,6 @@ export async function searchForGames(name: string) {
 	};
 
 	const gamesData: dataType = await gamesResponse.json();
-	console.log(json(gamesData));
 
 	return json(gamesData);
 }
@@ -56,9 +54,8 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date; search id = "${id}";`
+		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date; where id = ${id};`
 	});
-
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
 
 	const gamesData = await gamesResponse.json();
@@ -80,6 +77,5 @@ export async function getGameInfoForInsertion(id: number) {
 		}))
 	};
 
-	console.log(json(returnData));
 	return json(returnData);
 }
