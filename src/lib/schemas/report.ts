@@ -34,8 +34,8 @@ export const gameReportSchema: z.ZodType<NewGame> = z.object({
 
 export const reportSchema = z.object({
 	frameworkId: z.number().default(1),
-	categories: z.array(categoryReportSchema).default([]),
-	game: gameReportSchema
+	game: gameReportSchema,
+	categories: z.array(categoryReportSchema).default([])
 });
 
 export type ReportSchema = z.infer<typeof reportSchema>;
