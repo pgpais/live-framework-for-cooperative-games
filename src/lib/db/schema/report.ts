@@ -1,6 +1,6 @@
-import { dimensionExamples } from './dimensionExample';
-import { frameworks } from './framework';
-import { games } from './game';
+import { dimensionExamples, type DimensionExample } from './dimensionExample';
+import { frameworks, type Framework } from './framework';
+import { games, type Game } from './game';
 import { users } from './user';
 import { relations, type InferModel } from 'drizzle-orm';
 import { integer, pgTable, serial, timestamp } from 'drizzle-orm/pg-core';
@@ -40,49 +40,10 @@ export type FullReport = {
 	id: number;
 	createdAt: Date;
 	updatedAt: Date;
-	game: {
-		id: number;
-		title: string;
-		authorId: number;
-		createdAt: Date;
-		updatedAt: Date;
-	};
-	framework: {
-		id: number;
-		title: string;
-		authorId: number;
-		createdAt: Date;
-		updatedAt: Date;
-	};
-	dimensionExamples: {
-		id: number;
-		reportId: number;
-		dimensionId: number;
-		createdAt: Date;
-		updatedAt: Date;
-	};
+	game: Game;
+	framework: Framework;
+	dimensionExamples: DimensionExample[];
 };
 
+export type Report = InferModel<typeof reports>;
 export type NewReport = InferModel<typeof reports, 'insert'>;
-
-export type ReportDTO = {
-	gameId: number;
-	frameworkId: number;
-	authorId: number;
-};
-
-export type ReportWithExamples = {
-	id: number;
-	gameId: number;
-	frameworkId: number;
-	authorId: number;
-	createdAt: Date;
-	updatedAt: Date;
-	dimensionExamples: {
-		id: number;
-		reportId: number;
-		dimensionId: number;
-		createdAt: Date;
-		updatedAt: Date;
-	};
-};
