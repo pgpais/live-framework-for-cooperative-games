@@ -1,6 +1,6 @@
 import { gamesToPlatforms } from './game';
 import { relations, type InferModel } from 'drizzle-orm';
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const platforms = pgTable('platforms', {
 	id: integer('id').primaryKey(),

@@ -1,7 +1,7 @@
 import { searchForGames } from '$lib/igdb/igdb';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ fetch, url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	// return new Response('Not implemented', { status: 501 });
 
 	const name = url.searchParams.get('name');
