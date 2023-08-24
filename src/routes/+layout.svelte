@@ -20,7 +20,7 @@
 	<!-- App Bar -->
 	<Header />
 	<!-- Page Route Content -->
-	<div class="flex h-full">
+	<div class="flex flex-grow overflow-hidden">
 		{#if $navigating}
 			loading
 		{:else}
