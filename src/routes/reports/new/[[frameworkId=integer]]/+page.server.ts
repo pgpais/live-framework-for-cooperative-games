@@ -57,13 +57,14 @@ function pushCategoryReportIntoArray(
 	reportId: number
 ) {
 	for (const dimension of category.dimensions) {
+		if (dimension.included) {
 		dimensionExamples.push({
 			dimensionId: dimension.id,
-			included: dimension.included,
 			example: dimension.example,
 			reportId
 		});
 		console.log('DB: Inserting dimension', dimension);
+	}
 	}
 
 	if (category.subCategories) {

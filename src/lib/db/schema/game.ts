@@ -1,22 +1,22 @@
 import { platforms, type NewPlatform } from './platform';
 import { reports } from './report';
 import { relations, type InferModel } from 'drizzle-orm';
-import { integer, pgTable, primaryKey, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { genres, type NewGenre } from './genre';
 import { companies, type NewCompany } from './company';
 
 export const games = pgTable('games', {
 	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
-	releaseDate: timestamp('release_date'),
+	releaseDate: timestamp('release_date', { mode: 'string' }),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 export const gamesRelations = relations(games, ({ many }) => ({
-	reports: many(reports),
-	platforms: many(platforms),
-	genres: many(genres)
+	reports: many(gamesToReports),
+	platforms: many(gamesToPlatforms),
+	genres: many(gamesToGenres)
 }));
 
 export const gamesToReports = pgTable(
@@ -34,6 +34,17 @@ export const gamesToReports = pgTable(
 	})
 );
 
+export const gamesToReportsRelations = relations(gamesToReports, ({ one }) => ({
+	game: one(games, {
+		fields: [gamesToReports.gameId],
+		references: [games.id]
+	}),
+	report: one(reports, {
+		fields: [gamesToReports.reportId],
+		references: [reports.id]
+	})
+}));
+
 export const gamesToPlatforms = pgTable(
 	'games_to_platforms',
 	{
@@ -48,6 +59,17 @@ export const gamesToPlatforms = pgTable(
 		pk: primaryKey(t.gameId, t.platformId)
 	})
 );
+
+export const gamesToPlatformsRelations = relations(gamesToPlatforms, ({ one }) => ({
+	game: one(games, {
+		fields: [gamesToPlatforms.gameId],
+		references: [games.id]
+	}),
+	platform: one(platforms, {
+		fields: [gamesToPlatforms.platformId],
+		references: [platforms.id]
+	})
+}));
 
 export const gamesToGenres = pgTable(
 	'games_to_genres',
@@ -64,6 +86,17 @@ export const gamesToGenres = pgTable(
 	})
 );
 
+export const gamesToGenresRelations = relations(gamesToGenres, ({ one }) => ({
+	game: one(games, {
+		fields: [gamesToGenres.gameId],
+		references: [games.id]
+	}),
+	genre: one(genres, {
+		fields: [gamesToGenres.genreId],
+		references: [genres.id]
+	})
+}));
+
 export const gamesToCompanies = pgTable(
 	'games_to_companies',
 	{
@@ -79,16 +112,20 @@ export const gamesToCompanies = pgTable(
 	})
 );
 
+export const gamesToCompaniesRelations = relations(gamesToCompanies, ({ one }) => ({
+	game: one(games, {
+		fields: [gamesToCompanies.gameId],
+		references: [games.id]
+	}),
+	company: one(companies, {
+		fields: [gamesToCompanies.companyId],
+		references: [companies.id]
+	})
+}));
+
 export type Game = InferModel<typeof games>;
 
-type GameForInsertion = InferModel<typeof games, 'insert'>;
-
-//require ID
-export type NewGame = {
-	id: number;
-	name: string;
-	releaseDate?: Date;
-};
+export type NewGame = InferModel<typeof games, 'insert'>;
 
 export type FullGame = NewGame & {
 	genres: NewGenre[];

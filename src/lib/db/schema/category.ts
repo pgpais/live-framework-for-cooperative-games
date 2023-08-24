@@ -37,6 +37,8 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
 	})*/
 }));
 
+export type NewCategory = InferModel<typeof categories, 'insert'>;
+
 export type Category = InferModel<typeof categories>;
 
 export type CategoryWithSubCategories = Category & {

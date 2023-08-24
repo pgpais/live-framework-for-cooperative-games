@@ -1,4 +1,4 @@
-import { games } from './game';
+import { gamesToGenres } from './game';
 import { relations, type InferModel } from 'drizzle-orm';
 import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
@@ -10,7 +10,7 @@ export const genres = pgTable('genres', {
 });
 
 export const genresRelations = relations(genres, ({ many }) => ({
-	games: many(games)
+	games: many(gamesToGenres)
 }));
 
 export type Genre = InferModel<typeof genres>;

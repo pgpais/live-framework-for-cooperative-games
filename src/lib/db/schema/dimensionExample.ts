@@ -1,17 +1,12 @@
 import { dimensions } from './dimension';
 import { reports } from './report';
 import { relations, type InferModel } from 'drizzle-orm';
-import { boolean, pgTable, serial, text } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
 
 export const dimensionExamples = pgTable('dimension_examples', {
 	id: serial('id').primaryKey(),
-	dimensionId: serial('dimension_id')
-		.references(() => dimensions.id)
-		.notNull(),
-	reportId: serial('report_id')
-		.references(() => reports.id)
-		.notNull(),
-	included: boolean('included').default(false),
+	dimensionId: integer('dimension_id').notNull(),
+	reportId: integer('report_id').notNull(),
 	example: text('example').default('')
 });
 

@@ -18,6 +18,7 @@ export const dimensionsRelations = relations(dimensions, ({ one }) => ({
 	})
 }));
 
+export type NewDimension = InferModel<typeof dimensions, 'insert'>;
 export type Dimension = InferModel<typeof dimensions>;
 export type PlainDimension = {
 	title: string;

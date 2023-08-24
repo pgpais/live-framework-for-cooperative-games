@@ -1,4 +1,4 @@
-import { games } from './game';
+import { gamesToPlatforms } from './game';
 import { relations, type InferModel } from 'drizzle-orm';
 import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
@@ -10,7 +10,7 @@ export const platforms = pgTable('platforms', {
 });
 
 export const platformsRelations = relations(platforms, ({ many }) => ({
-	games: many(games)
+	games: many(gamesToPlatforms)
 }));
 
 export type Platform = InferModel<typeof platforms>;
