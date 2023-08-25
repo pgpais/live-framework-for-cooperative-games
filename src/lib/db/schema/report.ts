@@ -47,3 +47,7 @@ export type FullReport = {
 
 export type Report = InferModel<typeof reports>;
 export type NewReport = InferModel<typeof reports, 'insert'>;
+
+export type ReportWithGames = Report & {
+	game: Game;
+};
