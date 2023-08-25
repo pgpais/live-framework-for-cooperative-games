@@ -5,8 +5,6 @@ import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 export const genres = pgTable('genres', {
 	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 export const genresRelations = relations(genres, ({ many }) => ({
