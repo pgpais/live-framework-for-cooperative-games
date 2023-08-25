@@ -4,9 +4,7 @@ import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const companies = pgTable('companies', {
 	id: integer('id').primaryKey(),
-	name: text('title').notNull(),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull()
+	name: text('title').notNull()
 });
 
 export const companiesRelations = relations(companies, ({ many }) => ({

@@ -89,8 +89,8 @@ const uploadReport = async (report: ReportSchema) => {
 
 		await tx
 			.insert(games)
-			.values({ id: game.id, name: game.name, releaseDate: game.releaseDate })
-			.onConflictDoNothing();
+			.values({ id: game.id, name: game.name, releaseDate: game.releaseDate, imgUrl: game.imgUrl })
+			.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
 
 		await tx
 			.insert(gamesToGenres)

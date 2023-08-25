@@ -4,13 +4,13 @@ import { relations, type InferModel } from 'drizzle-orm';
 import { integer, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { genres, type NewGenre } from './genre';
 import { companies, type NewCompany } from './company';
+import type { Report } from './report';
 
 export const games = pgTable('games', {
 	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
 	releaseDate: timestamp('release_date', { mode: 'string' }),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull()
+	imgUrl: text('img_url')
 });
 
 export const gamesRelations = relations(games, ({ many }) => ({
@@ -105,4 +105,12 @@ export type FullGame = NewGame & {
 	genres: NewGenre[];
 	companies: NewCompany[];
 	platforms: NewPlatform[];
+};
+
+export type GameWithReports = Game & {
+	reports: Report[];
+};
+
+export type GameWithNumberOfReports = Game & {
+	reportsCount: number;
 };

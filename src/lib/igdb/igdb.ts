@@ -54,7 +54,7 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date; where id = ${id};`
+		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.url; where id = ${id};`
 	});
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
 
@@ -63,6 +63,7 @@ export async function getGameInfoForInsertion(id: number) {
 		id: gamesData[0].id,
 		name: gamesData[0].name,
 		releaseDate: gamesData[0].first_release_date,
+		imgUrl: gamesData[0].cover.url,
 		genres: gamesData[0].genres.map((genre: NewGenre) => ({
 			id: genre.id,
 			name: genre.name
