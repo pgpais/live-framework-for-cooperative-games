@@ -1,4 +1,4 @@
-import type { PlainCategory, PlainDimension } from '$lib/db/schema';
+import type { FullCategory, PlainCategory, PlainDimension } from '$lib/db/schema';
 import type { PlainDimensionExample } from '$lib/db/schema/dimensionExample';
 import { writable, type Writable } from 'svelte/store';
 
@@ -12,4 +12,4 @@ export type DetailInfoDimension = PlainDimension & {
 	examples?: PlainDimensionExample[];
 };
 
-export type DetailInfoCategory = PlainCategory;
+export type DetailInfoCategory = FullCategory;

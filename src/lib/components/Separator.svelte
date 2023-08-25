@@ -1,5 +1,6 @@
 <script>
 	export let width = 8;
+	export let verticalMargin = 0;
 </script>
 
-<hr class="!border-t-{width} rounded" />
+<hr class="rounded !border-t-{width} my-{verticalMargin}" />
