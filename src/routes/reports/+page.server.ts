@@ -16,8 +16,6 @@ import { eq, sql, and } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ url, depends }) => {
-	depends('url');
-
 	const pageParam = url.searchParams.get('page');
 	const pageSizeParam = url.searchParams.get('pageSize');
 
@@ -28,9 +26,10 @@ export const load = (async ({ url, depends }) => {
 	const genreParam = url.searchParams.get('genre');
 	const platformParam = url.searchParams.get('platform');
 
-	const company = companyParam && !Number.isNaN(+companyParam) ? +companyParam : 0;
-	const genre = genreParam && !Number.isNaN(+genreParam) ? +genreParam : 0;
-	const platform = platformParam && !Number.isNaN(+platformParam) ? +platformParam : 0;
+	const companyFilter = companyParam && !Number.isNaN(+companyParam) ? +companyParam : 0;
+	const genreFilter = genreParam && !Number.isNaN(+genreParam) ? +genreParam : 0;
+	const platformFilter = platformParam && !Number.isNaN(+platformParam) ? +platformParam : 0;
+	console.log(companyFilter, genreFilter, platformFilter);
 
 	const sq = await db
 		.select({ gameId: reports.gameId, reportsCount: sql`count(*)`.as('reportsCount') })
@@ -49,9 +48,9 @@ export const load = (async ({ url, depends }) => {
 		.innerJoin(gamesToPlatforms, eq(games.id, gamesToPlatforms.gameId))
 		.where(
 			and(
-				company != 0 ? eq(gamesToCompanies.companyId, company) : sql`true`,
-				genre != 0 ? eq(gamesToGenres.genreId, genre) : sql`true`,
-				platform != 0 ? eq(gamesToPlatforms.platformId, platform) : sql`true`
+				companyFilter != 0 ? eq(gamesToCompanies.companyId, companyFilter) : sql`true`,
+				genreFilter != 0 ? eq(gamesToGenres.genreId, genreFilter) : sql`true`,
+				platformFilter != 0 ? eq(gamesToPlatforms.platformId, platformFilter) : sql`true`
 			)
 		)
 		.groupBy(games.id, sq.reportsCount);
@@ -76,6 +75,9 @@ export const load = (async ({ url, depends }) => {
 		games: gamesWithCountedReports,
 		companies: companyFilters,
 		genres: genreFilters,
-		platforms: platformFilters
+		platforms: platformFilters,
+		companyFilter,
+		genreFilter,
+		platformFilter
 	};
 }) satisfies PageServerLoad;
