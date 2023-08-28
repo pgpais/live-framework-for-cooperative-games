@@ -5,7 +5,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
-	import type { FullCategory, FullFramework } from '$lib/db/schema';
+	import type { Dimension, FullCategory, FullFramework } from '$lib/db/schema';
 	import { fail } from '@sveltejs/kit';
 
 	export let data: PageData;
@@ -18,11 +18,10 @@
 	} = superForm(data.categoryForm, {
 		validators: {
 			superCategoryId: (superCategoryId) => {
-				if (superCategoryId === 0) {
-					console.log('You must select a category');
-					return 'You must select a category';
-				}
-				if (!data.categories.find((category) => category.id === superCategoryId)) {
+				if (
+					superCategoryId > 0 &&
+					!categories.find((category) => category.id === superCategoryId)
+				) {
 					console.log('Category not found');
 					return 'Category not found';
 				}
@@ -55,8 +54,9 @@
 					console.log('You must select a category');
 					return 'You must select a category';
 				}
-				if (!data.categories.find((category) => category.id === categoryId)) {
+				if (!categories.find((category) => category.id === categoryId)) {
 					console.log('Category not found');
+					console.log('framework', framework);
 					return 'Category not found';
 				}
 				return undefined;
@@ -171,7 +171,7 @@
 				});
 			}
 
-			data.categories.push({
+			categories.push({
 				frameworkId: -1,
 				id: -newCategoriesCount,
 				title: category.title,
@@ -185,6 +185,50 @@
 		}
 		$categoryFormErrors = result.errors;
 	}
+
+	function removeDimension(dimension: Dimension) {
+		const category = findCategoryByIdInFramework(
+			framework,
+			dimension.categoryId,
+			framework.categories
+		);
+		if (!category) throw new Error('Category not found');
+		category.dimensions = category.dimensions?.filter((d) => d.id !== dimension.id);
+		framework = framework;
+		categories = categories;
+	}
+
+	function removeCategory(categoryToDelete: FullCategory) {
+		const category = categories.find((c) => c.id === categoryToDelete.id);
+		if (!category) throw new Error('Category not found');
+
+		const subCategories = categories.filter((c) => c.superCategoryId === category.id);
+
+		if (subCategories) {
+			for (let i = 0; i < subCategories.length; i++) {
+				const subCategory = subCategories[i];
+				removeCategory(subCategory);
+			}
+		}
+
+		if (category.superCategoryId == 0) {
+			framework.categories = framework.categories.filter((c) => c.id !== category.id);
+		} else {
+			const superCategory = findCategoryByIdInFramework(
+				framework,
+				category.superCategoryId,
+				framework.categories
+			);
+			if (!superCategory) throw new Error('Cannot remove category, Super category not found');
+			superCategory.subCategories = superCategory.subCategories?.filter(
+				(c) => c.id !== category.id
+			);
+		}
+
+		categories = categories.filter((c) => c.id !== category.id);
+		framework = framework;
+		categories = categories;
+	}
 </script>
 
 <ThreeColumnLayout>
@@ -193,7 +237,12 @@
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment>
 	<div class="m-6">
-		<FrameworkView {framework} />
+		<FrameworkView
+			{framework}
+			editable={true}
+			onCategoryRemove={removeCategory}
+			onDimensionRemove={removeDimension}
+		/>
 	</div>
 	<div slot="right">
 		<TabGroup>
@@ -253,7 +302,7 @@
 								bind:value={$dimensionForm.categoryId}
 								aria-invalid={$dimensionFormErrors.categoryId ? 'true' : undefined}
 							>
-								<option value={0}>No parent category</option>
+								<!-- <option value={0}>No parent category</option> -->
 								{#each categories as category}
 									<option value={category.id}>{category.title}</option>
 								{/each}
