@@ -1,7 +1,12 @@
 <script lang="ts">
 	import CategoryView from '$lib/components/CategoryView.svelte';
 	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
-	import type { Framework, FrameworkAuthorCategories, FullFramework } from '$lib/db/schema';
+	import type {
+		FirstLevelFramework,
+		Framework,
+		FrameworkAuthorCategories,
+		FullFramework
+	} from '$lib/db/schema';
 	import { Plus } from 'lucide-svelte';
 
 	export let framework: FullFramework;
@@ -11,7 +16,7 @@
 <!-- <TreeView padding="py-2 px-1" indent="ml-2"> -->
 <ul class="ml-2 list-inside list-disc gap-2">
 	{#each framework.categories as category}
-		{#if category.superCategoryId == 0}
+		{#if !category.superCategoryId || category.superCategoryId == 0}
 			<li>
 				<CategoryView {category} />
 			</li>

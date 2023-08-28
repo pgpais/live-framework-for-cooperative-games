@@ -3,7 +3,10 @@ import {
 	frameworks,
 	type FirstLevelFramework,
 	type FullCategory,
-	type FullFramework
+	type FullFramework,
+	type CategoryWithDimensions,
+	categories,
+	type Category
 } from '$lib/db/schema';
 import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -12,24 +15,67 @@ import { eq } from 'drizzle-orm';
 // populate subcategories of categories in framework in a new function
 const makeFullFramework = (framework: FirstLevelFramework) => {
 	const categories = framework.categories;
-	let fullCategories: FullCategory[] = [];
-	for (let i = 0; i < categories.length; i++) {
-		const category = categories[i];
-		const subCategories: FullCategory[] = categories.filter(
-			(c) => c.superCategoryId === category.id
-		) as FullCategory[];
 
-		const fullCategory = category as FullCategory;
-		fullCategory.subCategories = subCategories;
-		fullCategories.push(fullCategory);
-	}
+	const fullCategories = makeFullCategories(categories);
 
-	fullCategories = fullCategories.filter((c) => c.superCategoryId === 0);
-
-	const fullFramework: FullFramework = framework as FullFramework;
+	const fullFramework: FullFramework = { ...framework, categories: fullCategories };
 	fullFramework.categories = fullCategories;
 	return fullFramework;
 };
+
+//TODO: this can probably be improved by calling makeFullCategories with superCategoryId = 0
+const makeFullCategories = (categories: CategoryWithDimensions[]) => {
+	const fullCategories: FullCategory[] = categories
+		.filter((c) => c.superCategoryId === 0)
+		.map((c) => {
+			const fullCategory: FullCategory = {
+				...c
+			};
+			fullCategory.subCategories = makeFullSubCategories(categories, fullCategory);
+			return fullCategory;
+		});
+	return fullCategories;
+};
+
+const makeFullSubCategories = (
+	categories: CategoryWithDimensions[],
+	superCategory: FullCategory
+) => {
+	const subCategories = categories
+		.filter((c) => c.superCategoryId === superCategory.id)
+		.map((c) => {
+			const fullSubcategory: FullCategory = {
+				...c
+			};
+			fullSubcategory.subCategories = makeFullSubCategories(categories, fullSubcategory);
+			return fullSubcategory;
+		});
+	return subCategories;
+};
+
+export async function GetCategoriesByFrameworkId(frameworkId: number) {
+	const fetchedCategories: Category[] = await db.query.categories.findMany({
+		where: eq(categories.frameworkId, frameworkId)
+	});
+	return fetchedCategories;
+}
+
+export async function GetCategoriesWithDimensionsByFrameworkId(frameworkId: number) {
+	const fetchedCategories: CategoryWithDimensions[] = await db.query.categories.findMany({
+		where: eq(categories.frameworkId, frameworkId),
+		with: {
+			dimensions: true,
+			subCategories: true
+		}
+	});
+	return fetchedCategories;
+}
+
+export async function GetFullCategoriesByFrameworkId(frameworkId: number) {
+	const fetchedCategories = await GetCategoriesWithDimensionsByFrameworkId(frameworkId);
+	const fullCategories = makeFullCategories(fetchedCategories);
+	return fullCategories;
+}
 
 export async function GetFullFrameworkByAuthor(authorId: number) {
 	const framework: FirstLevelFramework | undefined = await db.query.frameworks.findFirst({
@@ -38,7 +84,8 @@ export async function GetFullFrameworkByAuthor(authorId: number) {
 			author: true,
 			categories: {
 				with: {
-					dimensions: true
+					dimensions: true,
+					subCategories: true
 				}
 			}
 		}
@@ -46,6 +93,7 @@ export async function GetFullFrameworkByAuthor(authorId: number) {
 	if (framework) {
 		const fullFramework = makeFullFramework(framework);
 		return fullFramework;
+		// return framework;
 	} else {
 		throw error(404, 'Framework not found');
 	}
@@ -66,6 +114,7 @@ export async function GetFullFrameworkById(frameworkId: number) {
 	if (framework) {
 		const fullFramework = makeFullFramework(framework);
 		return fullFramework;
+		// return framework;
 	} else {
 		throw error(404, 'Framework not found');
 	}

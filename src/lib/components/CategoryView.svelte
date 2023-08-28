@@ -4,6 +4,10 @@
 	import type { FullCategory } from '$lib/db/schema';
 	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 	export let category: FullCategory;
+	if (category.subCategories && category.subCategories.length > 0) {
+		console.log(category);
+	}
+	$: subCategories = category.subCategories;
 </script>
 
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
@@ -17,8 +21,8 @@
 	{/if}
 </div>
 <ul class="list-inside list-disc gap-2">
-	{#if category.subCategories && category.subCategories.length > 0}
-		{#each category.subCategories as subCategory}
+	{#if subCategories && subCategories.length > 0}
+		{#each subCategories as subCategory}
 			<li class="ml-2 flex-auto">
 				<svelte:self category={subCategory} />
 			</li>

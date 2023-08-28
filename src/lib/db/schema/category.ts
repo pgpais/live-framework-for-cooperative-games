@@ -56,9 +56,9 @@ export type CategoryWithDimensions = Category & {
 };
 
 export type FullCategory = Category & {
-	dimensions: Dimension[];
+	dimensions?: Dimension[];
 	subCategories?: FullCategory[];
-	superCategory: Category;
+	superCategory?: FullCategory;
 };
 
 export type PlainCategory = {
