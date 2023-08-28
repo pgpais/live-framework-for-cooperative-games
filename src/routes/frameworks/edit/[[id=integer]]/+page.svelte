@@ -1,23 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import FrameworkView from '$lib/components/FrameworkView.svelte';
-	import { Edit } from 'lucide-svelte';
-	import {
-		modalStore,
-		type ModalComponent,
-		type ModalSettings,
-		TabGroup,
-		Tab
-	} from '@skeletonlabs/skeleton';
-	import FrameworkEditModal from '$lib/components/FrameworkEditModal.svelte';
-	import { superForm, superValidate } from 'sveltekit-superforms/client';
+	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
+	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
-	import { z } from 'zod';
-	import type { NewCategoryFormSchema, NewDimensionFormSchema } from './+page.server';
-	import CategoryView from '$lib/components/CategoryView.svelte';
 	import type { FullCategory, FullFramework } from '$lib/db/schema';
-	import { enhance } from '$app/forms';
 	import { fail } from '@sveltejs/kit';
 
 	export let data: PageData;
@@ -119,12 +107,6 @@
 		}
 		return undefined;
 	}
-
-	const newDimensionFormSchema = z.object({
-		categoryId: z.number(),
-		title: z.string(),
-		description: z.string()
-	});
 
 	async function addDimension() {
 		const result = await validateDimensionForm();
