@@ -5,8 +5,15 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
-	import type { Dimension, FullCategory, FullFramework } from '$lib/db/schema';
-	import { fail } from '@sveltejs/kit';
+	import type {
+		Dimension,
+		FullCategory,
+		FullFramework,
+		NewCategory,
+		NewDimension,
+		NewFramework
+	} from '$lib/db/schema';
+	import { fail, json } from '@sveltejs/kit';
 
 	export let data: PageData;
 
@@ -114,13 +121,21 @@
 			const dimension = result.data;
 
 			console.log(dimension);
-			const category = findCategoryByIdInFramework(
+			const categoryInFramework = findCategoryByIdInFramework(
 				framework,
 				dimension.categoryId,
 				framework.categories
 			);
-			if (!category) throw new Error('Category not found');
+			if (!categoryInFramework) throw new Error('Category not found');
 			newDimensionsCount++;
+			categoryInFramework.dimensions?.push({
+				id: -newDimensionsCount,
+				title: dimension.title,
+				description: dimension.description,
+				categoryId: dimension.categoryId
+			});
+			const category = categories.find((c) => c.id === dimension.categoryId);
+			if (!category) throw new Error('Category not found');
 			category.dimensions?.push({
 				id: -newDimensionsCount,
 				title: dimension.title,
@@ -176,7 +191,8 @@
 				id: -newCategoriesCount,
 				title: category.title,
 				description: category.description,
-				superCategoryId: category.superCategoryId
+				superCategoryId: category.superCategoryId,
+				dimensions: []
 			});
 			framework = framework;
 			categories = categories;
@@ -229,6 +245,51 @@
 		framework = framework;
 		categories = categories;
 	}
+
+	async function addFramework() {
+		console.log('Add Framework');
+		const newFramework: NewFramework = {
+			title: framework.title,
+			authorId: framework.authorId
+		};
+		console.log(JSON.stringify(newFramework));
+
+		const newCategories: NewCategory[] = categories.map((category) => {
+			const newCategory: NewCategory = {
+				id: category.id,
+				title: category.title,
+				description: category.description,
+				superCategoryId: category.superCategoryId,
+				frameworkId: -1
+			};
+			return newCategory;
+		});
+
+		const newDimensions: NewDimension[] = [];
+		categories.forEach((category) => {
+			category.dimensions?.forEach((dimension) => {
+				newDimensions.push({
+					title: dimension.title,
+					description: dimension.description,
+					categoryId: dimension.categoryId
+				});
+			});
+		});
+		console.log(JSON.stringify(newCategories));
+		console.log(JSON.stringify(newDimensions));
+		const response = await fetch('/api/frameworks', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				framework: newFramework,
+				categories: newCategories,
+				dimensions: newDimensions
+			})
+		});
+		console.log(response);
+	}
 </script>
 
 <ThreeColumnLayout>
@@ -243,6 +304,7 @@
 			onCategoryRemove={removeCategory}
 			onDimensionRemove={removeDimension}
 		/>
+		<button class="btn variant-filled-primary" on:click={addFramework}> Save Framework </button>
 	</div>
 	<div slot="right">
 		<TabGroup>

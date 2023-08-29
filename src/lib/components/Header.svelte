@@ -12,7 +12,7 @@
 		<TabAnchor href="/reports/new" selected={$page.url.pathname === '/reports/new'}>
 			New Report
 		</TabAnchor>
-		<TabAnchor href="/frameworks/edit" selected={$page.url.pathname === '/frameworks/edit'}>
+		<TabAnchor href="/frameworks/new" selected={$page.url.pathname === '/frameworks/edit'}>
 			New Framework
 		</TabAnchor>
 		<TabAnchor href="/reports" selected={$page.url.pathname === '/reports'}>
