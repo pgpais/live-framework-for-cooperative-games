@@ -13,7 +13,7 @@
 		NewDimension,
 		NewFramework
 	} from '$lib/db/schema';
-	import { fail, json } from '@sveltejs/kit';
+	import { fail } from '@sveltejs/kit';
 
 	export let data: PageData;
 

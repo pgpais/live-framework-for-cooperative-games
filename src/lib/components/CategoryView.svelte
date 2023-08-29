@@ -1,10 +1,8 @@
 <script lang="ts">
 	import CategoryDetailButton from '$lib/components/DetailElements/CategoryDetailButton.svelte';
 	import DimensionView from '$lib/components/DimensionView.svelte';
-	import Separator from '$lib/components/Separator.svelte';
 	import type { Dimension, FullCategory } from '$lib/db/schema';
-	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
-	import { Delete, Trash2 } from 'lucide-svelte';
+	import { Trash2 } from 'lucide-svelte';
 	export let category: FullCategory;
 	if (category.subCategories && category.subCategories.length > 0) {
 		console.log(category);
@@ -45,9 +43,3 @@
 
 <!-- </svelte:fragment> -->
 <!-- </TreeViewItem> -->
-
-<style lang="postcss">
-	.editable {
-		@apply max-w-md  rounded-xl;
-	}
-</style>

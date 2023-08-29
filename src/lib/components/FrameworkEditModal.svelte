@@ -1,11 +1,8 @@
 <script lang="ts">
-	import type { FullCategory, FullFramework } from '$lib/db/schema';
+	import type { FullCategory } from '$lib/db/schema';
 	import type {
-		FrameworkEditFormSchema,
-		frameworkEditFormSchema
-	} from '$lib/schemas/frameworkEdit';
-	import type { CategoryReportSchema } from '$lib/schemas/report';
-	import { TabGroup, Tab, TabAnchor, type AutocompleteOption } from '@skeletonlabs/skeleton';
+		FrameworkEditFormSchema	} from '$lib/schemas/frameworkEdit';
+	import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
 
 	let tabset: number = 0;
 	export let categories: FullCategory[] = [];

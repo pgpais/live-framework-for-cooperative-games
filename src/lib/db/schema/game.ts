@@ -1,6 +1,6 @@
 import { platforms, type NewPlatform } from './platform';
 import { reports } from './report';
-import { relations, type InferModel } from 'drizzle-orm';
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { integer, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { genres, type NewGenre } from './genre';
 import { companies, type NewCompany } from './company';
@@ -97,9 +97,9 @@ export const gamesToCompaniesRelations = relations(gamesToCompanies, ({ one }) =
 	})
 }));
 
-export type Game = InferModel<typeof games>;
+export type Game = InferSelectModel<typeof games>;
 
-export type NewGame = InferModel<typeof games, 'insert'>;
+export type NewGame = InferInsertModel<typeof games>;
 
 export type FullGame = NewGame & {
 	genres: NewGenre[];

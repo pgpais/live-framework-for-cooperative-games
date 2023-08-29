@@ -2,7 +2,7 @@ import { dimensionExamples, type DimensionExample } from './dimensionExample';
 import { frameworks, type Framework } from './framework';
 import { games, type Game } from './game';
 import { users } from './user';
-import { relations, type InferModel } from 'drizzle-orm';
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { integer, pgTable, serial, timestamp } from 'drizzle-orm/pg-core';
 
 export const reports = pgTable('reports', {
@@ -45,8 +45,8 @@ export type FullReport = {
 	dimensionExamples: DimensionExample[];
 };
 
-export type Report = InferModel<typeof reports>;
-export type NewReport = InferModel<typeof reports, 'insert'>;
+export type Report = InferSelectModel<typeof reports>;
+export type NewReport = InferInsertModel<typeof reports>;
 
 export type ReportWithGames = Report & {
 	game: Game;

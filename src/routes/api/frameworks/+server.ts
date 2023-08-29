@@ -105,7 +105,7 @@ async function uploadNewFramework(
 	return frameworkId;
 }
 
-export async function POST({ request, cookies }) {
+export async function POST({ request }) {
 	const { framework, categories, dimensions } = await request.json();
 	console.log(framework);
 	console.log(categories);

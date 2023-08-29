@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Separator from '$lib/components/Separator.svelte';
 	import DimensionForm from '$lib/components/DimensionForm.svelte';
 	import type { CategoryReportSchema } from '$lib/schemas/report';
 	import CategoryDetailButton from '$lib/components/DetailElements/CategoryDetailButton.svelte';
@@ -9,9 +8,11 @@
 
 <span class="h3 text-secondary-500-400-token"><CategoryDetailButton category={value} /></span>
 <div class="ml-6 grid gap-3">
-	{#each value.dimensions as dimension, j}
-		<DimensionForm bind:value={value.dimensions[j]} bind:dimension={value.dimensions[j]} />
-	{/each}
+	{#if value.dimensions && value.dimensions.length > 0}
+		{#each value.dimensions as dimension, j}
+			<DimensionForm bind:value={value.dimensions[j]} bind:dimension={value.dimensions[j]} />
+		{/each}
+	{/if}
 </div>
 <ul class="list-inside list-disc gap-2">
 	{#if value.subCategories && value.subCategories.length > 0}

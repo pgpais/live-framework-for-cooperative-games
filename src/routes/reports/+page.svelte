@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { goto, invalidate, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
-	import { companies, reports } from '$lib/db/schema';
 	import { SearchIcon } from 'lucide-svelte';
 	import type { PageData } from './$types';
 

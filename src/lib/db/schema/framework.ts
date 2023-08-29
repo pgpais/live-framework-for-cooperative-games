@@ -1,5 +1,5 @@
 import { users, type User } from './user';
-import { relations, type InferModel } from 'drizzle-orm';
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { pgTable, text, integer, timestamp, serial } from 'drizzle-orm/pg-core';
 import {
 	categories,
@@ -27,9 +27,9 @@ export const frameworksRelations = relations(frameworks, ({ one, many }) => ({
 	categories: many(categories)
 }));
 
-export type Framework = InferModel<typeof frameworks>;
+export type Framework = InferSelectModel<typeof frameworks>;
 
-export type NewFramework = InferModel<typeof frameworks, 'insert'>;
+export type NewFramework = InferInsertModel<typeof frameworks>;
 
 export type FrameworkAuthor = Framework & {
 	author: User;

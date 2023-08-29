@@ -1,9 +1,7 @@
 <script lang="ts">
 	import CategoryForm from '$lib/components/CategoryForm.svelte';
 	import type { CategoryReportSchema } from '$lib/schemas/report';
-	import type { Category } from '$lib/db/schema';
-	import { Loader2, Search } from 'lucide-svelte';
-
+	
 	export let value: { categories: CategoryReportSchema[] };
 </script>
 

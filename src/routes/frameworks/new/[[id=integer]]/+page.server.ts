@@ -1,5 +1,4 @@
 import {
-	GetCategoriesByFrameworkId,
 	GetCategoriesWithDimensionsByFrameworkId,
 	GetFullFrameworkById
 } from '$lib/utils/frameworkFetchers';

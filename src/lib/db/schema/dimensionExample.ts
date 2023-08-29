@@ -1,6 +1,6 @@
 import { dimensions } from './dimension';
 import { reports } from './report';
-import { relations, type InferModel } from 'drizzle-orm';
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
 
 export const dimensionExamples = pgTable('dimension_examples', {
@@ -21,9 +21,9 @@ export const dimensionExamplesRelations = relations(dimensionExamples, ({ one })
 	})
 }));
 
-export type NewDimensionExample = InferModel<typeof dimensionExamples, 'insert'>;
+export type NewDimensionExample = InferInsertModel<typeof dimensionExamples>;
 
-export type DimensionExample = InferModel<typeof dimensionExamples>;
+export type DimensionExample = InferSelectModel<typeof dimensionExamples>;
 
 export type PlainDimensionExample = {
 	included: boolean;

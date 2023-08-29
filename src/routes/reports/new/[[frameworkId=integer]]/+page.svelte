@@ -8,9 +8,6 @@
 	import DetailView from '$lib/components/DetailView.svelte';
 	import ReportForm from '$lib/components/ReportForm.svelte';
 	import { Loader2, Search } from 'lucide-svelte';
-	import type { NewGenre } from '$lib/db/schema/genre';
-	import type { NewCompany } from '$lib/db/schema/company';
-	import type { NewPlatform } from '$lib/db/schema/platform';
 	import type { NewGame } from '$lib/db/schema/game';
 
 	export let data: PageData;

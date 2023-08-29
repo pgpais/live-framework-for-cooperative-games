@@ -1,16 +1,6 @@
 <script lang="ts">
 	import CategoryView from '$lib/components/CategoryView.svelte';
-	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
-	import type {
-		Dimension,
-		FirstLevelFramework,
-		Framework,
-		FrameworkAuthorCategories,
-		FullCategory,
-		FullFramework
-	} from '$lib/db/schema';
-	import { Plus } from 'lucide-svelte';
-	import Separator from '$lib/components/Separator.svelte';
+	import type { Dimension, FullCategory, FullFramework } from '$lib/db/schema';
 
 	export let framework: FullFramework;
 	export let editable: boolean = false;

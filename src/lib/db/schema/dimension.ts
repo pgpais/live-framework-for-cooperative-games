@@ -1,5 +1,5 @@
 import { categories } from './category';
-import { relations, type InferModel } from 'drizzle-orm';
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
 
 export const dimensions = pgTable('dimensions', {
@@ -18,8 +18,8 @@ export const dimensionsRelations = relations(dimensions, ({ one }) => ({
 	})
 }));
 
-export type NewDimension = InferModel<typeof dimensions, 'insert'>;
-export type Dimension = InferModel<typeof dimensions>;
+export type NewDimension = InferInsertModel<typeof dimensions>;
+export type Dimension = InferSelectModel<typeof dimensions>;
 export type PlainDimension = {
 	title: string;
 	description: string;
