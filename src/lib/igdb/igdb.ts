@@ -13,13 +13,15 @@ export async function igdbAuth() {
 		}
 	);
 	const data = await response.json();
-	return data.access_token;
+	return data;
 }
 
 export async function searchForGames(name: string) {
-	const accessToken = await igdbAuth();
+	const data = await igdbAuth();
+	const accessToken = data.access_token;
 
-	if (!accessToken) return new Response('Error authenticating with IGDB', { status: 500 });
+	if (!accessToken)
+		return new Response('Error authenticating with IGDB: \n' + data, { status: 500 });
 
 	const gamesResponse = await fetch('https://api.igdb.com/v4/games', {
 		method: 'POST',
@@ -43,7 +45,8 @@ export async function searchForGames(name: string) {
 }
 
 export async function getGameInfoForInsertion(id: number) {
-	const accessToken = await igdbAuth();
+	const data = await igdbAuth();
+	const accessToken = data.access_token;
 
 	if (!accessToken) return new Response('Error authenticating with IGDB', { status: 500 });
 
