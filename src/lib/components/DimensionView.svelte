@@ -8,7 +8,11 @@
 	export let onDimensionRemove: (dimension: Dimension) => void = () => {};
 </script>
 
-<div class="flex justify-between px-2" class:editable>
+<div
+	class="variant-ringed-primary flex justify-between px-2"
+	class:editable
+	class:non-editable={!editable}
+>
 	<!-- {dimension.title} -->
 	<DimensionDetailButton {dimension} />
 	{#if editable}
@@ -20,6 +24,9 @@
 
 <style lang="postcss">
 	.editable {
-		@apply variant-ringed-primary max-w-xs  rounded-xl;
+		@apply max-w-xs  rounded-xl;
+	}
+	.non-editable {
+		@apply w-fit p-2;
 	}
 </style>
