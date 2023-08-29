@@ -20,8 +20,7 @@ export async function searchForGames(name: string) {
 	const data = await igdbAuth();
 	const accessToken = data.access_token;
 
-	if (!accessToken)
-		return new Response('Error authenticating with IGDB: \n' + data, { status: 500 });
+	if (!accessToken) return new Response('Error authenticating with IGDB', { status: 500 });
 
 	const gamesResponse = await fetch('https://api.igdb.com/v4/games', {
 		method: 'POST',
