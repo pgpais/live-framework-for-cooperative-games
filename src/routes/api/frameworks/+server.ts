@@ -1,21 +1,13 @@
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
 import db from '$lib/db';
 import {
-	type FullFramework,
-	type FullCategory,
 	type NewFramework,
 	frameworks,
 	categories,
 	type NewDimension,
 	dimensions,
-	type User,
 	type NewCategory
 } from '$lib/db/schema';
-
-export const GET: RequestHandler = async () => {
-	return new Response();
-};
 
 async function uploadNewFramework(
 	newFramework: NewFramework,
