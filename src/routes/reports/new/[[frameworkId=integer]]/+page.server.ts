@@ -55,14 +55,16 @@ function pushCategoryReportIntoArray(
 	category: CategoryReportSchema,
 	reportId: number
 ) {
-	for (const dimension of category.dimensions) {
-		if (dimension.included) {
-			dimensionExamples.push({
-				dimensionId: dimension.id,
-				example: dimension.example,
-				reportId
-			});
-			console.log('DB: Inserting dimension', dimension);
+	if (category.dimensions) {
+		for (const dimension of category.dimensions) {
+			if (dimension.included) {
+				dimensionExamples.push({
+					dimensionId: dimension.id,
+					example: dimension.example,
+					reportId
+				});
+				console.log('DB: Inserting dimension', dimension);
+			}
 		}
 	}
 

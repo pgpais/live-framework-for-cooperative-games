@@ -1,17 +1,5 @@
 import db from '$lib/db';
-import {
-	games,
-	gamesToGenres,
-	genres,
-	type GameWithNumberOfReports,
-	type GameWithReports,
-	type ReportWithGames,
-	gamesToCompanies,
-	companies,
-	gamesToPlatforms,
-	platforms,
-	reports
-} from '$lib/db/schema';
+import { games, gamesToGenres, gamesToCompanies, gamesToPlatforms, reports } from '$lib/db/schema';
 import { eq, sql, and } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
