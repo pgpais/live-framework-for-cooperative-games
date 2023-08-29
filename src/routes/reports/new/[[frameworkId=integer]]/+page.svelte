@@ -21,7 +21,7 @@
 
 	async function getGame(name: string) {
 		isSearching = true;
-		const res = await fetch(`/games?name=${name}`);
+		const res = await fetch(`/api/games?name=${name}`);
 		const data = await res.json();
 		console.log(data);
 		gamesData = data;
