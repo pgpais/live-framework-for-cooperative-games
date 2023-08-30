@@ -22,9 +22,18 @@
 		<Trash2 />
 	</button>
 {/if}
+
+{#if category.superCategoryId == 0}
+	<div class="mb-4 ml-6 mt-2">
+		{#if category.description}
+			<p class="text-sm">{category.description}</p>
+		{/if}
+	</div>
+{/if}
+
 <!-- <svelte:fragment slot="children"> -->
 {#if category.dimensions && category.dimensions.length > 0}
-	<div class="mb-4 ml-6 mt-2 grid gap-2">
+	<div class="mb-4 ml-6 mt-2 flex gap-2">
 		{#each category.dimensions as dimension}
 			<DimensionView {dimension} {editable} {onDimensionRemove} />
 		{/each}
@@ -34,7 +43,7 @@
 <ul class="grid list-inside list-disc">
 	{#if subCategories && subCategories.length > 0}
 		{#each subCategories as subCategory}
-			<li class="ml-2 flex-auto">
+			<li class="ml-4 flex-auto">
 				<svelte:self category={subCategory} {editable} {onCategoryRemove} {onDimensionRemove} />
 			</li>
 		{/each}

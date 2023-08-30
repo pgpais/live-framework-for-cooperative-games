@@ -7,7 +7,7 @@
 </script>
 
 <span class="h3 text-secondary-500-400-token"><CategoryDetailButton category={value} /></span>
-<div class="ml-6 grid gap-3">
+<div class="ml-6 grid grid-cols-2 gap-3">
 	{#if value.dimensions && value.dimensions.length > 0}
 		{#each value.dimensions as dimension, j}
 			<DimensionForm bind:value={value.dimensions[j]} bind:dimension={value.dimensions[j]} />

@@ -14,6 +14,7 @@
 		NewFramework
 	} from '$lib/db/schema';
 	import { fail } from '@sveltejs/kit';
+	import DetailView from '$lib/components/DetailView.svelte';
 
 	export let data: PageData;
 
@@ -308,10 +309,15 @@
 	</div>
 	<div slot="right">
 		<TabGroup>
-			<Tab bind:group={tabSet} name="addCategory" value={0}>New Category</Tab>
-			<Tab bind:group={tabSet} name="addDimension" value={1}>New Dimension</Tab>
+			<Tab bind:group={tabSet} name="detail" value={0}>Detail</Tab>
+			<Tab bind:group={tabSet} name="addCategory" value={1}>New Category</Tab>
+			<Tab bind:group={tabSet} name="addDimension" value={2}>New Dimension</Tab>
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
+					<div class="mx-4">
+						<DetailView />
+					</div>
+				{:else if tabSet === 1}
 					<!-- Adding a new Category -->
 					<form class="text-token space-y-4 p-4" on:submit|preventDefault={addCategory}>
 						<label class="label">
@@ -353,7 +359,7 @@
 							<button class="btn variant-filled-primary"> Add New Category </button>
 						</div>
 					</form>
-				{:else if tabSet === 1}
+				{:else if tabSet === 2}
 					<!-- Adding a new Dimension -->
 					<form class="text-token space-y-4 p-4" on:submit|preventDefault={addDimension}>
 						<label class="label">

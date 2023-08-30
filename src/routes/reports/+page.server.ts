@@ -28,7 +28,13 @@ export const load = (async ({ url, depends }) => {
 		.as('sq');
 
 	const gamesWithCountedReports = await db
-		.select({ id: games.id, name: games.name, imgUrl: games.imgUrl, reportsCount: sq.reportsCount })
+		.select({
+			id: games.id,
+			name: games.name,
+			imgUrl: games.imgUrl,
+			releaseDate: games.releaseDate,
+			reportsCount: sq.reportsCount
+		})
 		.from(games)
 		.leftJoin(sq, eq(games.id, sq.gameId))
 		.innerJoin(gamesToCompanies, eq(games.id, gamesToCompanies.gameId))

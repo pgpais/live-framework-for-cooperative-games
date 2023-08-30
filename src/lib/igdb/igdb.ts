@@ -56,7 +56,7 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.url; where id = ${id};`
+		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
 	});
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
 
@@ -65,7 +65,8 @@ export async function getGameInfoForInsertion(id: number) {
 		id: gamesData[0].id,
 		name: gamesData[0].name,
 		releaseDate: gamesData[0].first_release_date,
-		imgUrl: gamesData[0].cover.url,
+		imgUrl:
+			'https://images.igdb.com/igdb/image/upload/t_cover_small/' + gamesData[0].cover.url + '.png',
 		genres: gamesData[0].genres.map((genre: NewGenre) => ({
 			id: genre.id,
 			name: genre.name
@@ -81,4 +82,27 @@ export async function getGameInfoForInsertion(id: number) {
 	};
 
 	return json(returnData);
+}
+
+export async function GetGameCover(id: string) {
+	const data = await igdbAuth();
+	const accessToken = data.access_token;
+
+	if (!accessToken) return new Response('Error authenticating with IGDB', { status: 500 });
+
+	fetch('https://api.igdb.com/v4/covers', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Client-ID': env.TWITCH_CLIENT_ID,
+			Authorization: `Bearer ${accessToken}`
+		},
+		body: `fields alpha_channel,animated,checksum,game,game_localization,height,image_id,url,width; where game.id = ${id}`
+	})
+		.then((response) => {
+			console.log(response.json());
+		})
+		.catch((err) => {
+			console.error(err);
+		});
 }

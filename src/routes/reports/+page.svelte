@@ -4,12 +4,22 @@
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 	import { SearchIcon } from 'lucide-svelte';
 	import type { PageData } from './$types';
+	import GameDetail from '$lib/components/DetailElements/GameDetail.svelte';
+	import type { Game } from '$lib/db/schema';
+	import Separator from '$lib/components/Separator.svelte';
 
 	export let data: PageData;
 	$: ({ games } = data);
 	let companyFilterSelected = data.companyFilter;
 	let genreFilterSelected = data.genreFilter;
 	let platformFilterSelected = data.platformFilter;
+	let selectedGame: Game | undefined;
+
+	for (let i = 0; i < games.length; i++) {
+		const game = games[i];
+
+		
+	}
 </script>
 
 <!-- TODO: invalidate with filters so load happens again. Change query params -->
@@ -70,17 +80,31 @@
 		</p>
 		<div class="m-5 grid grid-cols-3 gap-5">
 			{#each games as game}
-				<div class="card card-hover variant-filled-secondary">
+				<div class="card card-hover variant-filled-secondary grid content-around">
 					<header class="card-header">
 						<h2 class="card-title">{game.name}</h2>
 					</header>
-					<section class="p-4">
-						<img src={game.imgUrl} alt={game.name} />
+					<hr class="mx-2 my-2 rounded border-t-2" />
+					<section class="flex flex-col gap-2 space-y-4 p-4">
+						<img
+							class="h-auto max-w-full rounded-lg"
+							src={game.imgUrl}
+							alt={'cover of ' + game.name}
+						/>
+
 						{game.name} has {game.reportsCount} reports
 					</section>
-					<footer class="card-footer">footer</footer>
+					<hr class="mx-2 my-2 rounded border-t-2" />
+					<footer class="card-footer flex items-center justify-start space-x-4 p-4">
+						<button
+							class="variant-filled h-full w-full rounded-xl px-2"
+							on:click={() => (selectedGame = game)}>See more</button
+						>
+					</footer>
 				</div>
 			{/each}
 		</div>
 	</div>
+
+	<GameDetail game={selectedGame} slot="right" />
 </ThreeColumnLayout>

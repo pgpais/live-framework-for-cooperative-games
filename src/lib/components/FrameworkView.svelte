@@ -10,7 +10,7 @@
 
 <h2 class="h2">Framework "{framework.title}" created by {framework.author.fullName}</h2>
 <!-- <TreeView padding="py-2 px-1" indent="ml-2"> -->
-<ul class="ml-2 grid list-inside list-disc">
+<ul class="ml-4 grid list-inside list-disc">
 	{#each framework.categories as category}
 		{#if !category.superCategoryId || category.superCategoryId == 0}
 			<li>

@@ -31,7 +31,7 @@
 	let gameNameQuery: string;
 
 	let gamesData: NewGame[];
-	let selectedGameId: number = 0;
+	let selectedGameId: number;
 </script>
 
 <ThreeColumnLayout>
