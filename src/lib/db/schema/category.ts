@@ -10,7 +10,8 @@ export const categories = pgTable('categories', {
 	frameworkId: integer('framework_id')
 		.references(() => frameworks.id)
 		.notNull(),
-	superCategoryId: integer('super_category_id').notNull().default(0)
+	superCategoryId: integer('super_category_id').notNull().default(0),
+	siblingCategoryId: integer('sibling_category_id').notNull().default(0)
 });
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
@@ -25,6 +26,11 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
 	superCategory: one(categories, {
 		relationName: 'subCategories',
 		fields: [categories.superCategoryId],
+		references: [categories.id]
+	}),
+	siblingCategory: one(categories, {
+		relationName: 'subCategories',
+		fields: [categories.siblingCategoryId],
 		references: [categories.id]
 	})
 	/*subCategories: many(subCategories, {
