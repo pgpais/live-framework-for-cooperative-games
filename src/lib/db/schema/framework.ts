@@ -16,7 +16,9 @@ export const frameworks = pgTable('frameworks', {
 		.references(() => users.id)
 		.notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull()
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	description: text('description').notNull().default(''),
+	frameworkBasisId: integer('framework_basis_id').notNull().default(0)
 });
 
 export const frameworksRelations = relations(frameworks, ({ one, many }) => ({
@@ -24,7 +26,11 @@ export const frameworksRelations = relations(frameworks, ({ one, many }) => ({
 		fields: [frameworks.authorId],
 		references: [users.id]
 	}),
-	categories: many(categories)
+	categories: many(categories),
+	frameworkBasis: one(frameworks, {
+		fields: [frameworks.frameworkBasisId],
+		references: [frameworks.id]
+	})
 }));
 
 export type Framework = InferSelectModel<typeof frameworks>;
