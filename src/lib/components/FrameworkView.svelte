@@ -10,15 +10,15 @@
 
 <h2 class="h2">Framework "{framework.title}" created by {framework.author.fullName}</h2>
 <!-- <TreeView padding="py-2 px-1" indent="ml-2"> -->
-<ul class="ml-4 grid list-inside list-disc">
+<div class=" m-4 grid gap-4">
 	{#each framework.categories as category}
 		{#if !category.superCategoryId || category.superCategoryId == 0}
-			<li>
+			<div class="card variant-ghost-surface p-4">
 				<CategoryView {category} {editable} {onCategoryRemove} {onDimensionRemove} />
-			</li>
+			</div>
 		{/if}
 	{/each}
-</ul>
+</div>
 
 <!-- </TreeView> -->
 
