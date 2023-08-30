@@ -75,9 +75,11 @@
 						let game = gamesData.find((game) => game.id === selectedGameId);
 						if (game) {
 							$form.game = game;
+							console.log($form.game);
 						}
 					}}
 				>
+					<option value="-1">Select your Game</option>
 					{#each gamesData as gameData}
 						<option value={gameData.id}>
 							{gameData.name}

@@ -14,12 +14,6 @@
 	let genreFilterSelected = data.genreFilter;
 	let platformFilterSelected = data.platformFilter;
 	let selectedGame: Game | undefined;
-
-	for (let i = 0; i < games.length; i++) {
-		const game = games[i];
-
-		
-	}
 </script>
 
 <!-- TODO: invalidate with filters so load happens again. Change query params -->
@@ -92,7 +86,7 @@
 							alt={'cover of ' + game.name}
 						/>
 
-						{game.name} has {game.reportsCount} reports
+						{game.name} has {game.reportsCount ? game.reportsCount : 0} reports
 					</section>
 					<hr class="mx-2 my-2 rounded border-t-2" />
 					<footer class="card-footer flex items-center justify-start space-x-4 p-4">

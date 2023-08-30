@@ -56,17 +56,21 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
+		body: `fields id, name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
 	});
+	console.log('response: ' + gamesResponse);
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
 
 	const gamesData = await gamesResponse.json();
+	console.log(gamesData);
 	const returnData: FullGame = {
 		id: gamesData[0].id,
 		name: gamesData[0].name,
 		releaseDate: gamesData[0].first_release_date,
 		imgUrl:
-			'https://images.igdb.com/igdb/image/upload/t_cover_small/' + gamesData[0].cover.url + '.png',
+			'https://images.igdb.com/igdb/image/upload/t_cover_big/' +
+			gamesData[0].cover.image_id +
+			'.png',
 		genres: gamesData[0].genres.map((genre: NewGenre) => ({
 			id: genre.id,
 			name: genre.name
