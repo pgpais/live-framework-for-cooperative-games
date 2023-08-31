@@ -1,6 +1,13 @@
 import { categories } from './category';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
-import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, serial, pgEnum } from 'drizzle-orm/pg-core';
+
+export const dimensionStatus = pgEnum('categories_status', [
+	'unofficial',
+	'merged',
+	'declined',
+	'official'
+]);
 
 export const dimensions = pgTable('dimensions', {
 	id: serial('id').primaryKey(),
@@ -8,7 +15,8 @@ export const dimensions = pgTable('dimensions', {
 	description: text('description').notNull(),
 	categoryId: integer('category_id')
 		.references(() => categories.id)
-		.notNull()
+		.notNull(),
+	status: dimensionStatus('status').notNull().default('unofficial')
 });
 
 export const dimensionsRelations = relations(dimensions, ({ one }) => ({

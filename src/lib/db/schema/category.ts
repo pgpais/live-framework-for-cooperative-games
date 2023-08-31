@@ -1,7 +1,14 @@
 import { dimensions, type Dimension, type PlainDimension } from './dimension';
 import { frameworks } from './framework';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
-import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, serial, pgEnum } from 'drizzle-orm/pg-core';
+
+export const categoryStatus = pgEnum('categories_status', [
+	'unofficial',
+	'merged',
+	'declined',
+	'official'
+]);
 
 export const categories = pgTable('categories', {
 	id: serial('id').primaryKey(),
@@ -11,7 +18,8 @@ export const categories = pgTable('categories', {
 		.references(() => frameworks.id)
 		.notNull(),
 	superCategoryId: integer('super_category_id').notNull().default(0),
-	siblingCategoryId: integer('sibling_category_id').notNull().default(0)
+	siblingCategoryId: integer('sibling_category_id').notNull().default(0),
+	status: categoryStatus('status').notNull().default('unofficial')
 });
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
@@ -29,7 +37,7 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
 		references: [categories.id]
 	}),
 	siblingCategory: one(categories, {
-		relationName: 'subCategories',
+		relationName: 'siblingCategory',
 		fields: [categories.siblingCategoryId],
 		references: [categories.id]
 	})

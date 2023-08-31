@@ -6,10 +6,15 @@
 	export let dimension: Dimension;
 	export let editable: boolean = false;
 	export let onDimensionRemove: (dimension: Dimension) => void = () => {};
+
+	const isOfficial = dimension.status == 'official';
 </script>
 
+<!-- {#if isOfficial} -->
 <div
-	class="variant-ringed-primary flex justify-between px-2"
+	class={isOfficial
+		? 'variant-ringed-primary flex justify-between px-2'
+		: 'variant-ringed-warning flex justify-between px-2'}
 	class:editable
 	class:non-editable={!editable}
 >

@@ -13,10 +13,14 @@
 	export let onDimensionRemove: (dimension: Dimension) => void = () => {};
 
 	$: subCategories = category.subCategories;
+
+	const isOfficial = category.status == 'official';
 </script>
 
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
-<span class="h3 text-secondary-500-400-token"><CategoryDetailButton {category} /></span>
+<span class={isOfficial ? 'h3 text-secondary-500-400-token' : 'h3 text-warning-500-400-token'}
+	><CategoryDetailButton {category} /></span
+>
 {#if editable}
 	<button class="btn-primary btn btn-sm" on:click={() => onCategoryRemove(category)}>
 		<Trash2 />

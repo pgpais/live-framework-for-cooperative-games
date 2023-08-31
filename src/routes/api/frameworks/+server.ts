@@ -43,9 +43,11 @@ async function uploadNewFramework(
 			if (category) {
 				const newCategory: NewCategory = {
 					superCategoryId: category.superCategoryId,
+					siblingCategoryId: category.siblingCategoryId,
 					title: category.title,
 					description: category.description,
-					frameworkId: insertedFrameworkId
+					frameworkId: insertedFrameworkId,
+					status: category.status
 				};
 				console.log('DB: popping category', newCategory);
 				// Insert category
@@ -86,7 +88,8 @@ async function uploadNewFramework(
 						const newDimension: NewDimension = {
 							title: dimension.title,
 							description: dimension.description,
-							categoryId: insertedCategory[0].insertedId
+							categoryId: insertedCategory[0].insertedId,
+							status: dimension.status
 						};
 						console.log('DB: inserting dimension', newDimension);
 						await tx.insert(dimensions).values(newDimension);
@@ -105,7 +108,7 @@ async function uploadNewFramework(
 	return frameworkId;
 }
 
-export async function POST({ request }) {
+export async function POST({ request }: { request: Request }) {
 	const { framework, categories, dimensions } = await request.json();
 	console.log(framework);
 	console.log(categories);

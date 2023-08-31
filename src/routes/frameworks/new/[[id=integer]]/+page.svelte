@@ -15,6 +15,7 @@
 	} from '$lib/db/schema';
 	import { fail } from '@sveltejs/kit';
 	import DetailView from '$lib/components/DetailView.svelte';
+	import { Loader } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -93,6 +94,7 @@
 	let newDimensionsCount = 0;
 
 	let tabSet: number = 0;
+	let addingFramework = false;
 
 	//Traverse the tree of categories in the framework to find the category with the given id
 	function findCategoryByIdInFramework(
@@ -133,7 +135,8 @@
 				id: -newDimensionsCount,
 				title: dimension.title,
 				description: dimension.description,
-				categoryId: dimension.categoryId
+				categoryId: dimension.categoryId,
+				status: 'unofficial'
 			});
 			const category = categories.find((c) => c.id === dimension.categoryId);
 			if (!category) throw new Error('Category not found');
@@ -141,7 +144,8 @@
 				id: -newDimensionsCount,
 				title: dimension.title,
 				description: dimension.description,
-				categoryId: dimension.categoryId
+				categoryId: dimension.categoryId,
+				status: 'unofficial'
 			});
 		} else {
 			console.log('Form is not valid', result);
@@ -166,7 +170,9 @@
 					description: category.description,
 					dimensions: [],
 					subCategories: [],
-					superCategoryId: category.superCategoryId
+					superCategoryId: category.superCategoryId,
+					siblingCategoryId: 0,
+					status: 'unofficial'
 				});
 			} else {
 				const superCategory = findCategoryByIdInFramework(
@@ -183,7 +189,9 @@
 					superCategory,
 					dimensions: [],
 					subCategories: [],
-					superCategoryId: category.superCategoryId
+					superCategoryId: category.superCategoryId,
+					siblingCategoryId: 0,
+					status: 'unofficial'
 				});
 			}
 
@@ -193,7 +201,9 @@
 				title: category.title,
 				description: category.description,
 				superCategoryId: category.superCategoryId,
-				dimensions: []
+				siblingCategoryId: 0,
+				dimensions: [],
+				status: 'unofficial'
 			});
 			framework = framework;
 			categories = categories;
@@ -249,6 +259,7 @@
 
 	async function addFramework() {
 		console.log('Add Framework');
+		addingFramework = true;
 		const newFramework: NewFramework = {
 			title: framework.title,
 			authorId: framework.authorId
@@ -261,7 +272,9 @@
 				title: category.title,
 				description: category.description,
 				superCategoryId: category.superCategoryId,
-				frameworkId: -1
+				siblingCategoryId: category.siblingCategoryId != 0 ? category.id : 0,
+				frameworkId: -1,
+				status: category.status
 			};
 			return newCategory;
 		});
@@ -272,7 +285,8 @@
 				newDimensions.push({
 					title: dimension.title,
 					description: dimension.description,
-					categoryId: dimension.categoryId
+					categoryId: dimension.categoryId,
+					status: dimension.status
 				});
 			});
 		});
@@ -289,7 +303,12 @@
 				dimensions: newDimensions
 			})
 		});
-		console.log(response);
+		addingFramework = false;
+		const responsejson = await response.json();
+		console.log(responsejson);
+		if (response.status === 201) {
+			window.location.href = '/frameworks/' + responsejson.frameworkId;
+		}
 	}
 </script>
 
@@ -305,7 +324,14 @@
 			onCategoryRemove={removeCategory}
 			onDimensionRemove={removeDimension}
 		/>
-		<button class="btn variant-filled-primary" on:click={addFramework}> Save Framework </button>
+		<div class="flex">
+			<button class="btn variant-filled-primary" on:click={addFramework} disabled={addingFramework}>
+				Save Framework
+			</button>
+			{#if addingFramework}
+				<Loader class="animate-spin" />
+			{/if}
+		</div>
 	</div>
 	<div slot="right">
 		<TabGroup>
