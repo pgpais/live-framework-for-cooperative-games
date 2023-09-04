@@ -1,6 +1,6 @@
 import { users, type User } from './user';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
-import { pgTable, text, integer, timestamp, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, timestamp, serial, varchar } from 'drizzle-orm/pg-core';
 import {
 	categories,
 	type Category,
@@ -12,9 +12,9 @@ import {
 export const frameworks = pgTable('frameworks', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
-	authorId: integer('author_id')
-		.references(() => users.id)
-		.notNull(),
+	authorId: varchar('author_id')
+		.notNull()
+		.references(() => users.id),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	description: text('description').notNull().default(''),

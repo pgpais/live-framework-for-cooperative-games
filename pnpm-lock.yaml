@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lucia-auth/adapter-postgresql':
+    specifier: ^2.0.1
+    version: 2.0.1(lucia@2.4.0)(pg@8.11.3)(postgres@3.3.5)
+  '@lucia-auth/oauth':
+    specifier: ^3.0.0
+    version: 3.0.0(lucia@2.4.0)
   '@prisma/client':
     specifier: 5.1.1
     version: 5.1.1
@@ -14,6 +20,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.28.5
     version: 0.28.5(pg@8.11.3)(postgres@3.3.5)
+  lucia:
+    specifier: ^2.4.0
+    version: 2.4.0
   lucide-svelte:
     specifier: ^0.265.0
     version: 0.265.0(svelte@3.59.2)
@@ -432,6 +441,31 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@lucia-auth/adapter-postgresql@2.0.1(lucia@2.4.0)(pg@8.11.3)(postgres@3.3.5):
+    resolution: {integrity: sha512-HrgyCsHXEWMD3oF2vSzbqucwGR9zCNvsV5MTV/J3EkiTHskjJXRoVqIoOONeLsdBTy+nIciyoWNMAYe9LJj3tA==}
+    peerDependencies:
+      lucia: ^2.0.0
+      pg: ^8.8.0
+      postgres: ^3.3.0
+    peerDependenciesMeta:
+      pg:
+        optional: true
+      postgres:
+        optional: true
+    dependencies:
+      lucia: 2.4.0
+      pg: 8.11.3
+      postgres: 3.3.5
+    dev: false
+
+  /@lucia-auth/oauth@3.0.0(lucia@2.4.0):
+    resolution: {integrity: sha512-InjJ8ntwp3HB7tPCg7zfG3xxHgsMREq0ojT8IUuUS0UNdGFlk6ZJAymL+3P8o/U1fJgJA5kY1NxwNnYU+SuA3g==}
+    peerDependencies:
+      lucia: ^2.0.0
+    dependencies:
+      lucia: 2.4.0
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1740,6 +1774,10 @@ packages:
     dependencies:
       es5-ext: 0.10.62
     dev: true
+
+  /lucia@2.4.0:
+    resolution: {integrity: sha512-v2pyFQVF734+EU3m9GeeJQorFR7zLt7JoOJ1UD5ttR5Z+w4IkOyExiXyFe+zssKpony66u94wcxyws3lZSpzzg==}
+    dev: false
 
   /lucide-svelte@0.265.0(svelte@3.59.2):
     resolution: {integrity: sha512-rmIcnkvVxCA4xcxsUJ1AVSn3nuowdjgvK0wmdfBqNAaRmvCGqqPekpZMKBOlYLPzWLzwzGwG5A5J9nj9GH3TrQ==}

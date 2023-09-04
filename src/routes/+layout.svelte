@@ -9,6 +9,10 @@
 	import Header from '$lib/components/Header.svelte';
 	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 	import { navigating } from '$app/stores';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+	let user = data.user;
 </script>
 
 <svelte:head>
@@ -18,7 +22,7 @@
 <!-- App Shell -->
 <div class="flex h-screen w-screen flex-col">
 	<!-- App Bar -->
-	<Header />
+	<Header {user} />
 	<!-- Page Route Content -->
 	<div class="flex flex-grow overflow-hidden">
 		{#if $navigating}

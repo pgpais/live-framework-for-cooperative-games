@@ -77,7 +77,7 @@ export async function GetFullCategoriesByFrameworkId(frameworkId: number) {
 	return fullCategories;
 }
 
-export async function GetFullFrameworkByAuthor(authorId: number) {
+export async function GetFullFrameworkByAuthor(authorId: string) {
 	const framework: FirstLevelFramework | undefined = await db.query.frameworks.findFirst({
 		where: eq(frameworks.authorId, authorId),
 		with: {
