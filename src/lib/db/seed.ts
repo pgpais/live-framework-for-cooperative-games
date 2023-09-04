@@ -1,34 +1,29 @@
 //seed using drizzle
 
-import db from '.';
-import { users, frameworks, type NewFramework, type NewUser } from './schema';
+// import db from '.';
+// import { users, frameworks, type NewFramework, type NewUser } from './schema';
 
-const usersValues = [
-	{
-		createdAt: new Date(),
-		updatedAt: new Date(),
-		email: 'b@b.com',
-		fullName: 'Bob Smith',
-		password: '123456'
-	},
-	{
-		createdAt: new Date(),
-		updatedAt: new Date(),
-		email: 'a@a.com',
-		fullName: 'Alice Smith',
-		password: '123456'
-	}
-] satisfies NewUser[];
+// const usersValues = [
+// 	{
+// 		email: 'b@b.com',
+// 		fullName: 'Bob Smith',
+// 	},
+// 	{
+// 		id:
+// 		email: 'a@a.com',
+// 		fullName: 'Alice Smith',
+// 	}
+// ] satisfies NewUser[];
 
-await db.insert(users).values(usersValues);
+// await db.insert(users).values(usersValues);
 
-const frameworksValues = [
-	{
-		authorId: 1,
-		title: 'manel',
-		createdAt: new Date(),
-		updatedAt: new Date()
-	}
-] satisfies NewFramework[];
+// const frameworksValues = [
+// 	{
+// 		authorId: 1,
+// 		title: 'manel',
+// 		createdAt: new Date(),
+// 		updatedAt: new Date()
+// 	}
+// ] satisfies NewFramework[];
 
-await db.insert(frameworks).values(frameworksValues);
+// await db.insert(frameworks).values(frameworksValues);

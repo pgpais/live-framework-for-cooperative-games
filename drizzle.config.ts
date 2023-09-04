@@ -6,6 +6,7 @@ export default {
 	schema: './src/lib/db/schema/*',
 	driver: 'pg',
 	dbCredentials: {
-		connectionString: process.env.DATABASE_URL!
+		connectionString:
+			process.env.DEV == 'true' ? process.env.DATABASE_URL_DEV! : process.env.DATABASE_URL!
 	}
 } satisfies Config;
