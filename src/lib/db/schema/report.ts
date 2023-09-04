@@ -3,7 +3,7 @@ import { frameworks, type Framework } from './framework';
 import { games, type Game } from './game';
 import { users } from './user';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
-import { integer, pgTable, serial, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const reports = pgTable('reports', {
 	id: serial('id').primaryKey(),
@@ -13,7 +13,7 @@ export const reports = pgTable('reports', {
 	frameworkId: integer('framework_id')
 		.notNull()
 		.references(() => frameworks.id),
-	authorId: integer('author_id')
+	authorId: varchar('author_id')
 		.notNull()
 		.references(() => users.id),
 	createdAt: timestamp('created_at').notNull().defaultNow(),

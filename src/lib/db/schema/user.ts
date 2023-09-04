@@ -1,18 +1,19 @@
-import type { InferSelectModel, InferInsertModel } from 'drizzle-orm';
-import { pgTable, text, serial, timestamp, varchar, bigint } from 'drizzle-orm/pg-core';
+import { bigint, integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { frameworks } from './framework';
+import { type InferSelectModel, type InferInsertModel, relations } from 'drizzle-orm';
 
-export const users = pgTable('auth_user', {
+export const users = pgTable('users', {
 	id: varchar('id', {
 		length: 15 // change this when using custom user ids
 	}).primaryKey(),
-	fullName: text('full_name').notNull(),
-	email: text('email').unique().notNull(),
-	password: text('password').notNull(),
+	fullName: text('full_name'),
+	email: text('email').unique(),
+	username: text('username').notNull().unique(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
-export const sessions = pgTable('user_session', {
+export const session = pgTable('user_session', {
 	id: varchar('id', {
 		length: 128
 	}).primaryKey(),
@@ -29,7 +30,7 @@ export const sessions = pgTable('user_session', {
 	}).notNull()
 });
 
-export const keys = pgTable('user_key', {
+export const key = pgTable('user_key', {
 	id: varchar('id', {
 		length: 255
 	}).primaryKey(),
@@ -42,6 +43,10 @@ export const keys = pgTable('user_key', {
 		length: 255
 	})
 });
+
+export const userRelations = relations(users, ({ one, many }) => ({
+	frameworks: many(frameworks)
+}));
 
 export type User = InferSelectModel<typeof users>; // return type when queried
 export type NewUser = InferInsertModel<typeof users>; // insert type

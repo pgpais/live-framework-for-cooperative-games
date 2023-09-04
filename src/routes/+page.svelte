@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 	import DetailView from '$lib/components/DetailView.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 </script>
