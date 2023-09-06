@@ -1,5 +1,7 @@
 import { DEV } from '$env/static/private';
-import type { LayoutServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, LayoutServerLoad } from './$types';
+import { auth } from '$lib/server/lucia';
 
 export const load = (async ({ locals }: { locals: App.Locals }) => {
 	const session = await locals.auth.validate();
@@ -7,5 +9,5 @@ export const load = (async ({ locals }: { locals: App.Locals }) => {
 
 	console.log('DEV MODE: ', DEV == 'true');
 
-	return { user };
+	return { session };
 }) satisfies LayoutServerLoad;

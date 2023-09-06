@@ -2,9 +2,9 @@
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { LightSwitch, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
-	import type { User } from 'lucia';
+	import type { Session, User } from 'lucia';
 
-	export let user: User | null;
+	export let session: Session | null;
 </script>
 
 <div class="bg-surface-100-800-token flex justify-between p-5">
@@ -29,9 +29,9 @@
 	</TabGroup>
 	<div class="flex flex-col">
 		<LightSwitch />
-		{#if user}
-			<p>Hello, {user.full_name}</p>
-			<form method="post" action="?/logout" use:enhance>
+		{#if session}
+			<p>Hello, {session.user.full_name}</p>
+			<form method="POST" action="/logout" use:enhance>
 				<input type="submit" class="btn variant-filled-primary" value="Sign out" />
 			</form>
 		{:else}

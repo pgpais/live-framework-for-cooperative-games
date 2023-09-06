@@ -12,7 +12,7 @@
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
-	let user = data.user;
+	$: session = data.session;
 </script>
 
 <svelte:head>
@@ -22,7 +22,7 @@
 <!-- App Shell -->
 <div class="flex h-screen w-screen flex-col">
 	<!-- App Bar -->
-	<Header {user} />
+	<Header {session} />
 	<!-- Page Route Content -->
 	<div class="flex flex-grow overflow-hidden">
 		{#if $navigating}
