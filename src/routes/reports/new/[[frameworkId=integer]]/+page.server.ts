@@ -27,7 +27,7 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }: { request: Request }) => {
+	default: async ({ request, locals }) => {
 		const form = await superValidate(request, reportSchema);
 
 		// Convenient validation check:
@@ -35,8 +35,13 @@ export const actions = {
 			// Again, always return { form } and things will just work.
 			return fail(400, { form });
 		}
+		const session = await locals.auth.validate();
 
-		uploadReport(form.data);
+		if (!session) {
+			throw fail(401, { message: 'Unauthorized' });
+		}
+
+		uploadReport(form.data, session?.user.userId);
 
 		throw redirect(303, '/');
 		//TODO: Instead of redirect, send an alert to the user that the report was submitted with a button that redirects to the report page
@@ -75,7 +80,7 @@ function pushCategoryReportIntoArray(
 	}
 }
 
-const uploadReport = async (report: ReportSchema) => {
+const uploadReport = async (report: ReportSchema, userId: string) => {
 	await db.transaction(async (tx) => {
 		console.log('DB: Inserting report', report);
 
@@ -111,7 +116,7 @@ const uploadReport = async (report: ReportSchema) => {
 
 		const insertedReport = await tx
 			.insert(reports)
-			.values({ authorId: 1, gameId: game.id, frameworkId: report.frameworkId })
+			.values({ authorId: userId, gameId: game.id, frameworkId: report.frameworkId })
 			.returning({ insertedId: reports.id });
 		console.log('DB: Inserted repot', insertedReport);
 		const insertedReportId = insertedReport[0].insertedId;
