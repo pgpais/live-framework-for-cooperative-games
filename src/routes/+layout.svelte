@@ -25,10 +25,6 @@
 	<Header {session} />
 	<!-- Page Route Content -->
 	<div class="flex flex-grow overflow-hidden">
-		{#if $navigating}
-			loading
-		{:else}
-			<slot />
-		{/if}
+		<slot />
 	</div>
 </div>

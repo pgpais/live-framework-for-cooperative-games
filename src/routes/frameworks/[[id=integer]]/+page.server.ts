@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { GetFullFrameworkByAuthor, GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
+import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 
 export const load = (async ({ params }) => {
 	const authorId: number = params.id ? +params.id : 1;
