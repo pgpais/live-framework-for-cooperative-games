@@ -47,7 +47,7 @@
 		<Separator />
 
 		<div class="my-5 flex items-center">
-			<form>
+			<form class="w-full">
 				<input
 					type="text"
 					class="input w-1/4"

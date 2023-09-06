@@ -1,14 +1,18 @@
 <script lang="ts">
 	import type { Category, FullCategory } from '$lib/db/schema';
-	import { detailInfoStore } from '$lib/stores/detailView';
+	import { detailInfoStore, type DetailInfoCategory } from '$lib/stores/detailView';
 
-	export let category: FullCategory;
+	export let category: DetailInfoCategory;
 
 	const changeDetailView = () => {
-		$detailInfoStore = {
+		console.log('updateing detail store');
+
+		detailInfoStore.set({
 			type: 'category',
 			data: category
-		};
+		});
+
+		console.log($detailInfoStore);
 	};
 </script>
 
