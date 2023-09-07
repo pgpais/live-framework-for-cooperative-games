@@ -22,9 +22,11 @@
 <!-- App Shell -->
 <div class="flex h-screen w-screen flex-col">
 	<!-- App Bar -->
-	<Header {session} />
+	<div class="h-1/6">
+		<Header {session} />
+	</div>
 	<!-- Page Route Content -->
-	<div class="flex flex-grow overflow-hidden">
+	<div class="flex h-5/6 flex-grow overflow-hidden">
 		<slot />
 	</div>
 </div>
