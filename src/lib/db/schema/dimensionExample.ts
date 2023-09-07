@@ -5,8 +5,12 @@ import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
 
 export const dimensionExamples = pgTable('dimension_examples', {
 	id: serial('id').primaryKey(),
-	dimensionId: integer('dimension_id').notNull(),
-	reportId: integer('report_id').notNull(),
+	dimensionId: integer('dimension_id')
+		.notNull()
+		.references(() => dimensions.id),
+	reportId: integer('report_id')
+		.notNull()
+		.references(() => reports.id),
 	example: text('example').default('')
 });
 

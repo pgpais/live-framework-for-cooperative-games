@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CategoryDetailButton from '$lib/components/DetailElements/CategoryDetailButton.svelte';
 	import DimensionView from '$lib/components/DimensionView.svelte';
-	import type { Dimension, FullCategory } from '$lib/db/schema';
+	import type { Dimension, DimensionExample, FullCategory } from '$lib/db/schema';
 	import { Trash2 } from 'lucide-svelte';
 	export let category: FullCategory;
 	if (category.subCategories && category.subCategories.length > 0) {
@@ -11,10 +11,15 @@
 	export let editable: boolean = false;
 	export let onCategoryRemove: (category: FullCategory) => void = () => {};
 	export let onDimensionRemove: (dimension: Dimension) => void = () => {};
+	export let dimensionExamples: DimensionExample[] | undefined = undefined;
 
 	$: subCategories = category.subCategories;
 
 	const isOfficial = category.status == 'official';
+
+	function getDimensionExample(dimensionId: number) {
+		return dimensionExamples?.find((de) => de.dimensionId == dimensionId);
+	}
 </script>
 
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
@@ -39,7 +44,12 @@
 {#if category.dimensions && category.dimensions.length > 0}
 	<div class="mb-4 ml-6 mt-2 flex gap-2">
 		{#each category.dimensions as dimension}
-			<DimensionView {dimension} {editable} {onDimensionRemove} />
+			<DimensionView
+				{dimension}
+				{editable}
+				{onDimensionRemove}
+				dimensionExample={getDimensionExample(dimension.id)}
+			/>
 		{/each}
 	</div>
 {/if}
