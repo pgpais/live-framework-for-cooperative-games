@@ -7,7 +7,7 @@
 	export let session: Session | null;
 </script>
 
-<div class="bg-surface-100-800-token flex justify-between p-5">
+<div class="bg-surface-100-800-token flex h-full justify-between p-5">
 	<div>logo</div>
 	<TabGroup>
 		<TabAnchor href="/frameworks" selected={$page.url.pathname === '/frameworks'}>

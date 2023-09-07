@@ -8,10 +8,10 @@
 </script>
 
 <ThreeColumnLayout>
-	<div class="m-6">
+	<div class="h-full">
 		<FrameworkView framework={data.framework} />
 	</div>
-	<div class="m-6" slot="right">
+	<div class="h-full" slot="right">
 		<DetailView />
 	</div>
 </ThreeColumnLayout>
