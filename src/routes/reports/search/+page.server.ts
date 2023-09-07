@@ -32,6 +32,7 @@ export const load = (async ({ url, depends }) => {
 			id: games.id,
 			name: games.name,
 			imgUrl: games.imgUrl,
+			description: games.description,
 			releaseDate: games.releaseDate,
 			reportsCount: sq.reportsCount
 		})
