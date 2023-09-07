@@ -6,7 +6,6 @@
 	import type { PageData } from './$types';
 	import GameDetail from '$lib/components/DetailElements/GameDetail.svelte';
 	import type { Game } from '$lib/db/schema';
-	import Separator from '$lib/components/Separator.svelte';
 
 	export let data: PageData;
 	$: ({ games } = data);

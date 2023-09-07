@@ -9,6 +9,7 @@ import type { Report } from './report';
 export const games = pgTable('games', {
 	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
+	description: text('description'),
 	releaseDate: timestamp('release_date', { mode: 'string' }),
 	imgUrl: text('img_url')
 });

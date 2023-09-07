@@ -13,5 +13,5 @@
 </script>
 
 <button type="button" on:click={changeDetailView}>
-	{dimension.title}
+	<b>{dimension.title}</b>
 </button>

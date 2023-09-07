@@ -22,7 +22,7 @@
 		<TabAnchor href="/frameworks/new" selected={$page.url.pathname === '/frameworks/edit'}>
 			New Framework
 		</TabAnchor>
-		<TabAnchor href="/reports" selected={$page.url.pathname === '/reports'}>
+		<TabAnchor href="/reports/search" selected={$page.url.pathname === '/reports/search'}>
 			Game Analysis
 		</TabAnchor>
 		<!-- <TabAnchor href="/dimensions">Dimensions</TabAnchor> -->

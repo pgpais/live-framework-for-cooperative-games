@@ -56,7 +56,7 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields id, name, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
+		body: `fields id, name, description, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
 	});
 	console.log('response: ' + gamesResponse);
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
