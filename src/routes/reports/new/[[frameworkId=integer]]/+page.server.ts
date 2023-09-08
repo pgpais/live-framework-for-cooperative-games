@@ -1,6 +1,6 @@
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import type { PageServerLoad } from './$types';
-import { superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate } from 'sveltekit-superforms/server';
 import { reportSchema, type ReportSchema, type CategoryReportSchema } from '$lib/schemas/report';
 import { fail, redirect } from '@sveltejs/kit';
 import db from '$lib/db';
@@ -38,10 +38,31 @@ export const actions = {
 		const session = await locals.auth.validate();
 
 		if (!session) {
-			throw fail(401, { message: 'Unauthorized' });
+			return fail(401, { message: 'Unauthorized', form });
 		}
 
-		uploadReport(form.data, session?.user.userId);
+		const report = form.data;
+
+		let hasIncludedDimension = false;
+
+		for (const category of report.categories) {
+			if (category.dimensions) {
+				for (const dimension of category.dimensions) {
+					if (dimension.included) {
+						hasIncludedDimension = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (!hasIncludedDimension) {
+			return message(form, 'No dimensions included', {
+				status: 400
+			});
+		}
+
+		await uploadReport(form.data, session?.user.userId);
 
 		throw redirect(303, '/');
 		//TODO: Instead of redirect, send an alert to the user that the report was submitted with a button that redirects to the report page
