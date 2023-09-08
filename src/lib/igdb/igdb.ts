@@ -29,18 +29,47 @@ export async function searchForGames(name: string) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields name; search "${name}";`
+		body: `fields id, name, summary, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; search "${name}";`
 	});
 	if (gamesResponse.status !== 200) return new Response('Error fetching games', { status: 500 });
 
 	type dataType = {
 		id: number;
 		name: string;
+		summary: string;
+		cover: { image_id: string };
+		genres: { id: number; name: string }[];
+		involved_companies: { company: { id: number; name: string } }[];
+		platforms: { id: number; name: string }[];
+		first_release_date: number;
 	};
 
-	const gamesData: dataType = await gamesResponse.json();
+	const gamesData: dataType[] = await gamesResponse.json();
+	console.log(gamesData);
 
-	return json(gamesData);
+	const games = gamesData.map((game) => ({
+		id: game.id,
+		name: game.name,
+		description: game.summary,
+		imgUrl: game.cover
+			? 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + game.cover.image_id + '.png'
+			: undefined,
+		genres: game.genres?.map((genre: NewGenre) => ({
+			id: genre.id,
+			name: genre.name
+		})),
+		companies: game.involved_companies?.map((involved_company: { company: NewCompany }) => ({
+			id: involved_company.company.id,
+			name: involved_company.company.name
+		})),
+		platforms: game.platforms?.map((platform: NewPlatform) => ({
+			id: platform.id,
+			name: platform.name
+		})),
+		releaseDate: game.first_release_date
+	}));
+
+	return json(games);
 }
 
 export async function getGameInfoForInsertion(id: number) {
@@ -56,7 +85,7 @@ export async function getGameInfoForInsertion(id: number) {
 			'Client-ID': env.TWITCH_CLIENT_ID,
 			Authorization: `Bearer ${accessToken}`
 		},
-		body: `fields id, name, description, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
+		body: `fields id, name, summary, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; where id = ${id};`
 	});
 	console.log('response: ' + gamesResponse);
 	if (gamesResponse.status !== 200) return new Response('Error fetching game', { status: 500 });
@@ -67,10 +96,11 @@ export async function getGameInfoForInsertion(id: number) {
 		id: gamesData[0].id,
 		name: gamesData[0].name,
 		releaseDate: gamesData[0].first_release_date,
-		imgUrl:
-			'https://images.igdb.com/igdb/image/upload/t_cover_big/' +
-			gamesData[0].cover.image_id +
-			'.png',
+		imgUrl: gamesData[0].cover
+			? 'https://images.igdb.com/igdb/image/upload/t_cover_big/' +
+			  gamesData[0].cover.image_id +
+			  '.png'
+			: undefined,
 		genres: gamesData[0].genres.map((genre: NewGenre) => ({
 			id: genre.id,
 			name: genre.name

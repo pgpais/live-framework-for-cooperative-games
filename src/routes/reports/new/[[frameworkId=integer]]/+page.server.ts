@@ -94,10 +94,27 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 
 		await tx.insert(platforms).values(game.platforms).onConflictDoNothing();
 
-		await tx
-			.insert(games)
-			.values({ id: game.id, name: game.name, releaseDate: game.releaseDate, imgUrl: game.imgUrl })
-			.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
+		if (game.imgUrl) {
+			await tx
+				.insert(games)
+				.values({
+					id: game.id,
+					name: game.name,
+					releaseDate: game.releaseDate,
+					imgUrl: game.imgUrl
+				})
+				.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
+		} else {
+			await tx
+				.insert(games)
+				.values({
+					id: game.id,
+					name: game.name,
+					releaseDate: game.releaseDate,
+					imgUrl: game.imgUrl
+				})
+				.onConflictDoNothing();
+		}
 
 		await tx
 			.insert(gamesToGenres)
