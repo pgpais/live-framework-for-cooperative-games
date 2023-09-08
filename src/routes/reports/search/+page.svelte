@@ -79,11 +79,17 @@
 					</header>
 					<hr class="mx-2 my-2 rounded border-t-2" />
 					<section class="flex flex-col gap-2 space-y-4 p-4">
-						<img
-							class="h-auto max-w-full rounded-lg"
-							src={game.imgUrl}
-							alt={'cover of ' + game.name}
-						/>
+						{#if game.imgUrl}
+							<img
+								class="h-auto max-w-full rounded-lg"
+								src={game.imgUrl}
+								alt={'cover of ' + game.name}
+							/>
+						{:else}
+							<div class="variant-outline-warning flex h-64 w-full items-center justify-center">
+								<p class="p">No image available</p>
+							</div>
+						{/if}
 
 						{game.name} has {game.reportsCount ? game.reportsCount : 0} reports
 					</section>
