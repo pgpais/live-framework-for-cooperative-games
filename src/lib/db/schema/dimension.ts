@@ -1,4 +1,8 @@
-import { dimensionExamples, type DimensionExample } from './dimensionExample';
+import {
+	dimensionExamples,
+	type DimensionExample,
+	type DimensionExampleDetail
+} from './dimensionExample';
 import { categories, type Category } from './category';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { pgTable, text, integer, serial, pgEnum } from 'drizzle-orm/pg-core';
@@ -36,7 +40,7 @@ export type PlainDimension = {
 };
 
 export type DimensionDetail = Dimension & {
-	examples: DimensionExample[];
+	examples: DimensionExampleDetail[];
 	category: Category & {
 		superCategory: Category;
 	};

@@ -8,14 +8,23 @@ export const GET: RequestHandler = async ({ params }) => {
 	console.log('fetching dimension with ID', dimensionId);
 
 	const dimensions = await db.query.dimensions.findFirst({
+		where: (dimensions, { eq }) => eq(dimensions.id, dimensionId),
 		with: {
 			category: {
 				with: {
 					superCategory: true
 				}
+			},
+			examples: {
+				with: {
+					report: {
+						with: {
+							game: true
+						}
+					}
+				}
 			}
-		},
-		where: (dimensions, { eq }) => eq(dimensions.id, dimensionId)
+		}
 	});
 
 	return json(dimensions);

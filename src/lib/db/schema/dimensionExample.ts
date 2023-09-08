@@ -29,6 +29,15 @@ export type NewDimensionExample = InferInsertModel<typeof dimensionExamples>;
 
 export type DimensionExample = InferSelectModel<typeof dimensionExamples>;
 
+export type DimensionExampleDetail = DimensionExample & {
+	report: Report & {
+		game: {
+			name: string;
+			imgUrl: string;
+		};
+	};
+};
+
 export type PlainDimensionExample = {
 	included: boolean;
 	example: string;
