@@ -1,17 +1,11 @@
 {#if $$slots.left}
-	<div
-		class="bg-surface-50-900-token border-surface-700-200-token flex-shrink basis-1/4 overflow-auto border-t"
-	>
+	<div class="bg-surface-50-900-token flex-shrink basis-1/4 overflow-auto">
 		<slot name="left" />
 	</div>
 {/if}
-<div
-	class="bg-surface-100-800-token border-surface-700-200-token flex-grow basis-2/3 overflow-auto border-l-2 border-r-2 border-t"
->
+<div class="flex-grow basis-2/3 overflow-auto bg-surface-50 dark:bg-surface-700">
 	<slot />
 </div>
-<div
-	class="bg-surface-50-900-token border-surface-700-200-token flex-shrink basis-1/3 overflow-auto border-t"
->
+<div class="flex-shrink basis-1/3 overflow-auto bg-surface-400 dark:bg-surface-900">
 	<slot name="right" />
 </div>

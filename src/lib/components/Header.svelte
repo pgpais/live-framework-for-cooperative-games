@@ -9,47 +9,47 @@
 	export let session: Session | null;
 </script>
 
-<div class="bg-surface-800-100-token flex h-full justify-between p-5">
+<div class="flex h-full justify-between bg-surface-200 p-5">
 	<img src={logo} class="h-full" alt="Website logo" />
 	<div class="flex flex-grow flex-col-reverse flex-wrap">
 		<TabGroup
 			hover="hover:variant-filled-secondary"
-			active="variant-soft-surface"
+			active="text-black bg-surface-300"
 			justify="justify-evenly"
 			regionList="flex-wrap"
 		>
 			<TabAnchor
 				href="/frameworks"
 				selected={$page.url.pathname.endsWith('/frameworks')}
-				class="text-surface-100-800-token"
+				class="text-surface-800"
 			>
 				Consult Framework
 			</TabAnchor>
 			<TabAnchor
 				href="/frameworks/search"
 				selected={$page.url.pathname.includes('/frameworks/search')}
-				class="text-surface-100-800-token"
+				class="text-surface-800"
 			>
 				Community Frameworks
 			</TabAnchor>
 			<TabAnchor
 				href="/reports/new"
 				selected={$page.url.pathname.includes('/reports/new')}
-				class="text-surface-100-800-token"
+				class="text-surface-800"
 			>
 				New Report
 			</TabAnchor>
 			<TabAnchor
 				href="/frameworks/new"
 				selected={$page.url.pathname.includes('/frameworks/edit')}
-				class="text-surface-100-800-token"
+				class="text-surface-800"
 			>
 				New Framework
 			</TabAnchor>
 			<TabAnchor
 				href="/reports/search"
 				selected={$page.url.pathname.includes('/reports/search')}
-				class="text-surface-100-800-token"
+				class="text-surface-800"
 			>
 				Game Analysis
 			</TabAnchor>
