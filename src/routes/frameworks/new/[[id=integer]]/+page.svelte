@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import FrameworkView from '$lib/components/FrameworkView.svelte';
-	import { TabGroup, Tab, Stepper, Step } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab, Stepper, Step, getToastStore } from '@skeletonlabs/skeleton';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
@@ -17,6 +17,8 @@
 	import DetailView from '$lib/components/DetailView.svelte';
 	import { Loader } from 'lucide-svelte';
 	import type { StepperState } from '@skeletonlabs/skeleton/dist/components/Stepper/types';
+
+	const toastStore = getToastStore();
 
 	export let data: PageData;
 
@@ -311,10 +313,12 @@
 		const responsejson = await response.json();
 		console.log(responsejson);
 		if (response.status === 201) {
+			toastStore.trigger({message : 'Framework submitted successfully'})
 			window.location.href = '/frameworks/' + responsejson.frameworkId;
 		} else {
 			submittingFramework = false;
 			console.log('Error submitting framework: ', responsejson.message ?? 'Unknown error');
+			toastStore.trigger({message : 'Error submitting framework: ' + responsejson.message ?? 'Unknown error'})
 		}
 	}
 
