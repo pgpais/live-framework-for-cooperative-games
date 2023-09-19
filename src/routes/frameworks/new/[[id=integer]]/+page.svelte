@@ -90,6 +90,8 @@
 
 	let categories = data.categories;
 	let framework = data.framework;
+	framework.title = '';
+	framework.description = '';
 
 	let newCategoriesCount = 0;
 	let newDimensionsCount = 0;
@@ -264,7 +266,8 @@
 		addingFramework = true;
 		const newFramework: NewFramework = {
 			title: framework.title,
-			authorId: framework.authorId
+			authorId: framework.authorId,
+			description: framework.description
 		};
 		console.log(JSON.stringify(newFramework));
 
@@ -325,7 +328,22 @@
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment>
 	<Stepper on:step={OnStep}>
-		<Step>Purpose, wtv</Step>
+		<Step>
+			<header slot="header">Fill some information about your framework?</header>
+			<input
+				class="input"
+				type="text"
+				bind:value={framework.title}
+				placeholder="Insert the framework name"
+			/>
+			<input
+				class="input"
+				type="text"
+				bind:value={framework.description}
+				placeholder="Insert the framework description"
+			/>
+			<!-- TODO: Add tooltip with a help for description -->
+		</Step>
 		<Step>
 			<div class="m-6">
 				<FrameworkView
