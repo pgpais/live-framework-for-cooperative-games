@@ -98,7 +98,7 @@
 
 	let tabSet: number = 0;
 	let stepperStep: number = 0;
-	let addingFramework = false;
+	let submittingFramework = false;
 
 	//Traverse the tree of categories in the framework to find the category with the given id
 	function findCategoryByIdInFramework(
@@ -263,7 +263,7 @@
 
 	async function addFramework() {
 		console.log('Add Framework');
-		addingFramework = true;
+		submittingFramework = true;
 		const newFramework: NewFramework = {
 			title: framework.title,
 			authorId: framework.authorId,
@@ -308,11 +308,13 @@
 				dimensions: newDimensions
 			})
 		});
-		addingFramework = false;
 		const responsejson = await response.json();
 		console.log(responsejson);
 		if (response.status === 201) {
 			window.location.href = '/frameworks/' + responsejson.frameworkId;
+		} else {
+			submittingFramework = false;
+			console.log('Error submitting framework: ', responsejson.message ?? 'Unknown error');
 		}
 	}
 
@@ -327,7 +329,7 @@
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment>
-	<Stepper on:step={OnStep}>
+	<Stepper on:step={OnStep} on:complete={addFramework} buttonCompleteLabel={'Submit'}>
 		<Step>
 			<header slot="header">Fill some information about your framework</header>
 			<input
@@ -344,7 +346,7 @@
 			/>
 			<!-- TODO: Add tooltip with a help for description -->
 		</Step>
-		<Step>
+		<Step locked={submittingFramework}>
 			<div class="m-6">
 				<FrameworkView
 					{framework}
@@ -353,14 +355,14 @@
 					onDimensionRemove={removeDimension}
 				/>
 				<div class="flex">
-					<button
+					<!-- <button
 						class="btn variant-filled-primary"
 						on:click={addFramework}
 						disabled={addingFramework}
 					>
 						Save Framework
-					</button>
-					{#if addingFramework}
+					</button> -->
+					{#if submittingFramework}
 						<Loader class="animate-spin" />
 					{/if}
 				</div>
