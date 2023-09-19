@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Category, FullCategory } from '$lib/db/schema';
-	import { detailInfoStore, type DetailInfoCategory } from '$lib/stores/detailView';
+	import { detailInfoStore, type DetailInfoData } from '$lib/stores/detailView';
 
-	export let category: DetailInfoCategory;
+	export let category: DetailInfoData;
 
 	const changeDetailView = () => {
 		console.log('updateing detail store');

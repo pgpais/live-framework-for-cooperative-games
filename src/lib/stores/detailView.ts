@@ -4,10 +4,14 @@ import { writable, type Writable } from 'svelte/store';
 
 export const detailInfoStore: Writable<DetailInfo> = writable();
 
-export type DetailInfo =
-	| { type: 'dimension'; data: DetailInfoDimension }
-	| { type: 'category'; data: DetailInfoCategory };
+export type DetailInfo = {
+	type: 'dimension' | 'category';
+	data: DetailInfoData;
+};
 
-export type DetailInfoDimension = { title: string; id: number };
-
-export type DetailInfoCategory = { title: string; id: number };
+export type DetailInfoData = {
+	title: string;
+	id: number;
+	description: string;
+	isOfficial: boolean;
+};

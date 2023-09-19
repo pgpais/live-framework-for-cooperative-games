@@ -7,7 +7,12 @@
 	const changeDetailView = () => {
 		$detailInfoStore = {
 			type: 'dimension',
-			data: dimension
+			data: {
+				id: dimension.id,
+				title: dimension.title,
+				description: dimension.description,
+				isOfficial: dimension.status == 'official'
+			}
 		};
 	};
 </script>

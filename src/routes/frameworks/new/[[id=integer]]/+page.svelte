@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import FrameworkView from '$lib/components/FrameworkView.svelte';
-	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab, Stepper, Step } from '@skeletonlabs/skeleton';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
@@ -16,6 +16,7 @@
 	import { fail } from '@sveltejs/kit';
 	import DetailView from '$lib/components/DetailView.svelte';
 	import { Loader } from 'lucide-svelte';
+	import type { StepperState } from '@skeletonlabs/skeleton/dist/components/Stepper/types';
 
 	export let data: PageData;
 
@@ -94,6 +95,7 @@
 	let newDimensionsCount = 0;
 
 	let tabSet: number = 0;
+	let stepperStep: number = 0;
 	let addingFramework = false;
 
 	//Traverse the tree of categories in the framework to find the category with the given id
@@ -310,6 +312,11 @@
 			window.location.href = '/frameworks/' + responsejson.frameworkId;
 		}
 	}
+
+	function OnStep(e: CustomEvent<{ step: number; state: StepperState }>) {
+		console.log('event:step', e);
+		stepperStep = e.detail.state.current;
+	}
 </script>
 
 <ThreeColumnLayout>
@@ -317,27 +324,38 @@
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment>
-	<div class="m-6">
-		<FrameworkView
-			{framework}
-			editable={true}
-			onCategoryRemove={removeCategory}
-			onDimensionRemove={removeDimension}
-		/>
-		<div class="flex">
-			<button class="btn variant-filled-primary" on:click={addFramework} disabled={addingFramework}>
-				Save Framework
-			</button>
-			{#if addingFramework}
-				<Loader class="animate-spin" />
-			{/if}
-		</div>
-	</div>
+	<Stepper on:step={OnStep}>
+		<Step>Purpose, wtv</Step>
+		<Step>
+			<div class="m-6">
+				<FrameworkView
+					{framework}
+					editable={true}
+					onCategoryRemove={removeCategory}
+					onDimensionRemove={removeDimension}
+				/>
+				<div class="flex">
+					<button
+						class="btn variant-filled-primary"
+						on:click={addFramework}
+						disabled={addingFramework}
+					>
+						Save Framework
+					</button>
+					{#if addingFramework}
+						<Loader class="animate-spin" />
+					{/if}
+				</div>
+			</div>
+		</Step>
+	</Stepper>
 	<div slot="right">
 		<TabGroup>
 			<Tab bind:group={tabSet} name="detail" value={0}>Detail</Tab>
-			<Tab bind:group={tabSet} name="addCategory" value={1}>New Category</Tab>
-			<Tab bind:group={tabSet} name="addDimension" value={2}>New Dimension</Tab>
+			{#if stepperStep == 1}
+				<Tab bind:group={tabSet} name="addCategory" value={1}>New Category</Tab>
+				<Tab bind:group={tabSet} name="addDimension" value={2}>New Dimension</Tab>
+			{/if}
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
 					<div class="mx-4">
