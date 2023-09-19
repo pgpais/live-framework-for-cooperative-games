@@ -23,7 +23,7 @@
 		<p>{category.description}</p>
 		<Separator verticalMargin={5} width={4} />
 		{#if category.subCategories && category.subCategories.length > 0}
-			<h2 class="h2">Categories</h2>
+			<h2 class="h2">Subcategories</h2>
 			<ul class="list-inside list-disc">
 				{#each category.subCategories as subCategory}
 					<li><CategoryDetailButton category={subCategory} /></li>
@@ -34,7 +34,7 @@
 			<Separator verticalMargin={2} width={2} />
 		{/if}
 		{#if category.dimensions && category.dimensions.length > 0}
-			<h2 class="h2">Dimensions</h2>
+			<h2 class="h2">Values</h2>
 			<ul class="list-inside list-disc">
 				{#each category.dimensions as dimension}
 					<li><DimensionDetailButton {dimension} /></li>

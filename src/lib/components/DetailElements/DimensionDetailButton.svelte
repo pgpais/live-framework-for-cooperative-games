@@ -12,6 +12,6 @@
 	};
 </script>
 
-<button type="button" on:click={changeDetailView}>
+<button type="button" on:click={changeDetailView} class="p-2 hover:bg-primary-500/20">
 	<b>{dimension.title}</b>
 </button>

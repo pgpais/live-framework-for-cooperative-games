@@ -16,6 +16,6 @@
 	};
 </script>
 
-<button type="button" on:click={changeDetailView}>
+<button type="button" on:click={changeDetailView} class="rounded-xl p-1 hover:bg-primary-500/20">
 	{category.title}
 </button>

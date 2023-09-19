@@ -14,16 +14,17 @@
 <!-- {#if isOfficial} -->
 <div
 	class={isOfficial
-		? 'variant-ringed-primary flex justify-between px-2'
-		: 'variant-ringed-warning flex justify-between px-2'}
-	class:editable
-	class:non-editable={!editable}
+		? 'variant-ringed-primary flex w-fit justify-between'
+		: 'variant-ringed-warning flex w-fit justify-between'}
 >
 	<!-- {dimension.title} -->
 	<DimensionDetailButton {dimension} />
 	{#if dimensionExample}<span>&nbsp;- {dimensionExample.example}</span> {/if}
 	{#if editable}
-		<button class="btn-icon btn-icon-sm" on:click={() => onDimensionRemove(dimension)}>
+		<button
+			class="btn-icon btn-icon-sm rounded-none p-2 hover:bg-primary-500/20"
+			on:click={() => onDimensionRemove(dimension)}
+		>
 			<Trash2 size={16} />
 		</button>
 	{/if}
@@ -34,6 +35,6 @@
 		@apply max-w-xs  rounded-xl;
 	}
 	.non-editable {
-		@apply w-fit p-2;
+		@apply w-fit;
 	}
 </style>
