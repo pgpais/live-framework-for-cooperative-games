@@ -10,7 +10,9 @@
 </script>
 
 <div class="flex h-full justify-between bg-surface-200 p-5">
-	<img src={logo} class="h-full" alt="Website logo" />
+	<a href="/" class="flex h-full flex-col-reverse"
+		><img src={logo} class="object-contain align-bottom" alt="Website logo" /></a
+	>
 	<div class="flex flex-grow flex-col-reverse flex-wrap">
 		<TabGroup
 			hover="hover:variant-filled-secondary"
