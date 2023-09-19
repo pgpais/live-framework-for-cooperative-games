@@ -329,7 +329,7 @@
 	</svelte:fragment>
 	<Stepper on:step={OnStep}>
 		<Step>
-			<header slot="header">Fill some information about your framework?</header>
+			<header slot="header">Fill some information about your framework</header>
 			<input
 				class="input"
 				type="text"
