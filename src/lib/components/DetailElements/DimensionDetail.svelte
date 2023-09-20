@@ -47,9 +47,12 @@
 		</div>
 		<div class="variant-glass-surface sticky bottom-0 left-0 right-0 flex h-16 justify-center">
 			<a
-				class="btn variant-filled-primary h-10 self-center rounded-lg"
-				href={`/dimensions/${dimension.id}`}>See more</a
+				class="variant-filled-primary btn h-10 self-center rounded-lg"
+				href={`/dimensions/${dimension.id}`}
+				target="_blank"
 			>
+				See more
+			</a>
 		</div>
 	{/await}
 {:else}
