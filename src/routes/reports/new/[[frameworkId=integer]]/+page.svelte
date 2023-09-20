@@ -174,18 +174,29 @@
 						</div>
 					</div>
 				</Step>
-				<Step locked={$delayed}>
+				<Step>
 					<!-- <svelte:fragment slot="header">(header)</svelte:fragment> -->
 					<!-- <TreeView> -->
 					{#if $message}
 						<p class="text-error-900">{$message}</p>
 					{/if}
-					{#if $delayed}
-						<Loader2 class="mx-5 animate-spin" />
-					{/if}
 					<ReportForm bind:value={$form} />
 					<!-- </TreeView> -->
 					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
+				</Step>
+				<Step locked={$delayed}>
+					<p>
+						By making this report public, it will appear in searches and in related pages. If you
+						don't want to make this report public, it will only be accessible through its URL. You
+						will be able to print its page to a PDF file, for offline use.
+					</p>
+					<label class="label">
+						Do you want to make this report public?
+						<input type="checkbox" bind:checked={$form.public} />
+					</label>
+					{#if $delayed}
+						<Loader2 class="mx-5 animate-spin" />
+					{/if}
 				</Step>
 			</Stepper>
 		</form>

@@ -157,7 +157,12 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 
 		const insertedReport = await tx
 			.insert(reports)
-			.values({ authorId: userId, gameId: game.id, frameworkId: report.frameworkId })
+			.values({
+				authorId: userId,
+				gameId: game.id,
+				frameworkId: report.frameworkId,
+				public: report.public
+			})
 			.returning({ insertedId: reports.id });
 		console.log('DB: Inserted repot', insertedReport);
 		const insertedReportId = insertedReport[0].insertedId;

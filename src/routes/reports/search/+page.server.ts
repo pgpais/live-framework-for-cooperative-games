@@ -1,6 +1,6 @@
 import db from '$lib/db';
 import { games, gamesToGenres, gamesToCompanies, gamesToPlatforms, reports } from '$lib/db/schema';
-import { eq, sql, and } from 'drizzle-orm';
+import { eq, sql, and, gt } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ url, depends }) => {
@@ -23,7 +23,7 @@ export const load = (async ({ url, depends }) => {
 		.select({ gameId: reports.gameId, reportsCount: sql`count(*)`.as('reportsCount') })
 		.from(games)
 		.leftJoin(reports, eq(reports.gameId, games.id))
-		.where(eq(reports.gameId, games.id))
+		.where(and(eq(reports.gameId, games.id), eq(reports.public, true)))
 		.groupBy(reports.gameId)
 		.as('sq');
 
@@ -43,6 +43,7 @@ export const load = (async ({ url, depends }) => {
 		.innerJoin(gamesToPlatforms, eq(games.id, gamesToPlatforms.gameId))
 		.where(
 			and(
+				gt(sq.reportsCount, 0),
 				companyFilter != 0 ? eq(gamesToCompanies.companyId, companyFilter) : sql`true`,
 				genreFilter != 0 ? eq(gamesToGenres.genreId, genreFilter) : sql`true`,
 				platformFilter != 0 ? eq(gamesToPlatforms.platformId, platformFilter) : sql`true`

@@ -73,7 +73,7 @@
 		</p>
 		<div class="m-5 grid grid-cols-3 gap-5">
 			{#each games as game}
-				<div class="card card-hover variant-filled-secondary grid content-around">
+				<div class="card variant-filled-secondary card-hover grid content-around">
 					<header class="card-header">
 						<h2 class="card-title">{game.name}</h2>
 					</header>
@@ -105,5 +105,9 @@
 		</div>
 	</div>
 
-	<GameDetail game={selectedGame} slot="right" />
+	<svelte:fragment slot="right">
+		{#if selectedGame}
+			<GameDetail game={selectedGame} />
+		{/if}
+	</svelte:fragment>
 </ThreeColumnLayout>
