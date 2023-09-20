@@ -9,14 +9,20 @@
 	import ReportForm from '$lib/components/ReportForm.svelte';
 	import { Loader2, Search } from 'lucide-svelte';
 	import type { NewGame } from '$lib/db/schema/game';
-	import { Step, Stepper } from '@skeletonlabs/skeleton';
+	import { Step, Stepper, getToastStore } from '@skeletonlabs/skeleton';
 	import { categories, key } from '$lib/db/schema';
 
 	export let data: PageData;
 	const framework = data.framework;
 
-	const { form, message, enhance } = superForm(data.form, {
-		dataType: 'json'
+	const toastStore = getToastStore();
+
+	const { form, message, enhance, delayed } = superForm(data.form, {
+		dataType: 'json',
+		onResult({ result }) {
+			console.log(result);
+			toastStore.trigger({ message: 'Report submitted successfully' });
+		}
 	});
 
 	let isSearching: Boolean | undefined = undefined;
@@ -93,7 +99,7 @@
 								/>
 								<button
 									type="button"
-									class="btn variant-soft-primary ml-2"
+									class="variant-soft-primary btn ml-2"
 									on:click={() => getGame(gameNameQuery)}
 								>
 									<Search />
@@ -168,11 +174,14 @@
 						</div>
 					</div>
 				</Step>
-				<Step>
+				<Step locked={$delayed}>
 					<!-- <svelte:fragment slot="header">(header)</svelte:fragment> -->
 					<!-- <TreeView> -->
 					{#if $message}
 						<p class="text-error-900">{$message}</p>
+					{/if}
+					{#if $delayed}
+						<Loader2 class="mx-5 animate-spin" />
 					{/if}
 					<ReportForm bind:value={$form} />
 					<!-- </TreeView> -->

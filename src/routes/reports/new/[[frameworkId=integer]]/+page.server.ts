@@ -62,9 +62,9 @@ export const actions = {
 			});
 		}
 
-		await uploadReport(form.data, session?.user.userId);
+		const reportId = await uploadReport(form.data, session?.user.userId);
 
-		throw redirect(303, '/');
+		throw redirect(303, '/reports/' + reportId);
 		//TODO: Instead of redirect, send an alert to the user that the report was submitted with a button that redirects to the report page
 	}
 };
@@ -102,6 +102,7 @@ function pushCategoryReportIntoArray(
 }
 
 const uploadReport = async (report: ReportSchema, userId: string) => {
+	let reportId = -1;
 	await db.transaction(async (tx) => {
 		console.log('DB: Inserting report', report);
 
@@ -168,6 +169,9 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 		await tx.insert(dimensionExamples).values(newDimensionExamples);
 		console.log('DB: Inserted dimensions');
 
+		reportId = insertedReportId;
 		console.log('DB: Finished report Insertion');
 	});
+
+	return reportId;
 };
