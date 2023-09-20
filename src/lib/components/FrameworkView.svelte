@@ -4,12 +4,17 @@
 
 	export let framework: FullFramework;
 	export let editable: boolean = false;
+	export let showTitle: boolean = true;
 	export let onCategoryRemove: (category: FullCategory) => void = () => {};
 	export let onDimensionRemove: (dimension: Dimension) => void = () => {};
 	export let dimensionExamples: DimensionExample[] | undefined = undefined;
 </script>
 
-<h2 class="h2">Framework "{framework.title}" created by {framework.author.fullName}</h2>
+{#if showTitle}
+	<h2 class="h2">
+		Framework "{framework.title}" created by {framework.author.fullName}
+	</h2>
+{/if}
 <!-- <TreeView padding="py-2 px-1" indent="ml-2"> -->
 <div class=" m-4 grid gap-4">
 	{#each framework.categories as category}

@@ -10,7 +10,7 @@
 
 <ThreeColumnLayout>
 	<div class="m-6">
-		<FrameworkView framework={data.framework} />
+		<FrameworkView framework={data.framework} showTitle={false} />
 	</div>
 	<div class="m-6" slot="right">
 		<DetailView />
