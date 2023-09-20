@@ -123,7 +123,8 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 					id: game.id,
 					name: game.name,
 					releaseDate: game.releaseDate,
-					imgUrl: game.imgUrl
+					imgUrl: game.imgUrl,
+					description: game.description
 				})
 				.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
 		} else {
@@ -133,7 +134,8 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 					id: game.id,
 					name: game.name,
 					releaseDate: game.releaseDate,
-					imgUrl: game.imgUrl
+					imgUrl: game.imgUrl,
+					description: game.description
 				})
 				.onConflictDoNothing();
 		}

@@ -95,6 +95,7 @@ export async function getGameInfoForInsertion(id: number) {
 	const returnData: FullGame = {
 		id: gamesData[0].id,
 		name: gamesData[0].name,
+		description: gamesData[0].summary,
 		releaseDate: gamesData[0].first_release_date,
 		imgUrl: gamesData[0].cover
 			? 'https://images.igdb.com/igdb/image/upload/t_cover_big/' +
