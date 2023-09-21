@@ -29,7 +29,7 @@ export const dimensionsRelations = relations(dimensions, ({ one, many }) => ({
 		fields: [dimensions.categoryId],
 		references: [categories.id]
 	}),
-	examples: many(dimensionExamples)
+	dimensionExamples: many(dimensionExamples)
 }));
 
 export type NewDimension = InferInsertModel<typeof dimensions>;

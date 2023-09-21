@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ params }) => {
 					superCategory: true
 				}
 			},
-			examples: {
+			dimensionExamples: {
 				with: {
 					report: {
 						with: {

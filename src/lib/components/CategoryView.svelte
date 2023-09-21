@@ -18,12 +18,14 @@
 	const isOfficial = category.status == 'official';
 
 	function getDimensionExample(dimensionId: number) {
-		return dimensionExamples?.find((de) => de.dimensionId == dimensionId);
+		const example = dimensionExamples?.find((de) => de.dimensionId == dimensionId);
+		console.log('dimensionId', dimensionId, 'examples', dimensionExamples, 'example', example);
+		return example;
 	}
 </script>
 
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
-<span class={isOfficial ? 'h3 text-secondary-500-400-token' : 'h3 text-warning-500-400-token'}
+<span class={isOfficial ? 'text-secondary-500-400-token h3' : 'text-warning-500-400-token h3'}
 	><CategoryDetailButton {category} /></span
 >
 {#if editable}
@@ -58,7 +60,13 @@
 	{#if subCategories && subCategories.length > 0}
 		{#each subCategories as subCategory}
 			<li class="ml-4 flex-auto">
-				<svelte:self category={subCategory} {editable} {onCategoryRemove} {onDimensionRemove} />
+				<svelte:self
+					category={subCategory}
+					{editable}
+					{onCategoryRemove}
+					{onDimensionRemove}
+					{dimensionExamples}
+				/>
 			</li>
 		{/each}
 	{/if}

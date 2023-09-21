@@ -2,6 +2,7 @@ import db from '$lib/db';
 import { reportSchema } from '$lib/schemas/report';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import type { DimensionExample, Framework, Game } from '$lib/db/schema';
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const gameParam = url.searchParams.get('game');
@@ -27,4 +28,18 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const reports = gamesWithReports?.reports;
 
 	return json(reports);
+};
+
+export const POST: RequestHandler = async ({ params, request, url }) => {
+	const {
+		dimensionExamples,
+		game,
+		framework
+	}: {
+		dimensionExamples: DimensionExample[];
+		game: Game;
+		framework: Framework;
+	} = await request.json();
+
+	return new Response('Not implemented', { status: 501 });
 };

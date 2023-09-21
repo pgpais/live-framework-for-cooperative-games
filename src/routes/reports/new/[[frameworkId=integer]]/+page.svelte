@@ -2,7 +2,6 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import type { PageData } from './$types';
-	import Separator from '$lib/components/Separator.svelte';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 
 	import DetailView from '$lib/components/DetailView.svelte';
@@ -10,10 +9,9 @@
 	import { Loader2, Search } from 'lucide-svelte';
 	import type { NewGame } from '$lib/db/schema/game';
 	import { Step, Stepper, getToastStore } from '@skeletonlabs/skeleton';
-	import { categories, key } from '$lib/db/schema';
+	import type { Framework, FullFramework, User } from '$lib/db/schema';
 
 	export let data: PageData;
-	const framework = data.framework;
 
 	const toastStore = getToastStore();
 
@@ -21,11 +19,23 @@
 		dataType: 'json',
 		onResult({ result }) {
 			console.log(result);
-			toastStore.trigger({ message: 'Report submitted successfully' });
+			if (result.status === 400) {
+				toastStore.trigger({ message: 'There was an error submitting your report' });
+			} else if (result.status === 200) {
+				toastStore.trigger({ message: 'Report submitted successfully' });
+			}
 		}
 	});
 
 	let isSearching: Boolean | undefined = undefined;
+
+	async function getFrameworks() {
+		const res = await fetch(`/api/frameworks`);
+		const data: (Framework & { author: User })[] = await res.json();
+		return data;
+	}
+
+	const frameworksRequest = getFrameworks();
 
 	async function getGame(name: string) {
 		isSearching = true;
@@ -52,6 +62,9 @@
 		| undefined = undefined;
 	let selectedGameId: number;
 
+	let selectedFrameworkId: number;
+	let framework: FullFramework | undefined = undefined;
+
 	const isDimensionReported = () => {
 		for (let category of $form.categories) {
 			if (category.dimensions === undefined) {
@@ -65,6 +78,32 @@
 		}
 		return false;
 	};
+
+	async function fetchFramework() {
+		framework = undefined;
+
+		const response = await fetch(`/api/frameworks/full/${selectedFrameworkId}`);
+		const data: FullFramework = await response.json();
+
+		framework = data;
+
+		$form.categories = [];
+		for (const category of framework.categories) {
+			const i = $form.categories.push(category) - 1;
+			const dimensions = $form.categories[i].dimensions;
+			if (dimensions === undefined) {
+				console.log('no dimensions for category', $form.categories[i].title);
+				continue;
+			} else {
+				for (const dimension of dimensions) {
+					dimension.included = false;
+				}
+				$form.categories[i].dimensions = dimensions;
+			}
+		}
+
+		$form.frameworkId = framework.id;
+	}
 </script>
 
 <ThreeColumnLayout>
@@ -72,14 +111,35 @@
 		<SuperDebug data={$form} />
 	</div>
 	<div class="m-5">
-		<h2 class="h2 mb-5">
-			Report for <i>{$form.game.name ? $form.game.name : 'an unselected game'}</i> based on
-			Framework
-			<i>{framework.title}</i>
-		</h2>
 		<form method="POST" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
 			<Stepper class="card variant-ghost-surface p-5" buttonCompleteType="submit">
+				<Step locked={selectedFrameworkId <= 0 || !framework}>
+					<svelte:fragment slot="header">Which framework will base your report on?</svelte:fragment>
+					{#await frameworksRequest}
+						<Loader2 class="mx-5 animate-spin" />
+					{:then frameworks}
+						<label>
+							<span>Select a Framework:</span>
+							<select
+								class="select"
+								placeholder="Select a framework"
+								bind:value={selectedFrameworkId}
+								on:change={fetchFramework}
+							>
+								<option value={0}>Select a framework</option>
+								{#each frameworks as framework}
+									<option value={framework.id}>
+										{framework.title} - {framework.author.username}
+									</option>
+								{/each}
+							</select>
+						</label>
+						{#if selectedFrameworkId > 0 && !framework}
+							<Loader2 class="mx-5 animate-spin" />
+						{/if}
+					{/await}
+				</Step>
 				<Step locked={selectedGame == undefined}>
 					<svelte:fragment slot="header">What game are you reporting on?</svelte:fragment>
 					<div class="my-5 flex items-center">
@@ -174,17 +234,8 @@
 						</div>
 					</div>
 				</Step>
+
 				<Step>
-					<!-- <svelte:fragment slot="header">(header)</svelte:fragment> -->
-					<!-- <TreeView> -->
-					{#if $message}
-						<p class="text-error-900">{$message}</p>
-					{/if}
-					<ReportForm bind:value={$form} />
-					<!-- </TreeView> -->
-					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
-				</Step>
-				<Step locked={$delayed}>
 					<p>
 						By making this report public, it will appear in searches and in related pages. If you
 						don't want to make this report public, it will only be accessible through its URL. You
@@ -194,6 +245,22 @@
 						Do you want to make this report public?
 						<input type="checkbox" bind:checked={$form.public} />
 					</label>
+				</Step>
+				<Step locked={$delayed}>
+					<h2 class="h2 mb-5">
+						Report for <i>{$form.game.name ? $form.game.name : 'an unselected game'}</i> based on
+						Framework
+						<i>{framework?.title}</i>
+					</h2>
+
+					<!-- <svelte:fragment slot="header">(header)</svelte:fragment> -->
+					<!-- <TreeView> -->
+					{#if $message}
+						<p class="text-error-900">{$message}</p>
+					{/if}
+					<ReportForm bind:value={$form} />
+					<!-- </TreeView> -->
+					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
 					{#if $delayed}
 						<Loader2 class="mx-5 animate-spin" />
 					{/if}

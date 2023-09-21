@@ -13,7 +13,7 @@ export const load = (async ({ params }) => {
 					superCategory: true
 				}
 			},
-			examples: {
+			dimensionExamples: {
 				with: {
 					report: {
 						with: {

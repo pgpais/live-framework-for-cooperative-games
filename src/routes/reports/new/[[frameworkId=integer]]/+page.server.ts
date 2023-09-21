@@ -19,11 +19,8 @@ import { genres } from '$lib/db/schema/genre';
 import { platforms } from '$lib/db/schema/platform';
 
 export const load = (async ({ params }) => {
-	const frameworkId = params.frameworkId ? +params.frameworkId : 1;
-	const framework = await GetFullFrameworkById(frameworkId);
-
-	const form = await superValidate(framework, reportSchema);
-	return { framework, form };
+	const form = await superValidate(reportSchema);
+	return { form };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -43,20 +40,14 @@ export const actions = {
 
 		const report = form.data;
 
-		let hasIncludedDimension = false;
-
+		let categoryValidated = false;
+		console.log('report.categories', report.categories);
 		for (const category of report.categories) {
-			if (category.dimensions) {
-				for (const dimension of category.dimensions) {
-					if (dimension.included) {
-						hasIncludedDimension = true;
-						break;
-					}
-				}
-			}
+			categoryValidated = validateCategory(category);
+			if (categoryValidated) break;
 		}
 
-		if (!hasIncludedDimension) {
+		if (!categoryValidated) {
 			return message(form, 'No dimensions included', {
 				status: 400
 			});
@@ -71,6 +62,30 @@ export const actions = {
 
 function getFullGameInfo(gameId: number) {
 	return getGameInfoForInsertion(gameId);
+}
+
+function validateCategory(category: CategoryReportSchema): boolean {
+	let categoryValidated = false;
+	if (category.dimensions) {
+		console.log('category.dimensions', category.dimensions);
+		for (const dimension of category.dimensions) {
+			if (dimension.included) {
+				categoryValidated = true;
+				break;
+			}
+		}
+	}
+
+	if (!categoryValidated) {
+		if (category.subCategories && category.subCategories.length > 0) {
+			for (const subCategory of category.subCategories) {
+				categoryValidated = validateCategory(subCategory);
+				if (categoryValidated) break;
+			}
+		}
+	}
+
+	return categoryValidated;
 }
 
 //TODO: Make a better name for this

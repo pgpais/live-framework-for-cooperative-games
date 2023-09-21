@@ -8,6 +8,7 @@ import {
 	dimensions,
 	type NewCategory
 } from '$lib/db/schema';
+import type { RequestHandler } from './$types';
 
 async function uploadNewFramework(
 	newFramework: NewFramework,
@@ -108,7 +109,7 @@ async function uploadNewFramework(
 	return frameworkId;
 }
 
-export async function POST({ request }: { request: Request }) {
+export const POST: RequestHandler = async ({ request }) => {
 	const { framework, categories, dimensions } = await request.json();
 	console.log(framework);
 	console.log(categories);
@@ -116,4 +117,20 @@ export async function POST({ request }: { request: Request }) {
 
 	const frameworkId = await uploadNewFramework(framework, categories, dimensions);
 	return json({ frameworkId }, { status: 201 });
-}
+};
+
+export const GET: RequestHandler = async ({ url }) => {
+	const searchParams = url.searchParams;
+
+	const queryString = searchParams.get('q');
+
+	const frameworks = await db.query.frameworks.findMany({
+		limit: 10,
+		with: {
+			author: true
+		},
+		orderBy: (frameworks, { asc }) => [asc(frameworks.id)]
+	});
+
+	return json(frameworks, { status: 200 });
+};
