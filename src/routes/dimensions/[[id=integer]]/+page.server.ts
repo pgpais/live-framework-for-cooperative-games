@@ -30,5 +30,5 @@ export const load = (async ({ params }) => {
 		throw fail(404, { message: 'Dimension not found' });
 	}
 
-	return { dimension, category: dimension.category, examples: dimension.examples };
+	return { dimension, category: dimension.category, examples: dimension.dimensionExamples };
 }) satisfies PageServerLoad;
