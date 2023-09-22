@@ -329,10 +329,10 @@
 </script>
 
 <ThreeColumnLayout>
-	<svelte:fragment slot="left">
+	<!-- <svelte:fragment slot="left">
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
-	</svelte:fragment>
+	</svelte:fragment> -->
 	<Stepper on:step={OnStep} on:complete={addFramework} buttonCompleteLabel={'Submit'}>
 		<Step>
 			<header slot="header">Fill some information about your framework</header>
