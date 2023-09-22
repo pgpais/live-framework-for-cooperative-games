@@ -11,7 +11,7 @@
 
 <div class="flex h-full justify-between bg-surface-200 p-5">
 	<a href="/" class="flex h-full flex-col-reverse"
-		><img src={logo} class="object-contain align-bottom" alt="Website logo" /></a
+		><img src={logo} class="h-full w-auto object-scale-down align-bottom" alt="Website logo" /></a
 	>
 	<div class="flex flex-grow flex-col-reverse flex-wrap">
 		<TabGroup
@@ -63,10 +63,10 @@
 		{#if session}
 			<p>Hello, {session.user.full_name}</p>
 			<form method="POST" action="/logout" use:enhance>
-				<input type="submit" class="btn variant-filled-primary" value="Sign out" />
+				<input type="submit" class="variant-filled-primary btn" value="Sign out" />
 			</form>
 		{:else}
-			<a class="btn variant-filled-primary" href="/login/github"> Sign in with Github </a>
+			<a class="variant-filled-primary btn" href="/login/github"> Sign in with Github </a>
 		{/if}
 	</div>
 </div>
