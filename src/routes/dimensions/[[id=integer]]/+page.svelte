@@ -6,7 +6,7 @@
 	const { dimension, category, examples } = data;
 </script>
 
-<div class="m-5 flex flex-col gap-4">
+<div class="m-5 flex flex-col gap-4 overflow-auto">
 	<section>
 		<span class="h3">
 			{category.superCategory ? category.superCategory.title + ' > ' : ''}{category.title}
@@ -18,27 +18,31 @@
 			{dimension.description}
 		</p>
 	</section>
-	<section>
-		<h2 class="h2">Examples:</h2>
-		{#each examples as example}
-			<div class="card card-hover m-4 h-96 w-96 p-4">
-				<div class="card-header flex w-full flex-col">
-					<h4 class="h4">
-						{example.report.game.name}
-					</h4>
-					<b class="">
-						created by {example.report.author.username}
-					</b>
-					<img
-						src={example.report.game.imgUrl}
-						alt={example.report.game.name}
-						class="h-44 object-contain"
-					/>
-				</div>
-				<section class="mx-4 mt-4 line-clamp-4">
-					{example.example}
-				</section>
+	{#if examples && examples.length > 0}
+		<section>
+			<h2 class="h2">Examples:</h2>
+			<div class="flex flex-wrap">
+				{#each examples as example}
+					<div class="card card-hover m-4 h-96 w-96 p-4">
+						<div class="card-header flex w-full flex-col">
+							<h4 class="h4">
+								{example.report.game.name}
+							</h4>
+							<b class="">
+								created by {example.report.author.username}
+							</b>
+							<img
+								src={example.report.game.imgUrl}
+								alt={example.report.game.name}
+								class="h-44 object-contain"
+							/>
+						</div>
+						<section class="mx-4 mt-4 line-clamp-4">
+							{example.example}
+						</section>
+					</div>
+				{/each}
 			</div>
-		{/each}
-	</section>
+		</section>
+	{/if}
 </div>
