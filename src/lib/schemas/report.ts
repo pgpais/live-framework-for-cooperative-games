@@ -7,7 +7,8 @@ export const dimensionReportSchema = z.object({
 	description: z.string(),
 	included: z.boolean().optional(),
 	example: z.string().nonempty().optional(),
-	categoryId: z.number()
+	categoryId: z.number(),
+	status: z.enum(['unofficial', 'merged', 'declined', 'official'])
 });
 
 const baseCategoryReportSchema = z.object({

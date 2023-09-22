@@ -6,7 +6,16 @@
 	export let value: CategoryReportSchema;
 </script>
 
-<span class="h3 text-secondary-500-400-token"><CategoryDetailButton category={value} /></span>
+<span class="text-secondary-500-400-token h3"
+	><CategoryDetailButton
+		category={{
+			description: value.description,
+			id: value.id,
+			title: value.title,
+			isOfficial: false
+		}}
+	/></span
+>
 <div class="ml-6 grid grid-cols-2 gap-3">
 	{#if value.dimensions && value.dimensions.length > 0}
 		{#each value.dimensions as dimension, j}
