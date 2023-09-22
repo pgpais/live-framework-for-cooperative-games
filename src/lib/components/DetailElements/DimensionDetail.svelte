@@ -25,10 +25,10 @@
 			</div>
 			<h1 class="h1">{dimension.title}</h1>
 			<p>{dimension.description}</p>
-			{#if dimension.examples}
+			{#if dimension.dimensionExamples}
 				<div class="flex flex-col gap-5 pt-6">
 					<h3 class="h3">Examples:</h3>
-					{#each dimension.examples as example}
+					{#each dimension.dimensionExamples as example}
 						<div class="card variant-ghost-surface p-5">
 							<h4 class="h4">{example.report.game.name}</h4>
 							<!-- TODO: if example has image, show it here -->
@@ -43,16 +43,16 @@
 						</div>
 					{/each}
 				</div>
+				<div class="variant-glass-surface sticky bottom-0 left-0 right-0 flex h-16 justify-center">
+					<a
+						class="variant-filled-primary btn h-10 self-center rounded-lg"
+						href={`/dimensions/${dimension.id}`}
+						target="_blank"
+					>
+						See more
+					</a>
+				</div>
 			{/if}
-		</div>
-		<div class="variant-glass-surface sticky bottom-0 left-0 right-0 flex h-16 justify-center">
-			<a
-				class="variant-filled-primary btn h-10 self-center rounded-lg"
-				href={`/dimensions/${dimension.id}`}
-				target="_blank"
-			>
-				See more
-			</a>
 		</div>
 	{/await}
 {:else}

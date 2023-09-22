@@ -40,7 +40,7 @@ export type PlainDimension = {
 };
 
 export type DimensionDetail = Dimension & {
-	examples: DimensionExampleDetail[];
+	dimensionExamples: DimensionExampleDetail[];
 	category: Category & {
 		superCategory: Category;
 	};

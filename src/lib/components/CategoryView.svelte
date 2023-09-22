@@ -26,7 +26,14 @@
 
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
 <span class={isOfficial ? 'text-secondary-500-400-token h3' : 'text-warning-500-400-token h3'}
-	><CategoryDetailButton {category} /></span
+	><CategoryDetailButton
+		category={{
+			title: category.title,
+			id: category.id,
+			description: category.description,
+			isOfficial: category.status == 'official'
+		}}
+	/></span
 >
 {#if editable}
 	<button class="btn-primary btn btn-sm" on:click={() => onCategoryRemove(category)}>

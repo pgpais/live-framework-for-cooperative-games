@@ -27,5 +27,15 @@ export const GET: RequestHandler = async ({ params }) => {
 		}
 	});
 
+	if (dimensions) {
+		for (const example of dimensions.dimensionExamples) {
+			if (!example.report.public) {
+				dimensions.dimensionExamples = dimensions.dimensionExamples.filter(
+					(e) => e.id !== example.id
+				);
+			}
+		}
+	}
+
 	return json(dimensions);
 };

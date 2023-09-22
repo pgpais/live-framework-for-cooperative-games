@@ -107,9 +107,9 @@
 </script>
 
 <ThreeColumnLayout>
-	<div slot="left">
+	<!-- <div slot="left">
 		<SuperDebug data={$form} />
-	</div>
+	</div> -->
 	<div class="m-5">
 		<form method="POST" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
@@ -236,17 +236,6 @@
 				</Step>
 
 				<Step>
-					<p>
-						By making this report public, it will appear in searches and in related pages. If you
-						don't want to make this report public, it will only be accessible through its URL. You
-						will be able to print its page to a PDF file, for offline use.
-					</p>
-					<label class="label">
-						Do you want to make this report public?
-						<input type="checkbox" bind:checked={$form.public} />
-					</label>
-				</Step>
-				<Step locked={$delayed}>
 					<h2 class="h2 mb-5">
 						Report for <i>{$form.game.name ? $form.game.name : 'an unselected game'}</i> based on
 						Framework
@@ -261,6 +250,17 @@
 					<ReportForm bind:value={$form} />
 					<!-- </TreeView> -->
 					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
+				</Step>
+				<Step locked={$delayed}>
+					<p>
+						By making this report public, it will appear in searches and in related pages. If you
+						don't want to make this report public, it will only be accessible through its URL. You
+						will be able to print its page to a PDF file, for offline use.
+					</p>
+					<label class="label">
+						Do you want to make this report public?
+						<input type="checkbox" bind:checked={$form.public} />
+					</label>
 					{#if $delayed}
 						<Loader2 class="mx-5 animate-spin" />
 					{/if}
