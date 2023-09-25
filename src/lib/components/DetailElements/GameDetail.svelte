@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { DimensionExample, Game, Report, User, Dimension } from '$lib/db/schema';
+	import { ArrowBigLeft, ChevronRight } from 'lucide-svelte';
 
 	console.log('GameDetail.svelte');
 
@@ -34,13 +35,20 @@
 		{:then reports}
 			{#each reports as report}
 				<div class="card variant-ghost-primary p-4">
-					<h4 class="h4">Report by {report.author.username}</h4>
-					<section class="mt-2">
-						<h6 class="h6">Values Identified:</h6>
-						<div class="line-clamp-4 pl-2">
-							{#each report.dimensionExamples as dimensionExample}
-								<p>{dimensionExample.dimension.title}</p>
-							{/each}
+					<a class="h4" href={'/reports/' + report.id}>Report by {report.author.username}</a>
+					<section class="mt-2 flex">
+						<div class="flex-grow">
+							<h6 class="h6">Values Identified:</h6>
+							<div class="line-clamp-4 pl-2">
+								{#each report.dimensionExamples as dimensionExample}
+									<p>{dimensionExample.dimension.title}</p>
+								{/each}
+							</div>
+						</div>
+						<div>
+							<a href={'/reports/' + report.id}>
+								<ChevronRight />
+							</a>
 						</div>
 					</section>
 				</div>
