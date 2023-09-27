@@ -19,7 +19,8 @@
 >
 	<!-- {dimension.title} -->
 	<DimensionDetailButton {dimension} />
-	{#if dimensionExample}<span>&nbsp;- {dimensionExample.example}</span> {/if}
+	{#if dimensionExample && dimensionExample.example}<span>&nbsp;- {dimensionExample.example}</span>
+	{/if}
 	{#if editable}
 		<button
 			class="btn-icon btn-icon-sm rounded-none p-2 hover:bg-primary-500/20"

@@ -53,12 +53,14 @@
 {#if category.dimensions && category.dimensions.length > 0}
 	<div class="mb-4 ml-6 mt-2 flex gap-2">
 		{#each category.dimensions as dimension}
-			<DimensionView
-				{dimension}
-				{editable}
-				{onDimensionRemove}
-				dimensionExample={getDimensionExample(dimension.id)}
-			/>
+			{#if (dimensionExamples && getDimensionExample(dimension.id)) || !dimensionExamples}
+				<DimensionView
+					{dimension}
+					{editable}
+					{onDimensionRemove}
+					dimensionExample={getDimensionExample(dimension.id)}
+				/>
+			{/if}
 		{/each}
 	</div>
 {/if}
