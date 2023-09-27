@@ -6,6 +6,7 @@ import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { frameworkEditFormSchema } from '$lib/schemas/frameworkEdit';
 import { z } from 'zod';
+import { redirect } from '@sveltejs/kit';
 
 const newCategoryFormSchema = z.object({
 	superCategoryId: z.number().default(0),
@@ -23,7 +24,13 @@ const newDimensionFormSchema = z.object({
 
 export type NewDimensionFormSchema = z.infer<typeof newDimensionFormSchema>;
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, locals }) => {
+	const session = await locals.auth.validate();
+	console.log('session', session);
+	if (!session) {
+		throw redirect(302, '/notLoggedIn');
+	}
+
 	const framework = await GetFullFrameworkById(params.id ? +params.id : 1);
 	const categories = await GetCategoriesWithDimensionsByFrameworkId(framework.id);
 

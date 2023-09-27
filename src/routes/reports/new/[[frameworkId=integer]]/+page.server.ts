@@ -18,8 +18,15 @@ import { companies } from '$lib/db/schema/company';
 import { genres } from '$lib/db/schema/genre';
 import { platforms } from '$lib/db/schema/platform';
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, locals }) => {
+	const session = await locals.auth.validate();
+	console.log('session', session);
+	if (!session) {
+		throw redirect(302, '/notLoggedIn');
+	}
+
 	const form = await superValidate(reportSchema);
+
 	return { form };
 }) satisfies PageServerLoad;
 
