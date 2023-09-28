@@ -7,6 +7,10 @@
 	let response: Promise<DimensionDetail>;
 	let isOfficial: boolean;
 
+	function isImage(url: string) {
+		return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+	}
+
 	$: {
 		isOfficial = $detailInfoStore.data.isOfficial;
 		response = fetch(`/api/dimensions/${$detailInfoStore.data.id}`).then((res) => res.json());
@@ -29,17 +33,31 @@
 				<div class="flex flex-col gap-5 pt-6">
 					<h3 class="h3">Examples:</h3>
 					{#each dimension.dimensionExamples as example}
-						<div class="card variant-ghost-surface p-5">
-							<h4 class="h4">{example.report.game.name}</h4>
-							<!-- TODO: if example has image, show it here -->
-							{#if example.report.game.imgUrl}
-								<img src={example.report.game.imgUrl} alt="Game cover" class="h-40" />
-							{:else}
-								<div class="variant-outline-warning flex h-40 w-40 items-center justify-center">
-									<p class="p">No image available</p>
-								</div>
-							{/if}
-							<p>{example.example}</p>
+						<div class="card variant-ghost-surface flex h-fit flex-col gap-2 p-5">
+							<h4 class="h4 card-header mt-0 pt-0">{example.report.game.name}</h4>
+							<div class="w-full">
+								<!-- TODO: if example has image, show it here -->
+								{#if example.imageURL && isImage(example.imageURL)}
+									<img
+										src={example.imageURL}
+										alt="Attached to example"
+										class="h-56 w-full place-self-center object-contain"
+									/>
+								{:else if example.report.game.imgUrl && isImage(example.report.game.imgUrl)}
+									<img
+										src={example.report.game.imgUrl}
+										alt="Game cover"
+										class="h-56 w-full place-self-center object-contain"
+									/>
+								{:else}
+									<div class="variant-outline-warning flex h-60 items-center justify-center">
+										<p class="p">No image available</p>
+									</div>
+								{/if}
+							</div>
+							<p class="line-clamp-3">
+								{example.example}
+							</p>
 						</div>
 					{/each}
 				</div>
