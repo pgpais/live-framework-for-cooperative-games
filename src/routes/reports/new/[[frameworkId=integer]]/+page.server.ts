@@ -109,7 +109,8 @@ function pushCategoryReportIntoArray(
 				dimensionExamples.push({
 					dimensionId: dimension.id,
 					example: dimension.example,
-					reportId
+					reportId,
+					imageURL: dimension.imageURL
 				});
 				console.log('DB: Inserting dimension', dimension);
 			}
