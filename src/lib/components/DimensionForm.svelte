@@ -23,12 +23,23 @@
 	{#if value.included}
 		<!-- div occupy two columns of grid -->
 		<div class="col-span-2">
-			<textarea
-				class="textarea"
-				name={'dimension ' + value.title}
-				bind:value={value.example}
-				placeholder="Write a description of blah blah"
-			/>
+			<label>
+				<span>Describe how this value appears in the game:</span>
+				<textarea
+					class="textarea"
+					bind:value={value.example}
+					placeholder="Write a description of how this value appears in the game"
+				/>
+			</label>
+			<label>
+				<span>Share a link to an image representing this situation:</span>
+				<input
+					class="textarea"
+					type="url"
+					bind:value={value.imageURL}
+					placeholder="URL of an image to exemplify this value"
+				/>
+			</label>
 		</div>
 	{/if}
 </label>
