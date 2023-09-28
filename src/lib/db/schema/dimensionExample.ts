@@ -11,7 +11,8 @@ export const dimensionExamples = pgTable('dimension_examples', {
 	reportId: integer('report_id')
 		.notNull()
 		.references(() => reports.id),
-	example: text('example').default('')
+	example: text('example').default(''),
+	imageURL: text('image_url').default('')
 });
 
 export const dimensionExamplesRelations = relations(dimensionExamples, ({ one }) => ({
