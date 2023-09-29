@@ -49,7 +49,6 @@ export const GET: RequestHandler = async ({ params, setHeaders }) => {
 		const halo = categoryToPdf(category, 1);
 		pdfContent.push(...halo);
 	}
-
 	const dd = {
 		content: pdfContent
 	};
