@@ -2,7 +2,6 @@ import type { FullCategory, Dimension, DimensionExample, Game, Report } from '$l
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import { title } from 'process';
 import type { RequestHandler } from './$types';
-import PdfPrinter from 'pdfMake';
 
 export const GET: RequestHandler = async ({ params, setHeaders, fetch }) => {
 	const reportId = params.id ? +params.id : 0;
@@ -46,6 +45,8 @@ export const GET: RequestHandler = async ({ params, setHeaders, fetch }) => {
 		}
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	const PdfPrinter = require('pdfmake');
 	const printer = new PdfPrinter(fonts);
 	const pdfContent: { text: string; style: string }[] = [];
 
@@ -76,7 +77,7 @@ export const GET: RequestHandler = async ({ params, setHeaders, fetch }) => {
 	const buf = await new Promise<Buffer>((resolve) => {
 		const pdfDoc = printer.createPdfKitDocument(dd);
 		const buffs: unknown[] = [];
-		pdfDoc.on('data', function (d) {
+		pdfDoc.on('data', function (d: readonly Uint8Array[]) {
 			buffs.push(d as readonly Uint8Array[]);
 		});
 		pdfDoc.on('end', function () {

@@ -1,7 +1,6 @@
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import PdfPrinter from 'pdfMake';
 import type { Category, Dimension, FullCategory } from '$lib/db/schema';
 
 export const GET: RequestHandler = async ({ params, setHeaders }) => {
@@ -41,7 +40,8 @@ export const GET: RequestHandler = async ({ params, setHeaders }) => {
 			normal: 'Times-Roman'
 		}
 	};
-
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	const PdfPrinter = require('pdfmake');
 	const printer = new PdfPrinter(fonts);
 	const pdfContent: { text: string; style: string }[] = [];
 
@@ -56,7 +56,7 @@ export const GET: RequestHandler = async ({ params, setHeaders }) => {
 	const buf = await new Promise<Buffer>((resolve) => {
 		const pdfDoc = printer.createPdfKitDocument(dd);
 		const buffs: unknown[] = [];
-		pdfDoc.on('data', function (d) {
+		pdfDoc.on('data', function (d: readonly Uint8Array[]) {
 			buffs.push(d as readonly Uint8Array[]);
 		});
 		pdfDoc.on('end', function () {
