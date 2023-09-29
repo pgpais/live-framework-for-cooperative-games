@@ -18,7 +18,11 @@
 			<img src={game.imgUrl} alt={game.name} class="h-64 w-fit object-contain" />
 			<div class="flex flex-col">
 				<h2 class="h2">Report on {game.name}</h2>
-				<p>{game.description}</p>
+				<p class="line-clamp-6">{game.description}</p>
+				<a
+					class="btn-primary variant-filled-primary btn mt-4 w-52 place-self-center"
+					href={'/api/reports/print/' + report.id}>Download Report as PDF</a
+				>
 			</div>
 		</div>
 		<div class="card variant-ghost-primary p-5">

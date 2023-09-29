@@ -19,7 +19,9 @@
 >
 	<!-- {dimension.title} -->
 	<DimensionDetailButton {dimension} />
-	{#if dimensionExample && dimensionExample.example}<span>&nbsp;- {dimensionExample.example}</span>
+	{#if dimensionExample && dimensionExample.example}<span class="mr-2 place-self-center"
+			>&nbsp;- {dimensionExample.example}</span
+		>
 	{/if}
 	{#if editable}
 		<button

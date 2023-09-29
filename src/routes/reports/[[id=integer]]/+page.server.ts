@@ -2,16 +2,13 @@ import db from '$lib/db';
 import { error, fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
+import type { DimensionExample, Game, Report } from '$lib/db/schema';
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, fetch }) => {
 	const reportId = params.id ? +params.id : 1;
-	const report = await db.query.reports.findFirst({
-		where: (reports, { eq }) => eq(reports.id, reportId),
-		with: {
-			game: true,
-			dimensionExamples: true
-		}
-	});
+	const report: Report & { game: Game; dimensionExamples: DimensionExample[] } = await fetch(
+		'/api/reports/' + reportId
+	).then((res) => res.json());
 	if (!report) {
 		throw error(404, { message: 'Report not found' });
 	}
