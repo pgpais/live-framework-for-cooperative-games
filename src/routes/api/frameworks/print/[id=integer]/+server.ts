@@ -1,7 +1,7 @@
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import PdfPrinter from 'pdfMake';
+import PdfPrinter from 'pdfmake';
 import type { Category, Dimension, FullCategory } from '$lib/db/schema';
 
 export const GET: RequestHandler = async ({ params, setHeaders }) => {
