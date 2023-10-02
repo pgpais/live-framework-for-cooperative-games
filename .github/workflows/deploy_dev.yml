@@ -9,7 +9,7 @@ jobs:
   migrate-db:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
     steps:
       - uses: actions/checkout@v2
 
