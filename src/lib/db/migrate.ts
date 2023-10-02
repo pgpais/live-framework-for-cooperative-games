@@ -11,3 +11,5 @@ const client = postgres(dbUrl);
 const db = drizzle(client, { schema });
 
 await migrate(db, { migrationsFolder: 'drizzle' });
+
+process.exit(0);
