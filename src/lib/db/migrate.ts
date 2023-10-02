@@ -4,6 +4,7 @@ import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 
 const dbUrl = process.env.DATABASE_URL_DEV ?? '';
+console.log('DB URL: ', dbUrl);
 
 const client = postgres(dbUrl);
 
