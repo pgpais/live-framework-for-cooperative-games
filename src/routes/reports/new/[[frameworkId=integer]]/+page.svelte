@@ -115,7 +115,9 @@
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
 			<Stepper class="card variant-ghost-surface p-5" buttonCompleteType="submit">
 				<Step locked={selectedFrameworkId <= 0 || !framework}>
-					<svelte:fragment slot="header">Which framework will base your report on?</svelte:fragment>
+					<svelte:fragment slot="header"
+						>Which framework will you base your report on?</svelte:fragment
+					>
 					{#await frameworksRequest}
 						<Loader2 class="mx-5 animate-spin" />
 					{:then frameworks}
