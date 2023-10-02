@@ -16,6 +16,6 @@ export const adapter = postgresAdapter(client, {
 	key: 'user_key'
 });
 
-// await migrate(db, { migrationsFolder: 'drizzle' });
+await migrate(db, { migrationsFolder: 'drizzle' });
 
 export default db;

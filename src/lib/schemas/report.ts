@@ -1,4 +1,3 @@
-import type { NewGame } from '$lib/db/schema/game';
 import { z } from 'zod';
 
 export const dimensionReportSchema = z.object({
@@ -29,16 +28,17 @@ export const categoryReportSchema: z.ZodType<CategoryReport> = baseCategoryRepor
 	subCategories: z.lazy(() => categoryReportSchema.array()).optional()
 });
 
-export const gameReportSchema: z.ZodType<NewGame> = z.object({
-	id: z.number(),
-	name: z.string()
-});
-
 export const reportSchema = z.object({
 	frameworkId: z.number().default(1),
-	game: gameReportSchema,
+	authorId: z.string().default(''),
+	gameId: z.number(),
 	categories: z.array(categoryReportSchema).default([]),
-	public: z.boolean().optional().default(false)
+	analysisType: z.enum(['played', 'pastPlayed', 'observations', 'other']).default('played'),
+	otherAnalysisType: z.string().optional(),
+	analysisDescription: z.string().optional(),
+	frameworkDifficulty: z.number().default(3),
+	frameworkComments: z.string().optional(),
+	public: z.boolean().optional().default(true)
 });
 
 export type ReportSchema = z.infer<typeof reportSchema>;

@@ -1,4 +1,3 @@
-import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
 import type { PageServerLoad } from './$types';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { reportSchema, type ReportSchema, type CategoryReportSchema } from '$lib/schemas/report';
@@ -18,7 +17,7 @@ import { companies } from '$lib/db/schema/company';
 import { genres } from '$lib/db/schema/genre';
 import { platforms } from '$lib/db/schema/platform';
 
-export const load = (async ({ params, locals }) => {
+export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
 	console.log('session', session);
 	if (!session) {
@@ -126,12 +125,12 @@ function pushCategoryReportIntoArray(
 
 const uploadReport = async (report: ReportSchema, userId: string) => {
 	let reportId = -1;
+	const response = await getFullGameInfo(report.gameId);
+	if (response.status !== 200) throw new Error('Error fetching game info');
+	const game: FullGame = await response.json();
+
 	await db.transaction(async (tx) => {
 		console.log('DB: Inserting report', report);
-
-		const response = await getFullGameInfo(report.game.id);
-		if (response.status !== 200) throw new Error('Error fetching game info');
-		const game: FullGame = await response.json();
 
 		await tx.insert(genres).values(game.genres).onConflictDoNothing();
 

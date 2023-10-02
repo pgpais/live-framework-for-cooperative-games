@@ -3,7 +3,24 @@ import { frameworks, type Framework } from './framework';
 import { games, type Game } from './game';
 import { users } from './user';
 import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
-import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+	boolean,
+	integer,
+	pgEnum,
+	pgTable,
+	serial,
+	smallint,
+	text,
+	timestamp,
+	varchar
+} from 'drizzle-orm/pg-core';
+
+export const analysisType = pgEnum('analysis_type', [
+	'played',
+	'pastPlayed',
+	'observations',
+	'other'
+]);
 
 export const reports = pgTable('reports', {
 	id: serial('id').primaryKey(),
@@ -16,9 +33,14 @@ export const reports = pgTable('reports', {
 	authorId: varchar('author_id')
 		.notNull()
 		.references(() => users.id),
+	analysisType: analysisType('analysis_type').notNull().default('played'),
+	otherAnalysisType: text('other_analysis_type'),
+	analysisDescription: text('analysis_description'),
+	frameworkDifficulty: smallint('framework_difficulty').notNull().default(3),
+	frameworkComments: text('framework_comments'),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),
-	public: boolean('public').notNull().default(false)
+	public: boolean('public').notNull().default(true)
 });
 
 export const reportsRelations = relations(reports, ({ one, many }) => ({

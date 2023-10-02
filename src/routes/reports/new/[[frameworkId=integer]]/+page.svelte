@@ -6,16 +6,24 @@
 
 	import DetailView from '$lib/components/DetailView.svelte';
 	import ReportForm from '$lib/components/ReportForm.svelte';
-	import { Loader2, Search } from 'lucide-svelte';
+	import { Circle, Loader2, Search } from 'lucide-svelte';
 	import type { NewGame } from '$lib/db/schema/game';
-	import { Step, Stepper, getToastStore } from '@skeletonlabs/skeleton';
-	import type { Framework, FullFramework, User } from '$lib/db/schema';
+	import {
+		RadioGroup,
+		RadioItem,
+		RangeSlider,
+		Ratings,
+		Step,
+		Stepper,
+		getToastStore
+	} from '@skeletonlabs/skeleton';
+	import type { Framework, FullFramework, User, analysisType } from '$lib/db/schema';
 
 	export let data: PageData;
 
 	const toastStore = getToastStore();
 
-	const { form, message, enhance, delayed } = superForm(data.form, {
+	const { form, message, enhance, delayed, errors } = superForm(data.form, {
 		dataType: 'json',
 		onResult({ result }) {
 			console.log(result);
@@ -38,6 +46,7 @@
 	const frameworksRequest = getFrameworks();
 
 	async function getGame(name: string) {
+		// Searches for a game through the API
 		isSearching = true;
 		const res = await fetch(`/api/games?name=${name}`);
 		const data = await res.json();
@@ -60,7 +69,6 @@
 				companies: { id: number; name: string }[];
 		  })
 		| undefined = undefined;
-	let selectedGameId: number;
 
 	let selectedFrameworkId: number;
 	let framework: FullFramework | undefined = undefined;
@@ -114,6 +122,7 @@
 		<form method="POST" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
 			<Stepper class="card variant-ghost-surface p-5" buttonCompleteType="submit">
+				<!-- Framework Selection -->
 				<Step locked={selectedFrameworkId <= 0 || !framework}>
 					<svelte:fragment slot="header"
 						>Which framework will you base your report on?</svelte:fragment
@@ -142,6 +151,8 @@
 						{/if}
 					{/await}
 				</Step>
+
+				<!-- Game Selection -->
 				<Step locked={selectedGame == undefined}>
 					<svelte:fragment slot="header">What game are you reporting on?</svelte:fragment>
 					<div class="my-5 flex items-center">
@@ -173,17 +184,17 @@
 								<select
 									class="select mx-5"
 									placeholder="Select your game"
-									bind:value={selectedGameId}
+									bind:value={$form.gameId}
 									on:change={() => {
-										let game = gamesData.find((game) => game.id === selectedGameId);
+										let game = gamesData.find((game) => game.id === $form.gameId);
 										if (game) {
 											selectedGame = game;
-											$form.game = selectedGame;
-											console.log($form.game);
+										} else {
+											selectedGame = undefined;
 										}
 									}}
 								>
-									<option value="-1">Select your Game</option>
+									<option value={0}>Select your Game</option>
 									{#each gamesData as gameData}
 										<option value={gameData.id}>
 											{gameData.name}
@@ -191,7 +202,7 @@
 									{/each}
 								</select>
 							{/if}
-							{#if selectedGame}
+							{#if selectedGame && $form.gameId > 0}
 								<div class="card variant-ghost-tertiary flex p-5">
 									<div class="card-header flex w-1/3 flex-col gap-2">
 										<h3 class="h3">{selectedGame.name}</h3>
@@ -237,9 +248,10 @@
 					</div>
 				</Step>
 
+				<!-- Report form -->
 				<Step>
 					<h2 class="h2 mb-5">
-						Report for <i>{$form.game.name ? $form.game.name : 'an unselected game'}</i> based on
+						Report for <i>{selectedGame ? selectedGame.name : 'an unselected game'}</i> based on
 						Framework
 						<i>{framework?.title}</i>
 					</h2>
@@ -253,19 +265,85 @@
 					<!-- </TreeView> -->
 					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
 				</Step>
-				<Step locked={$delayed}>
-					<p>
-						By making this report public, it will appear in searches and in related pages. If you
-						don't want to make this report public, it will only be accessible through its URL. You
-						will be able to print its page to a PDF file, for offline use.
-					</p>
-					<label class="label">
-						Do you want to make this report public?
-						<input type="checkbox" bind:checked={$form.public} />
-					</label>
-					{#if $delayed}
-						<Loader2 class="mx-5 animate-spin" />
+
+				<!-- Last Questions -->
+				<Step locked={$delayed != undefined || $errors != undefined}>
+					{#if $errors}
+						<div class="card variant-soft-error p-5">
+							<h3 class="h3">There were errors in your report</h3>
+							<p>{$errors}</p>
+						</div>
 					{/if}
+
+					<div class="card flex flex-col gap-3 p-5">
+						<RangeSlider
+							name="range-slider"
+							bind:value={$form.frameworkDifficulty}
+							min={1}
+							max={5}
+							step={1}
+							ticked
+						>
+							<div class="flex items-center justify-between">
+								<div class="font-bold">How difficult was it to analyse the game with LFCG?</div>
+								<div class="text-xs">{$form.frameworkDifficulty} / {5}</div>
+							</div>
+						</RangeSlider>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<RadioGroup>
+							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'played'}>
+								Played it
+							</RadioItem>
+							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'pastPlayed'}>
+								Played it in the past
+							</RadioItem>
+							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'observation'}>
+								Observations
+							</RadioItem>
+							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'other'}>
+								Other
+							</RadioItem>
+						</RadioGroup>
+
+						{#if $form.analysisType == 'other'}
+							<textarea
+								class="textarea"
+								placeholder="Please specify"
+								bind:value={$form.otherAnalysisType}
+							/>
+						{/if}
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<span>Describe your analysis process</span>
+							<textarea class="textarea" bind:value={$form.analysisDescription} />
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<span>Any further comments to the framework you would like to make?</span>
+							<textarea class="textarea" bind:value={$form.frameworkComments} />
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<p>
+							By making this report public, it will appear in searches and in related pages. If you
+							don't wish to make this report public, it will only be accessible through its URL. You
+							will be able to print its page to a PDF file, for offline use.
+						</p>
+						<label class="label">
+							Do you wish to make this report public?
+							<input type="checkbox" bind:checked={$form.public} />
+						</label>
+						{#if $delayed}
+							<Loader2 class="mx-5 animate-spin" />
+						{/if}
+					</div>
 				</Step>
 			</Stepper>
 		</form>
