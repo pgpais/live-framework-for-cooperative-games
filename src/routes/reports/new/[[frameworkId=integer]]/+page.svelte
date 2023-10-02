@@ -23,7 +23,7 @@
 
 	const toastStore = getToastStore();
 
-	const { form, message, enhance, delayed, errors } = superForm(data.form, {
+	const { form, message, enhance, delayed, errors, allErrors } = superForm(data.form, {
 		dataType: 'json',
 		onResult({ result }) {
 			console.log(result);
@@ -267,11 +267,15 @@
 				</Step>
 
 				<!-- Last Questions -->
-				<Step locked={$delayed != undefined || $errors != undefined}>
-					{#if $errors}
+				<Step locked={$delayed || $allErrors.length > 0}>
+					{#if $allErrors.length}
 						<div class="card variant-soft-error p-5">
 							<h3 class="h3">There were errors in your report</h3>
-							<p>{$errors}</p>
+							<ul class="list-inside list-disc">
+								{#each $allErrors as error}
+									<li>{error}</li>
+								{/each}
+							</ul>
 						</div>
 					{/if}
 
