@@ -9,7 +9,8 @@ on:
 jobs:
   migrate-db:
     runs-on: ubuntu-latest
-    environment: Preview
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v2
       # - uses: actions/setup-node@v2
@@ -20,7 +21,5 @@ jobs:
       # - run: pnpm migrate
 
       - uses: oven-sh/setup-bun@v1
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Run migration
         run: bun run ./src/lib/db/migrate.ts
