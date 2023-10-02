@@ -1,4 +1,4 @@
-name: Migrate DB
+name: Deploy
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  deploy:
+  migrate-db:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
