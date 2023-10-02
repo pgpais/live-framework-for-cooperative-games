@@ -14,11 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: print secrets
-        run: |
-          echo $DATABASE_URL
-          echo ${{ secrets.DATABASE_URL }}
-
       # - uses: actions/setup-node@v2
       # with:
       #   node-version: '18'
