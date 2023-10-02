@@ -115,9 +115,9 @@
 </script>
 
 <ThreeColumnLayout>
-	<!-- <div slot="left">
+	<div slot="left">
 		<SuperDebug data={$form} />
-	</div> -->
+	</div>
 	<div class="m-5">
 		<form method="POST" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />

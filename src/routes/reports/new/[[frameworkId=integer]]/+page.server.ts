@@ -183,7 +183,12 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 				authorId: userId,
 				gameId: game.id,
 				frameworkId: report.frameworkId,
-				public: report.public
+				public: report.public,
+				analysisType: report.analysisType,
+				otherAnalysisType: report.otherAnalysisType,
+				analysisDescription: report.analysisDescription,
+				frameworkDifficulty: report.frameworkDifficulty,
+				frameworkComments: report.frameworkComments
 			})
 			.returning({ insertedId: reports.id });
 		console.log('DB: Inserted repot', insertedReport);
