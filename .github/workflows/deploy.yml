@@ -19,4 +19,7 @@ jobs:
       # - run: pnpm migrate
 
       - uses: oven-sh/setup-bun@v1
-      - run: bun run ./src/lib/db/migrate.ts
+      - name: Run migration
+        run: bun run ./src/lib/db/migrate.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
