@@ -34,7 +34,7 @@
 					<h3 class="h3">Examples:</h3>
 					{#each dimension.dimensionExamples as example}
 						<div class="card variant-ghost-surface flex h-fit flex-col gap-2 p-5">
-							<h4 class="h4 card-header mt-0 pt-0">{example.report.game.name}</h4>
+							<h4 class="h4 card-header mt-0 pt-0"><b>{example.report.game.name}</b></h4>
 							<div class="w-full">
 								<!-- TODO: if example has image, show it here -->
 								{#if example.imageURL && isImage(example.imageURL)}

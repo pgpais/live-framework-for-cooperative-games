@@ -11,16 +11,17 @@
 	const isOfficial = dimension.status == 'official';
 </script>
 
+<!-- TODO: if has example, full width and group values with no example descriptions -->
 <!-- {#if isOfficial} -->
 <div
 	class={isOfficial
-		? 'variant-ringed-primary flex w-fit justify-between'
-		: 'variant-ringed-warning flex w-fit justify-between'}
+		? 'flex w-fit justify-between'
+		: 'variant-filled-warning flex w-fit justify-between'}
 >
 	<!-- {dimension.title} -->
 	<DimensionDetailButton {dimension} />
 	{#if dimensionExample && dimensionExample.example}<span class="mr-2 place-self-center"
-			>&nbsp;- {dimensionExample.example}</span
+			>&nbsp;| {dimensionExample.example}</span
 		>
 	{/if}
 	{#if editable}

@@ -16,18 +16,16 @@
 	</h2>
 {/if}
 <!-- <TreeView padding="py-2 px-1" indent="ml-2"> -->
-<div class=" m-4 grid gap-4">
+<div class="grid gap-4">
 	{#each framework.categories as category}
 		{#if !category.superCategoryId || category.superCategoryId == 0}
-			<div class="card variant-ghost-surface p-4">
-				<CategoryView
-					{category}
-					{editable}
-					{onCategoryRemove}
-					{onDimensionRemove}
-					{dimensionExamples}
-				/>
-			</div>
+			<CategoryView
+			{category}
+			{editable}
+			{onCategoryRemove}
+			{onDimensionRemove}
+			{dimensionExamples}
+			/>
 		{/if}
 	{/each}
 </div>

@@ -9,9 +9,9 @@
 	export let session: Session | null;
 </script>
 
-<div class="flex h-full justify-between bg-surface-200 p-5">
+<div class="flex h-full justify-between bg-surface-200 p-5 gap-10">
 	<a href="/" class="flex h-full flex-col-reverse"
-		><img src={logo} class="h-full w-auto object-scale-down align-bottom" alt="Website logo" /></a
+		><img src={logo} class="h-full w-96 object-scale-down align-bottom" alt="Website logo" /></a
 	>
 	<div class="flex flex-grow flex-col-reverse flex-wrap">
 		<TabGroup
@@ -21,15 +21,15 @@
 			regionList="flex-wrap"
 		>
 			<TabAnchor
-				href="/frameworks"
-				selected={$page.url.pathname.endsWith('/frameworks')}
+				href="/"
+				selected={$page.url.pathname === '/'}
 				class="text-surface-800"
 			>
 				Consult Framework
 			</TabAnchor>
 			<TabAnchor
 				href="/frameworks/search"
-				selected={$page.url.pathname.includes('/frameworks/search')}
+				selected={$page.url.pathname.includes('/frameworks')}
 				class="text-surface-800"
 			>
 				Community Frameworks
@@ -43,7 +43,7 @@
 			</TabAnchor>
 			<TabAnchor
 				href="/frameworks/new"
-				selected={$page.url.pathname.includes('/frameworks/edit')}
+				selected={$page.url.pathname.includes('/frameworks/new')}
 				class="text-surface-800"
 			>
 				New Framework
@@ -61,12 +61,12 @@
 	<div class="flex flex-col">
 		<LightSwitch />
 		{#if session}
-			<p>Hello, {session.user.full_name}</p>
+			<p class="text-surface-800 accent">Hello, {session.user.full_name}</p>
 			<form method="POST" action="/logout" use:enhance>
-				<input type="submit" class="variant-filled-primary btn" value="Sign out" />
+				<input type="submit" class="variant-filled-secondary btn" value="Sign out" />
 			</form>
 		{:else}
-			<a class="variant-filled-primary btn" href="/login/github"> Sign in with Github </a>
+			<a class="variant-filled-secondary btn" href="/login/github"> Sign in with Github </a>
 		{/if}
 	</div>
 </div>

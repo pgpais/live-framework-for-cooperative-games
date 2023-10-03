@@ -3,6 +3,7 @@ import type { Config } from 'tailwindcss';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import { skeleton } from '@skeletonlabs/tw-plugin';
+import { myCustomTheme } from './my-custom-theme';
 
 const config = {
 	// 2. Opt for dark mode to be handled via the class method
@@ -21,7 +22,8 @@ const config = {
 		skeleton({
 			themes: {
 				// Register each theme within this array:
-				preset: ['skeleton', 'modern', 'crimson']
+				preset: ['skeleton', 'modern', 'crimson'],
+				custom: [myCustomTheme]
 			}
 		})
 	]

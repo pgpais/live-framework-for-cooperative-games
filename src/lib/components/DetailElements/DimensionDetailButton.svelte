@@ -17,6 +17,6 @@
 	};
 </script>
 
-<button type="button" on:click={changeDetailView} class="p-2 hover:bg-primary-500/20">
+<button type="button" on:click={changeDetailView} class="py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary">
 	<b>{dimension.title}</b>
 </button>

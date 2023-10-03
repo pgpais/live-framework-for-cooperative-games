@@ -71,17 +71,18 @@
 			Show list of reports based on a number of filters (e.g. game, author, framework) and sort
 			(e.g. oldest, newest) options
 		</p>
-		<div class="m-5 grid grid-cols-3 gap-5">
+		<div class="m-5 grid grid-cols-4">
 			{#each games as game}
-				<div class="card variant-filled-secondary card-hover grid content-around">
+				<button class="card variant-filled-tertiary card-hover flex flex-col content-around w-60 justify-between" on:click={() => (selectedGame = game)}>
 					<header class="card-header">
-						<h2 class="card-title">{game.name}</h2>
+						<h2 class="card-title"><b>{game.name}</b></h2>
 					</header>
-					<hr class="mx-2 my-2 rounded border-t-2" />
-					<section class="flex flex-col gap-2 space-y-4 p-4">
+
+					<section class="flex flex-col gap-2 pl-8 pr-8 place-self-center mt-4 mb-4 justify-between">
+						<p>{game.reportsCount ? game.reportsCount : 0} report{game.reportsCount != 1 ? 's' : ''}</p>
 						{#if game.imgUrl}
 							<img
-								class="h-auto max-w-full rounded-lg"
+								class="w-full rounded-lg object-scale-down"
 								src={game.imgUrl}
 								alt={'cover of ' + game.name}
 							/>
@@ -90,17 +91,8 @@
 								<p class="p">No image available</p>
 							</div>
 						{/if}
-
-						{game.name} has {game.reportsCount ? game.reportsCount : 0} reports
 					</section>
-					<hr class="mx-2 my-2 rounded border-t-2" />
-					<footer class="card-footer flex items-center justify-start space-x-4 p-4">
-						<button
-							class="variant-filled h-full w-full rounded-xl px-2"
-							on:click={() => (selectedGame = game)}>See more</button
-						>
-					</footer>
-				</div>
+				</button>
 			{/each}
 		</div>
 	</div>
