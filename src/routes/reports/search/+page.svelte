@@ -73,7 +73,7 @@
 		</p>
 		<div class="m-5 grid grid-cols-4">
 			{#each games as game}
-				<button class="card variant-filled-tertiary card-hover flex flex-col content-around w-60 justify-between" on:click={() => (selectedGame = game)}>
+				<button class="card variant-filled-tertiary card-hover flex flex-col content-around w-60 justify-between my-2" on:click={() => (selectedGame = game)}>
 					<header class="card-header">
 						<h2 class="card-title"><b>{game.name}</b></h2>
 					</header>

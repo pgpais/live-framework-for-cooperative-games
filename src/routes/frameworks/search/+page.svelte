@@ -36,7 +36,7 @@
 		</div>
 		<div class="m-5 grid grid-cols-1 gap-5">
 			{#each frameworks as framework}
-				<a class="card variant-ghost-tertiary p-4" href={`/frameworks/${framework.id}`}>
+				<a class="card variant-filled-tertiary p-4" href={`/frameworks/${framework.id}`}>
 					<header class="h3 card-header">{framework.title}</header>
 					<section class="m-4 line-clamp-3">
 						<p>{framework.description}</p>

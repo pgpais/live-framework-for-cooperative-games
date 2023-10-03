@@ -21,7 +21,7 @@
 <!-- App Shell -->
 <div class="flex h-screen w-screen flex-col">
 	<!-- App Bar -->
-	<div class="h-[12%]">
+	<div class="h-[12%] min-h-[100px]">
 		<Header {session} />
 	</div>
 	<!-- Page Route Content -->

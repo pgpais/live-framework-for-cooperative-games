@@ -2,6 +2,7 @@
 	import type { Dimension } from '$lib/db/schema';
 	import { detailInfoStore } from '$lib/stores/detailView';
 
+	export let isOfficial: boolean = true;
 	export let dimension: Dimension;
 
 	const changeDetailView = () => {
@@ -17,6 +18,6 @@
 	};
 </script>
 
-<button type="button" on:click={changeDetailView} class="py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary">
+<button type="button" on:click={changeDetailView} class={isOfficial? "py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary" : "py-1 px-4 variant-filled-warning rounded-full hover:variant-filled-secondary"}>
 	<b>{dimension.title}</b>
 </button>

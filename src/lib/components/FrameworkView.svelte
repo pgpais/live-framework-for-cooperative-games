@@ -11,7 +11,7 @@
 </script>
 
 {#if showTitle}
-	<h2 class="h2">
+	<h2 class="h2 mb-6">
 		Framework "{framework.title}" created by {framework.author.fullName}
 	</h2>
 {/if}

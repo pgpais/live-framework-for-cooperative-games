@@ -333,7 +333,7 @@
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment> -->
-	<Stepper on:step={OnStep} on:complete={addFramework} buttonCompleteLabel={'Submit'}>
+	<Stepper on:step={OnStep} on:complete={addFramework} buttonCompleteLabel={'Submit'} class="m-5 p-5 bg-tertiary-800 rounded-2xl">
 		<Step>
 			<header slot="header">Fill some information about your framework</header>
 			<input
@@ -378,7 +378,7 @@
 			<Tab bind:group={tabSet} name="detail" value={0}>Detail</Tab>
 			{#if stepperStep == 1}
 				<Tab bind:group={tabSet} name="addCategory" value={1}>New Category</Tab>
-				<Tab bind:group={tabSet} name="addDimension" value={2}>New Dimension</Tab>
+				<Tab bind:group={tabSet} name="addDimension" value={2}>New Value</Tab>
 			{/if}
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
@@ -387,7 +387,7 @@
 					</div>
 				{:else if tabSet === 1}
 					<!-- Adding a new Category -->
-					<form class="text-token space-y-4 p-4" on:submit|preventDefault={addCategory}>
+					<form class="text-token space-y-4 p-4 mx-4" on:submit|preventDefault={addCategory}>
 						<label class="label">
 							<span>Parent Category</span>
 							<select class="select" bind:value={$categoryForm.superCategoryId}>
@@ -429,7 +429,7 @@
 					</form>
 				{:else if tabSet === 2}
 					<!-- Adding a new Dimension -->
-					<form class="text-token space-y-4 p-4" on:submit|preventDefault={addDimension}>
+					<form class="text-token space-y-4 p-4 mx-4" on:submit|preventDefault={addDimension}>
 						<label class="label">
 							<span>Parent Category</span>
 							<select
@@ -448,23 +448,23 @@
 							{/if}
 						</label>
 						<label class="label">
-							<span>Title of new dimension</span>
+							<span>Title of new value</span>
 							<input
 								class="input"
 								type="text"
 								bind:value={$dimensionForm.title}
-								placeholder="Insert the category name"
+								placeholder="Insert the value name"
 							/>
 							{#if $dimensionFormErrors.title}
 								<span class="text-error-500-400-token">{$dimensionFormErrors.title}</span>
 							{/if}
 						</label>
 						<label class="label">
-							<span>Description of new dimension</span>
+							<span>Description of new value</span>
 							<textarea
 								class="textarea"
 								bind:value={$dimensionForm.description}
-								placeholder="Insert the category description"
+								placeholder="Insert the value description"
 							/>
 							{#if $dimensionFormErrors.description}
 								<span class="text-error-500-400-token">{$dimensionFormErrors.description}</span>

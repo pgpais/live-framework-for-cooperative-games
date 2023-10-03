@@ -21,37 +21,47 @@
 	{#await response}
 		<Loader2 class="animate-spin" />
 	{:then category}
-		<div>
-			<h1 class="h1">{category.title}</h1>
+		<div class="m-3 mt-4">
+			<div class="h6">
+				{#if category.superCategory}
+				{category.superCategory?.superCategory
+					? (category.superCategory?.superCategory?.title + ' > ') : ""
+					+ category.superCategory?.title ? category.superCategory?.title : ""
+				}
+				{/if}
+			</div>
+			<h3 class="h3"><b>{category.title}</b></h3>
 			<p>{category.description}</p>
 			<Separator verticalMargin={5} width={4} />
 			{#if category.subCategories && category.subCategories.length > 0}
-				<h2 class="h2">Subcategories</h2>
-				<ul class="list-inside list-disc">
+				<h4 class="h4">Subcategories</h4>
+				<div class="flex flex-col w-fit text-start pl-2">
 					{#each category.subCategories as subCategory}
-						<li>
-							<CategoryDetailButton
-								category={{
-									description: subCategory.description,
-									id: subCategory.id,
-									isOfficial: subCategory.status == 'official',
-									title: subCategory.title
-								}}
+
+						<CategoryDetailButton
+						category={{
+							description: subCategory.description,
+							id: subCategory.id,
+							isOfficial: subCategory.status == 'official',
+							title: subCategory.title
+						}}
 							/>
-						</li>
+						
 					{/each}
-				</ul>
+				</div>
 			{/if}
 			{#if category.subCategories && category.subCategories.length > 0 && category.dimensions && category.dimensions.length > 0}
 				<Separator verticalMargin={2} width={2} />
 			{/if}
 			{#if category.dimensions && category.dimensions.length > 0}
 				<h2 class="h2">Values</h2>
-				<ul class="list-inside list-disc">
+				<div class="grid grid-cols-1 m-3 justify-items-start gap-y-4">
 					{#each category.dimensions as dimension}
-						<li><DimensionDetailButton {dimension} /></li>
+					<div class="w-fit">
+						<DimensionDetailButton {dimension} />
+					</div>
 					{/each}
-				</ul>
+				</div>
 			{/if}
 		</div>
 	{/await}

@@ -27,35 +27,35 @@
 <!-- <TreeViewItem open={true} spacing="space-x-4"> -->
 <div>
 
-<div class="card variant-filled-tertiary p-6 rounded-3xl">
-	<span class={isOfficial ? 'text-primary-500-400-token text-2xl' : 'text-warning-500-400-token text-2xl'}>
-	<CategoryDetailButton
-		category={{
-			title: category.title,
-			id: category.id,
-			description: category.description,
-			isOfficial: category.status == 'official'
-		}}
-	/>
-	</span>
+	<div class={ isOfficial ?"card variant-filled-tertiary p-6 rounded-3xl": "card variant-filled-tertiary p-6 rounded-3xl border-warning-500 border-2"}>
+		<span class={isOfficial ? 'text-primary-500-400-token text-2xl' : 'text-primary-500-400-token text-2xl'}>
+			<CategoryDetailButton
+			category={{
+				title: category.title,
+				id: category.id,
+				description: category.description,
+				isOfficial: category.status == 'official'
+				}}
+			/>
+		</span>
 
-	{#if editable}
-		<button class="btn-primary btn btn-sm" on:click={() => onCategoryRemove(category)}>
-			<Trash2 />
-		</button>
-	{/if}
+		{#if editable}
+			<button class="btn-primary btn btn-sm" on:click={() => onCategoryRemove(category)}>
+				<Trash2 />
+			</button>
+		{/if}
 
-	{#if category.superCategoryId == 0}
-		<div class="mb-4 ml-6 mt-2">
-			{#if category.description}
-				<p>{category.description}</p>
-			{/if}
-		</div>
-	{/if}
+		{#if category.superCategoryId == 0}
+			<div class="mb-4 ml-6 mt-2">
+				{#if category.description}
+					<p>{category.description}</p>
+				{/if}
+			</div>
+		{/if}
 
 <!-- <svelte:fragment slot="children"> -->
 	{#if category.dimensions && category.dimensions.length > 0}
-		<div class="mb-4 ml-6 mt-2 flex gap-4">
+		<div class="mb-4 ml-6 mt-2 flex gap-4 flex-wrap">
 			{#each category.dimensions as dimension}
 				{#if (dimensionExamples && getDimensionExample(dimension.id)) || !dimensionExamples}
 					<DimensionView
@@ -70,7 +70,7 @@
 	{/if}
 </div>
 	{#if subCategories && subCategories.length > 0}
-	<div class="mx-4 grid gap-4 rounded-none border-l-2 pl-4 pt-4 my-2">
+	<div class="mx-4 grid gap-4 rounded-none border-l-2 pl-4 pt-4 my-2 dark:border-l-primary-500 border-l-tertiary-500">
 		{#each subCategories as subCategory}
 				<svelte:self
 					category={subCategory}

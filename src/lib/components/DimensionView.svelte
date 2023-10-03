@@ -16,10 +16,10 @@
 <div
 	class={isOfficial
 		? 'flex w-fit justify-between'
-		: 'variant-filled-warning flex w-fit justify-between'}
+		: 'flex w-fit justify-between'}
 >
 	<!-- {dimension.title} -->
-	<DimensionDetailButton {dimension} />
+	<DimensionDetailButton {dimension} {isOfficial}/>
 	{#if dimensionExample && dimensionExample.example}<span class="mr-2 place-self-center"
 			>&nbsp;| {dimensionExample.example}</span
 		>

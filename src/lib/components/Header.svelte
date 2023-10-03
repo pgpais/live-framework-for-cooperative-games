@@ -9,30 +9,30 @@
 	export let session: Session | null;
 </script>
 
-<div class="flex h-full justify-between bg-surface-200 p-5 gap-10">
+<div class="flex h-full justify-between bg-primary-500 p-5 gap-10">
 	<a href="/" class="flex h-full flex-col-reverse"
-		><img src={logo} class="h-full w-96 object-scale-down align-bottom" alt="Website logo" /></a
+		><img src={logo} class="h-full w-[350px] min-w-[330px] object-contain align-bottom" alt="Website logo" /></a
 	>
-	<div class="flex flex-grow flex-col-reverse flex-wrap">
+	<div class="flex flex-col-reverse flex-wrap">
 		<TabGroup
 			hover="hover:variant-filled-secondary"
 			active="text-black bg-surface-300"
-			justify="justify-evenly"
 			regionList="flex-wrap"
+			padding="px-10 py-2"
 		>
 			<TabAnchor
 				href="/"
 				selected={$page.url.pathname === '/'}
 				class="text-surface-800"
 			>
-				Consult Framework
+				Home
 			</TabAnchor>
 			<TabAnchor
 				href="/frameworks/search"
 				selected={$page.url.pathname.includes('/frameworks')}
 				class="text-surface-800"
 			>
-				Community Frameworks
+				Community
 			</TabAnchor>
 			<TabAnchor
 				href="/reports/new"

@@ -8,7 +8,7 @@
 </script>
 
 <ThreeColumnLayout>
-	<div class="h-full">
+	<div class="h-full p-6 w-full">
 		<FrameworkView framework={data.framework} />
 	</div>
 	<div class="h-full" slot="right">

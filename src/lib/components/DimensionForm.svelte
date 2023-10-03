@@ -10,13 +10,13 @@
 <!-- TODO: fix this label for property -->
 <label
 	for="name"
-	class="variant-ringed-primary grid h-fit max-w-xs grid-cols-2 justify-between rounded-xl px-2 py-2"
+	class="grid h-fit max-w-xs grid-cols-2 rounded-xl px-2 py-2"
 >
 	<div class="text-left">
 		<DimensionDetailButton {dimension} />
 	</div>
 
-	<div>
+	<div class="ml-4 h-fit self-center">
 		<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
 	</div>
 
@@ -37,7 +37,7 @@
 					class="textarea"
 					type="url"
 					bind:value={value.imageURL}
-					placeholder="URL of an image to exemplify this value"
+					placeholder="URL of an image"
 				/>
 			</label>
 		</div>
