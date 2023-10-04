@@ -68,7 +68,7 @@
 		  })
 		| undefined = undefined;
 
-	let selectedFrameworkId: number;
+	let selectedFrameworkId: number = 1;
 	let framework: FullFramework | undefined = undefined;
 
 	const isDimensionReported = () => {
@@ -110,6 +110,10 @@
 
 		$form.frameworkId = framework.id;
 	}
+
+	if (selectedFrameworkId > 0) {
+		fetchFramework();
+	}
 </script>
 
 <ThreeColumnLayout>
@@ -128,22 +132,19 @@
 					{#await frameworksRequest}
 						<Loader2 class="mx-5 animate-spin" />
 					{:then frameworks}
-						<label>
-							<span>Select a Framework:</span>
-							<select
-								class="select"
-								placeholder="Select a framework"
-								bind:value={selectedFrameworkId}
-								on:change={fetchFramework}
-							>
-								<option value={0}>Select a framework</option>
-								{#each frameworks as framework}
-									<option value={framework.id}>
-										{framework.title} - {framework.author.username}
-									</option>
-								{/each}
-							</select>
-						</label>
+						<select
+							class="select"
+							placeholder="Select a framework"
+							bind:value={selectedFrameworkId}
+							on:change={fetchFramework}
+						>
+							<option value={0}>Select a framework</option>
+							{#each frameworks as framework}
+								<option value={framework.id}>
+									{framework.title} - {framework.author.username}
+								</option>
+							{/each}
+						</select>
 						{#if selectedFrameworkId > 0 && !framework}
 							<Loader2 class="mx-5 animate-spin" />
 						{/if}
