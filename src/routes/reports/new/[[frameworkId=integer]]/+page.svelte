@@ -304,7 +304,7 @@
 							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'pastPlayed'}>
 								Played it in the past
 							</RadioItem>
-							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'observation'}>
+							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'observations'}>
 								Observations
 							</RadioItem>
 							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'other'}>
