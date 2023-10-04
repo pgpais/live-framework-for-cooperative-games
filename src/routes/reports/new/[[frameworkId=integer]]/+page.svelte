@@ -287,10 +287,12 @@
 							min={1}
 							max={5}
 							step={1}
-							ticked
 						>
 							<div class="flex items-center justify-between">
-								<div class="font-bold">How difficult was it to analyse the game with LFCG?</div>
+								<div class="font-bold">
+									How difficult was it to analyse the game with LFCG? (1 is very easy, 5 is very
+									hard)
+								</div>
 								<div class="text-xs">{$form.frameworkDifficulty} / {5}</div>
 							</div>
 						</RangeSlider>
