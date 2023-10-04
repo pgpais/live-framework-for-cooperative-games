@@ -10,7 +10,7 @@
 </script>
 
 <!-- TODO: fix this label for property -->
-<label for="name" class="grid h-fit max-w-xs grid-cols-2 rounded-xl px-2 py-2">
+<div class="grid h-fit max-w-xs grid-cols-2 gap-y-3 space-y-2 rounded-xl">
 	<div class={isOfficial ? 'flex w-fit justify-between' : 'flex w-fit justify-between'}>
 		<DimensionDetailButton {dimension} {isOfficial} />
 	</div>
@@ -21,9 +21,9 @@
 
 	{#if value.included}
 		<!-- div occupy two columns of grid -->
-		<div class="col-span-2">
+		<div class="col-span-2 flex flex-col gap-4">
 			<label>
-				<span>Describe how this value appears in the game:</span>
+				<p class="my-2">Describe how this value appears in the game:</p>
 				<textarea
 					class="textarea"
 					bind:value={value.example}
@@ -31,7 +31,7 @@
 				/>
 			</label>
 			<label>
-				<span>Share a link to an image representing this situation:</span>
+				<p class="my-2">Share a link to an image representing this situation:</p>
 				<input
 					class="textarea"
 					type="url"
@@ -41,4 +41,4 @@
 			</label>
 		</div>
 	{/if}
-</label>
+</div>
