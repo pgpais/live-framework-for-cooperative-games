@@ -1,23 +1,21 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import type { PageData } from './$types';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 
 	import DetailView from '$lib/components/DetailView.svelte';
 	import ReportForm from '$lib/components/ReportForm.svelte';
-	import { Circle, Loader2, Search } from 'lucide-svelte';
+	import { Loader2, Search } from 'lucide-svelte';
 	import type { NewGame } from '$lib/db/schema/game';
 	import {
 		RadioGroup,
 		RadioItem,
 		RangeSlider,
-		Ratings,
 		Step,
 		Stepper,
 		getToastStore
 	} from '@skeletonlabs/skeleton';
-	import type { Framework, FullFramework, User, analysisType } from '$lib/db/schema';
+	import type { Framework, FullFramework, User } from '$lib/db/schema';
 
 	export let data: PageData;
 
@@ -267,13 +265,15 @@
 				</Step>
 
 				<!-- Last Questions -->
-				<Step locked={$delayed || $allErrors.length > 0}>
+				<Step locked={$delayed}>
 					{#if $allErrors.length}
 						<div class="card variant-soft-error p-5">
 							<h3 class="h3">There were errors in your report</h3>
 							<ul class="list-inside list-disc">
 								{#each $allErrors as error}
-									<li>{error}</li>
+									{#each error.messages as message}
+										<li>{message}</li>
+									{/each}
 								{/each}
 							</ul>
 						</div>

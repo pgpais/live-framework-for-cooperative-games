@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { superValidate } from 'sveltekit-superforms/server';
 import { reportSchema, type ReportSchema, type CategoryReportSchema } from '$lib/schemas/report';
 import { fail, redirect } from '@sveltejs/kit';
 import db from '$lib/db';
@@ -54,8 +54,9 @@ export const actions = {
 		}
 
 		if (!categoryValidated) {
-			return message(form, 'No dimensions included', {
-				status: 400
+			return fail(400, {
+				message: 'At least one dimension of any category must be included',
+				form
 			});
 		}
 
