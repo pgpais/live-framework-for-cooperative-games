@@ -10,7 +10,7 @@
 </script>
 
 <!-- TODO: fix this label for property -->
-<div class="grid h-fit max-w-xs grid-cols-2 gap-y-3 space-y-2 rounded-xl">
+<div class="grid h-fit w-fit grid-cols-2 gap-y-3 space-y-2 rounded-xl">
 	<div class={isOfficial ? 'flex w-fit justify-between' : 'flex w-fit justify-between'}>
 		<DimensionDetailButton {dimension} {isOfficial} />
 	</div>

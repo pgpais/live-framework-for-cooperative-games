@@ -27,7 +27,7 @@
 		/></span
 	>
 	{#if value.dimensions && value.dimensions.length > 0}
-		<div class="mb-4 ml-6 mt-2 flex flex-wrap gap-4">
+		<div class="mb-4 ml-6 mt-2 flex w-fit flex-wrap gap-4">
 			{#each value.dimensions as dimension, j}
 				<DimensionForm bind:value={value.dimensions[j]} bind:dimension={value.dimensions[j]} />
 			{/each}
