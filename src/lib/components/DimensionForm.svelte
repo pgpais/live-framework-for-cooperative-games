@@ -5,15 +5,14 @@
 
 	export let value: DimensionReportSchema;
 	export let dimension: Dimension;
+
+	const isOfficial = dimension.status == 'official';
 </script>
 
 <!-- TODO: fix this label for property -->
-<label
-	for="name"
-	class="grid h-fit max-w-xs grid-cols-2 rounded-xl px-2 py-2"
->
-	<div class="text-left">
-		<DimensionDetailButton {dimension} />
+<label for="name" class="grid h-fit max-w-xs grid-cols-2 rounded-xl px-2 py-2">
+	<div class={isOfficial ? 'flex w-fit justify-between' : 'flex w-fit justify-between'}>
+		<DimensionDetailButton {dimension} {isOfficial} />
 	</div>
 
 	<div class="ml-4 h-fit self-center">

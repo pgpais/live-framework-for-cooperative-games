@@ -17,7 +17,8 @@ const baseCategoryReportSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	superCategoryId: z.number(),
-	dimensions: z.array(dimensionReportSchema).optional()
+	dimensions: z.array(dimensionReportSchema).optional(),
+	status: z.enum(['unofficial', 'merged', 'declined', 'official']).default('unofficial').optional()
 });
 
 type CategoryReport = z.infer<typeof baseCategoryReportSchema> & {

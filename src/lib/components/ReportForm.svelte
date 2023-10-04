@@ -1,14 +1,15 @@
 <script lang="ts">
 	import CategoryForm from '$lib/components/CategoryForm.svelte';
 	import type { CategoryReportSchema } from '$lib/schemas/report';
-	
+
 	export let value: { categories: CategoryReportSchema[] };
+	//print isOfficial for every category
 </script>
 
-<ul class="ml-2 list-inside list-disc gap-2">
+<div class="grid gap-4">
 	{#each value.categories as category, i}
-		<li>
+		{#if !category.superCategoryId || category.superCategoryId == 0}
 			<CategoryForm bind:value={value.categories[i]} />
-		</li>
+		{/if}
 	{/each}
-</ul>
+</div>
