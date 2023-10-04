@@ -33,8 +33,11 @@
 				<div class="flex flex-col gap-5 pt-6">
 					<h3 class="h3">Examples:</h3>
 					{#each dimension.dimensionExamples as example}
-						<a class="card variant-ghost-surface flex h-fit flex-col gap-2 p-5 card-hover" href={`/reports/${example.reportId}`}
-						target="_blank">
+						<a
+							class="card variant-ghost-surface card-hover flex h-fit flex-col gap-2 p-5"
+							href={`/reports/${example.reportId}`}
+							target="_blank"
+						>
 							<h4 class="h4 card-header mt-0 pt-0"><b>{example.report.game.name}</b></h4>
 							<div class="w-full">
 								<!-- TODO: if example has image, show it here -->
@@ -56,9 +59,11 @@
 									</div>
 								{/if}
 							</div>
-							<p class="line-clamp-3">
-								{example.example}
-							</p>
+							{#if example.example}
+								<p class="line-clamp-3">
+									{example.example}
+								</p>
+							{/if}
 						</a>
 					{/each}
 				</div>
