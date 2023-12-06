@@ -41,9 +41,9 @@ export const reportSchema = z
 			'Other'
 		]),
 		gameModeOther: z.string().optional(),
-		analysisLevel: z.enum(['Game Analysis (Macro)', 'Specific Moment (Micro)', 'Other']),
+		analysisLevel: z.enum(['macro', 'micro', 'other']),
 		analysisLevelOther: z.string().optional(),
-		valueIdentification: z.enum(['All Values', 'Only Relevant Values', 'Other']),
+		valueIdentification: z.enum(['all', 'relevant', 'other']),
 		valueIdentificationOther: z.string().optional(),
 		goal: z.string().optional(),
 		categories: z.array(categoryReportSchema).default([]),

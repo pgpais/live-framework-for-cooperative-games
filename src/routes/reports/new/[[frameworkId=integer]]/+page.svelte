@@ -249,7 +249,72 @@
 
 				<!-- Additional Details: Game Mode, Analysis level (Game Analysis (Macro), Specific Moment (Micro)), all values or only relevant, subjective goal -->
 				<Step>
-					<!--  -->
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<span>Analysis Level:</span>
+							<RadioGroup>
+								<RadioItem bind:group={$form.analysisLevel} name="analysisLevel" value={'macro'}>
+									Game Analysis (Macro)
+								</RadioItem>
+								<RadioItem bind:group={$form.analysisLevel} name="analysisLevel" value={'micro'}>
+									Specific Moment (Micro)
+								</RadioItem>
+								<RadioItem bind:group={$form.analysisLevel} name="analysisLevel" value={'other'}>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $form.analysisLevel == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$form.analysisLevelOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<span>Value Identification:</span>
+							<RadioGroup>
+								<RadioItem
+									bind:group={$form.valueIdentification}
+									name="valueIdentification"
+									value={'all'}
+								>
+									All Values
+								</RadioItem>
+								<RadioItem
+									bind:group={$form.valueIdentification}
+									name="valueIdentification"
+									value={'relevant'}
+								>
+									Only Relevant Values
+								</RadioItem>
+								<RadioItem
+									bind:group={$form.valueIdentification}
+									name="valueIdentification"
+									value={'other'}
+								>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $form.valueIdentification == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$form.valueIdentificationOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<label>
+						<span>Subjective Goal:</span>
+						<textarea class="textarea" bind:value={$form.goal} />
+					</label>
 				</Step>
 
 				<!-- Report form -->
