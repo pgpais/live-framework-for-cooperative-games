@@ -34,16 +34,13 @@ export const reportSchema = z
 		frameworkId: z.number().default(1),
 		authorId: z.string().default(''),
 		gameId: z.number(),
-		gameMode: z.enum([
-			'Cooperative Campaign',
-			'Competitive Team Play',
-			'Cooperative Scenarios',
-			'Other'
-		]),
+		gameMode: z
+			.enum(['coopCampaign', 'competitiveTeamPlay', 'coopScenarios', 'other'])
+			.default('coopCampaign'),
 		gameModeOther: z.string().optional(),
-		analysisLevel: z.enum(['macro', 'micro', 'other']),
+		analysisLevel: z.enum(['macro', 'micro', 'other']).default('macro'),
 		analysisLevelOther: z.string().optional(),
-		valueIdentification: z.enum(['all', 'relevant', 'other']),
+		valueIdentification: z.enum(['all', 'relevant', 'other']).default('all'),
 		valueIdentificationOther: z.string().optional(),
 		goal: z.string().optional(),
 		categories: z.array(categoryReportSchema).default([]),

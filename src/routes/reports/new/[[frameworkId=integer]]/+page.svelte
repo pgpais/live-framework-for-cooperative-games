@@ -251,6 +251,38 @@
 				<Step>
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
+							<span>Game Mode:</span>
+							<RadioGroup>
+								<RadioItem bind:group={$form.gameMode} name="gameMode" value={'coopCampaign'}>
+									Cooperative Campaign
+								</RadioItem>
+								<RadioItem
+									bind:group={$form.gameMode}
+									name="gameMode"
+									value={'competitiveTeamPlay'}
+								>
+									Competitive Team Play
+								</RadioItem>
+								<RadioItem bind:group={$form.gameMode} name="gameMode" value={'coopScenarios'}>
+									Cooperative Scenarios
+								</RadioItem>
+								<RadioItem bind:group={$form.gameMode} name="gameMode" value={'other'}>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $form.analysisLevel == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$form.analysisLevelOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
 							<span>Analysis Level:</span>
 							<RadioGroup>
 								<RadioItem bind:group={$form.analysisLevel} name="analysisLevel" value={'macro'}>
