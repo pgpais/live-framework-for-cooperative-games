@@ -34,6 +34,18 @@ export const reportSchema = z
 		frameworkId: z.number().default(1),
 		authorId: z.string().default(''),
 		gameId: z.number(),
+		gameMode: z.enum([
+			'Cooperative Campaign',
+			'Competitive Team Play',
+			'Cooperative Scenarios',
+			'Other'
+		]),
+		gameModeOther: z.string().optional(),
+		analysisLevel: z.enum(['Game Analysis (Macro)', 'Specific Moment (Micro)', 'Other']),
+		analysisLevelOther: z.string().optional(),
+		valueIdentification: z.enum(['All Values', 'Only Relevant Values', 'Other']),
+		valueIdentificationOther: z.string().optional(),
+		goal: z.string().optional(),
 		categories: z.array(categoryReportSchema).default([]),
 		analysisType: z.enum(['played', 'pastPlayed', 'observations', 'other']).default('played'),
 		otherAnalysisType: z.string().optional(),
