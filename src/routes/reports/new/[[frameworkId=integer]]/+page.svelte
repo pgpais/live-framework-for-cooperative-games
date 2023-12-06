@@ -247,6 +247,11 @@
 					</div>
 				</Step>
 
+				<!-- Additional Details: Game Mode, Analysis level (Game Analysis (Macro), Specific Moment (Micro)), all values or only relevant, subjective goal -->
+				<Step>
+					<!--  -->
+				</Step>
+
 				<!-- Report form -->
 				<Step>
 					<h2 class="h2 mb-5">
