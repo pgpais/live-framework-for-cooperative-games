@@ -251,7 +251,7 @@
 				<Step>
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
-							<span>Game Mode:</span>
+							<p>Game Mode</p>
 							<RadioGroup>
 								<RadioItem bind:group={$form.gameMode} name="gameMode" value={'coopCampaign'}>
 									Cooperative Campaign
@@ -283,7 +283,7 @@
 
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
-							<span>Analysis Level:</span>
+							<p>Analysis Level</p>
 							<RadioGroup>
 								<RadioItem bind:group={$form.analysisLevel} name="analysisLevel" value={'macro'}>
 									Game Analysis (Macro)
@@ -308,7 +308,7 @@
 
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
-							<span>Value Identification:</span>
+							<p>Value Identification</p>
 							<RadioGroup>
 								<RadioItem
 									bind:group={$form.valueIdentification}
@@ -391,16 +391,17 @@
 							step={1}
 						>
 							<div class="flex items-center justify-between">
-								<div class="font-bold">
+								<p>
 									How difficult was it to analyse the game with LFCG? (1 is very easy, 5 is very
 									hard)
-								</div>
+								</p>
 								<div class="text-xs">{$form.frameworkDifficulty} / {5}</div>
 							</div>
 						</RangeSlider>
 					</div>
 
 					<div class="card flex flex-col gap-3 p-5">
+						<p>Analysis Type</p>
 						<RadioGroup>
 							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'played'}>
 								Played it
