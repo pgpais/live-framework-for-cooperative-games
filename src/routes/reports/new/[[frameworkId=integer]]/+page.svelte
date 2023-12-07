@@ -271,11 +271,11 @@
 								</RadioItem>
 							</RadioGroup>
 
-							{#if $form.analysisLevel == 'other'}
+							{#if $form.gameMode == 'other'}
 								<textarea
 									class="textarea"
 									placeholder="Please specify"
-									bind:value={$form.analysisLevelOther}
+									bind:value={$form.gameModeOther}
 								/>
 							{/if}
 						</label>
