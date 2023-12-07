@@ -16,6 +16,7 @@ import {
 import { companies } from '$lib/db/schema/company';
 import { genres } from '$lib/db/schema/genre';
 import { platforms } from '$lib/db/schema/platform';
+import { insertGameSchema } from '$lib/schemas/game';
 
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
@@ -25,8 +26,9 @@ export const load = (async ({ locals }) => {
 	}
 
 	const form = await superValidate(reportSchema);
+	const gameForm = await superValidate(insertGameSchema);
 
-	return { form };
+	return { form, gameForm };
 }) satisfies PageServerLoad;
 
 export const actions = {

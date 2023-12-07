@@ -13,13 +13,29 @@
 		RangeSlider,
 		Step,
 		Stepper,
-		getToastStore
+		getToastStore,
+		type ModalSettings,
+		type ModalComponent
 	} from '@skeletonlabs/skeleton';
 	import type { Framework, FullFramework, User } from '$lib/db/schema';
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import NewGameFormModal from '$lib/components/Modals/NewGameFormModal.svelte';
 
 	export let data: PageData;
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
+
+	const modalComponent: ModalComponent = { ref: NewGameFormModal };
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+		// Data
+		title: 'Example Alert',
+		body: 'This is an example modal.',
+		image: 'https://i.imgur.com/WOgTG96.gif',
+		meta: { data: data.gameForm }
+	};
 
 	const { form, message, enhance, delayed, errors, allErrors } = superForm(data.form, {
 		dataType: 'json',
@@ -177,6 +193,13 @@
 									<Search />
 								</button>
 							</div>
+							<button
+								type="button"
+								class="variant-soft-primary btn ml-2"
+								on:click={() => modalStore.trigger(modal)}
+							>
+								modal
+							</button>
 							{#if isSearching === true}
 								<Loader2 class="mx-5 animate-spin" />
 							{:else if isSearching === false}
