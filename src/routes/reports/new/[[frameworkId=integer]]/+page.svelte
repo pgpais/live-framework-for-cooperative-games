@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { superForm } from 'sveltekit-superforms/client';
-	import type { PageData } from './$types';
+	import { superForm, superValidate } from 'sveltekit-superforms/client';
+	import type { ActionData, PageData } from './$types';
 	import ThreeColumnLayout from '$lib/components/layouts/ThreeColumnLayout.svelte';
 
 	import DetailView from '$lib/components/DetailView.svelte';
@@ -13,15 +13,47 @@
 		RangeSlider,
 		Step,
 		Stepper,
-		getToastStore
+		getToastStore,
+		type ModalSettings,
+		type ModalComponent
 	} from '@skeletonlabs/skeleton';
-	import type { Framework, FullFramework, User } from '$lib/db/schema';
+	import type { Framework, FullFramework, Genre, User } from '$lib/db/schema';
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import NewGameFormModal from '$lib/components/Modals/NewGameFormModal.svelte';
+	import { insertGameSchema } from '$lib/schemas/game';
+	import GameCardView from '$lib/components/GameViews/GameCardView.svelte';
 
 	export let data: PageData;
+	export let form: ActionData;
+
+	let customGame: NewGame | undefined = undefined;
+	$: customGame = form?.game;
+	$: if (customGame) {
+		$reportForm.gameId = customGame.id;
+	}
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
-	const { form, message, enhance, delayed, errors, allErrors } = superForm(data.form, {
+	const modalComponent: ModalComponent = { ref: NewGameFormModal };
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+		// Data
+		title: 'Example Alert',
+		body: 'This is an example modal.',
+		image: 'https://i.imgur.com/WOgTG96.gif',
+		meta: { data: data.gameForm }
+	};
+
+	const {
+		form: reportForm,
+		message,
+		enhance,
+		delayed,
+		errors,
+		allErrors
+	} = superForm(data.form, {
 		dataType: 'json',
 		onResult({ result }) {
 			console.log(result);
@@ -68,11 +100,11 @@
 		  })
 		| undefined = undefined;
 
-	let selectedFrameworkId: number = 1;
-	let framework: FullFramework | undefined = undefined;
+	let selectedFrameworkId: number;
+	let framework: FullFramework | undefined = data.framework;
 
 	const isDimensionReported = () => {
-		for (let category of $form.categories) {
+		for (let category of $reportForm.categories) {
 			if (category.dimensions === undefined) {
 				continue;
 			}
@@ -93,27 +125,29 @@
 
 		framework = data;
 
-		$form.categories = [];
+		formatFramework(framework);
+	}
+
+	function formatFramework(framework: FullFramework) {
+		$reportForm.categories = [];
 		for (const category of framework.categories) {
-			const i = $form.categories.push(category) - 1;
-			const dimensions = $form.categories[i].dimensions;
+			const i = $reportForm.categories.push(category) - 1;
+			const dimensions = $reportForm.categories[i].dimensions;
 			if (dimensions === undefined) {
-				console.log('no dimensions for category', $form.categories[i].title);
+				console.log('no dimensions for category', $reportForm.categories[i].title);
 				continue;
 			} else {
 				for (const dimension of dimensions) {
 					dimension.included = false;
 				}
-				$form.categories[i].dimensions = dimensions;
+				$reportForm.categories[i].dimensions = dimensions;
 			}
 		}
 
-		$form.frameworkId = framework.id;
+		$reportForm.frameworkId = framework.id;
 	}
 
-	if (selectedFrameworkId > 0) {
-		fetchFramework();
-	}
+	formatFramework(framework);
 </script>
 
 <ThreeColumnLayout>
@@ -121,7 +155,7 @@
 		<SuperDebug data={$form} />
 	</div> -->
 	<div class="m-5">
-		<form method="POST" use:enhance>
+		<form method="POST" action="?/newReport" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
 			<Stepper class="card variant-filled-tertiary p-5" buttonCompleteType="submit">
 				<!-- Framework Selection -->
@@ -152,7 +186,7 @@
 				</Step>
 
 				<!-- Game Selection -->
-				<Step locked={selectedGame == undefined}>
+				<Step locked={selectedGame == undefined && customGame == undefined}>
 					<svelte:fragment slot="header">What game are you reporting on?</svelte:fragment>
 					<div class="my-5 flex items-center">
 						<div class="flex w-full flex-col gap-3">
@@ -176,6 +210,13 @@
 								>
 									<Search />
 								</button>
+								<button
+									type="button"
+									class="variant-soft-primary btn ml-2"
+									on:click={() => modalStore.trigger(modal)}
+								>
+									Create Custom Game
+								</button>
 							</div>
 							{#if isSearching === true}
 								<Loader2 class="mx-5 animate-spin" />
@@ -183,9 +224,9 @@
 								<select
 									class="select mx-5"
 									placeholder="Select your game"
-									bind:value={$form.gameId}
+									bind:value={$reportForm.gameId}
 									on:change={() => {
-										let game = gamesData.find((game) => game.id === $form.gameId);
+										let game = gamesData.find((game) => game.id === $reportForm.gameId);
 										if (game) {
 											selectedGame = game;
 										} else {
@@ -201,57 +242,145 @@
 									{/each}
 								</select>
 							{/if}
-							{#if selectedGame && $form.gameId > 0}
-								<div class="card variant-ghost-tertiary flex p-5">
-									<div class="card-header flex w-1/3 flex-col gap-2">
-										<h3 class="h3">{selectedGame.name}</h3>
-										{#if selectedGame.imgUrl}
-											<img
-												src={selectedGame.imgUrl}
-												alt={selectedGame.name}
-												class="h-64 w-full object-contain"
-											/>
-										{:else}
-											<div
-												class="variant-outline-warning flex h-64 w-full items-center justify-center"
-											>
-												<p class="p">No image available</p>
-											</div>
-										{/if}
-									</div>
-									<div class="flex w-2/3 flex-col gap-4">
-										{#if selectedGame.releaseDate}
-											<p class="p">
-												<b>Release Date: </b>{Intl.DateTimeFormat('en-US', {
-													year: 'numeric',
-													month: 'long',
-													day: 'numeric'
-												}).format(new Date(0).setUTCSeconds(+selectedGame.releaseDate))}
-											</p>
-										{/if}
-										{#if selectedGame.genres}
-											<p class="p">
-												<b>Genres: </b>
-												{#each selectedGame.genres as genre}
-													<span>{genre.name}&nbsp;</span>
-												{/each}
-											</p>
-										{/if}
-										{#if selectedGame.description}
-											<p class="p"><b>Description: </b>{selectedGame.description}</p>
-										{/if}
-									</div>
-								</div>
+							<!-- if gameForm was submitted show custom game) -->
+							{#if selectedGame && $reportForm.gameId > 0}
+								<GameCardView game={selectedGame} />
+							{:else if customGame}
+								<GameCardView game={customGame} />
 							{/if}
 						</div>
 					</div>
 				</Step>
 
+				<!-- Additional Details: Game Mode, Analysis level (Game Analysis (Macro), Specific Moment (Micro)), all values or only relevant, subjective goal -->
+				<Step>
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<p>Game Mode</p>
+							<RadioGroup>
+								<RadioItem bind:group={$reportForm.gameMode} name="gameMode" value={'coopCampaign'}>
+									Cooperative Campaign
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.gameMode}
+									name="gameMode"
+									value={'competitiveTeamPlay'}
+								>
+									Competitive Team Play
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.gameMode}
+									name="gameMode"
+									value={'coopScenarios'}
+								>
+									Cooperative Scenarios
+								</RadioItem>
+								<RadioItem bind:group={$reportForm.gameMode} name="gameMode" value={'other'}>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $reportForm.gameMode == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$reportForm.gameModeOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<p>Analysis Level</p>
+							<RadioGroup>
+								<RadioItem
+									bind:group={$reportForm.analysisLevel}
+									name="analysisLevel"
+									value={'macro'}
+								>
+									Game Analysis (Macro)
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.analysisLevel}
+									name="analysisLevel"
+									value={'micro'}
+								>
+									Specific Moment (Micro)
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.analysisLevel}
+									name="analysisLevel"
+									value={'other'}
+								>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $reportForm.analysisLevel == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$reportForm.analysisLevelOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<div class="card flex flex-col gap-3 p-5">
+						<label>
+							<p>Value Identification</p>
+							<RadioGroup>
+								<RadioItem
+									bind:group={$reportForm.valueIdentification}
+									name="valueIdentification"
+									value={'all'}
+								>
+									All Values
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.valueIdentification}
+									name="valueIdentification"
+									value={'relevant'}
+								>
+									Only Relevant Values
+								</RadioItem>
+								<RadioItem
+									bind:group={$reportForm.valueIdentification}
+									name="valueIdentification"
+									value={'other'}
+								>
+									Other
+								</RadioItem>
+							</RadioGroup>
+
+							{#if $reportForm.valueIdentification == 'other'}
+								<textarea
+									class="textarea"
+									placeholder="Please specify"
+									bind:value={$reportForm.valueIdentificationOther}
+								/>
+							{/if}
+						</label>
+					</div>
+
+					<label>
+						<span>Subjective Goal:</span>
+						<textarea class="textarea" bind:value={$reportForm.goal} />
+					</label>
+				</Step>
+
 				<!-- Report form -->
 				<Step>
 					<h2 class="h2 mb-5">
-						Report for <i>{selectedGame ? selectedGame.name : 'an unselected game'}</i> based on
-						Framework
+						Report for <i
+							>{selectedGame
+								? selectedGame.name
+								: customGame
+								? customGame.name
+								: 'an unselected game'}</i
+						>
+						based on Framework
 						<i>{framework?.title}</i>
 					</h2>
 
@@ -260,7 +389,7 @@
 					{#if $message}
 						<p class="text-error-900">{$message}</p>
 					{/if}
-					<ReportForm bind:value={$form} />
+					<ReportForm bind:value={$reportForm} />
 					<!-- </TreeView> -->
 					<!-- <button class="btn variant-soft-primary my-2">Submit</button> -->
 				</Step>
@@ -283,42 +412,51 @@
 					<div class="card flex flex-col gap-3 p-5">
 						<RangeSlider
 							name="range-slider"
-							bind:value={$form.frameworkDifficulty}
+							bind:value={$reportForm.frameworkDifficulty}
 							min={1}
 							max={5}
 							step={1}
 						>
 							<div class="flex items-center justify-between">
-								<div class="font-bold">
+								<p>
 									How difficult was it to analyse the game with LFCG? (1 is very easy, 5 is very
 									hard)
-								</div>
-								<div class="text-xs">{$form.frameworkDifficulty} / {5}</div>
+								</p>
+								<div class="text-xs">{$reportForm.frameworkDifficulty} / {5}</div>
 							</div>
 						</RangeSlider>
 					</div>
 
 					<div class="card flex flex-col gap-3 p-5">
+						<p>Analysis Type</p>
 						<RadioGroup>
-							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'played'}>
+							<RadioItem bind:group={$reportForm.analysisType} name="analysisType" value={'played'}>
 								Played it
 							</RadioItem>
-							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'pastPlayed'}>
+							<RadioItem
+								bind:group={$reportForm.analysisType}
+								name="analysisType"
+								value={'pastPlayed'}
+							>
 								Played it in the past
 							</RadioItem>
-							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'observations'}>
+							<RadioItem
+								bind:group={$reportForm.analysisType}
+								name="analysisType"
+								value={'observations'}
+							>
 								Observations
 							</RadioItem>
-							<RadioItem bind:group={$form.analysisType} name="analysisType" value={'other'}>
+							<RadioItem bind:group={$reportForm.analysisType} name="analysisType" value={'other'}>
 								Other
 							</RadioItem>
 						</RadioGroup>
 
-						{#if $form.analysisType == 'other'}
+						{#if $reportForm.analysisType == 'other'}
 							<textarea
 								class="textarea"
 								placeholder="Please specify"
-								bind:value={$form.otherAnalysisType}
+								bind:value={$reportForm.otherAnalysisType}
 							/>
 						{/if}
 					</div>
@@ -326,14 +464,14 @@
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
 							<span>Describe your analysis process</span>
-							<textarea class="textarea" bind:value={$form.analysisDescription} />
+							<textarea class="textarea" bind:value={$reportForm.analysisDescription} />
 						</label>
 					</div>
 
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
 							<span>Any further comments to the framework you would like to make?</span>
-							<textarea class="textarea" bind:value={$form.frameworkComments} />
+							<textarea class="textarea" bind:value={$reportForm.frameworkComments} />
 						</label>
 					</div>
 
@@ -345,7 +483,7 @@
 						</p>
 						<label class="label">
 							Do you wish to make this report public?
-							<input type="checkbox" bind:checked={$form.public} />
+							<input type="checkbox" bind:checked={$reportForm.public} />
 						</label>
 						{#if $delayed}
 							<Loader2 class="mx-5 animate-spin" />

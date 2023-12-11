@@ -22,6 +22,17 @@ export const analysisType = pgEnum('analysis_type', [
 	'other'
 ]);
 
+export const gameMode = pgEnum('game_mode', [
+	'coopCampaign',
+	'competitiveTeamPlay',
+	'coopScenarios',
+	'other'
+]);
+
+export const analysisLevel = pgEnum('analysis_level', ['macro', 'micro', 'other']);
+
+export const valueIdentification = pgEnum('value_identification', ['all', 'relevant', 'other']);
+
 export const reports = pgTable('reports', {
 	id: serial('id').primaryKey(),
 	gameId: integer('game_id')
@@ -33,6 +44,12 @@ export const reports = pgTable('reports', {
 	authorId: varchar('author_id')
 		.notNull()
 		.references(() => users.id),
+	gameMode: gameMode('game_mode').notNull().default('coopCampaign'),
+	gameModeOther: text('game_mode_other'),
+	analysisLevel: analysisLevel('analysis_level').notNull().default('macro'),
+	analysisLevelOther: text('analysis_level_other'),
+	valueIdentification: valueIdentification('value_identification').notNull().default('all'),
+	valueIdentificationOther: text('value_identification_other'),
 	analysisType: analysisType('analysis_type').notNull().default('played'),
 	otherAnalysisType: text('other_analysis_type'),
 	analysisDescription: text('analysis_description'),
