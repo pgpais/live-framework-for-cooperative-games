@@ -11,7 +11,8 @@
 
 	// We've created a custom submit function to pass the response and close the modal.
 	function onFormSubmit(): void {
-		// if ($modalStore[0].response) $modalStore[0].response($modalStore[0].meta.data);
+		if ($modalStore[0].response) $modalStore[0].response($modalStore[0].meta.data);
+		console.log($modalStore[0].meta.data);
 		modalStore.close();
 	}
 
@@ -32,7 +33,7 @@
 		<!-- prettier-ignore -->
 		<footer class="modal-footer {parent.regionFooter}">
       <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
-      <button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>Submit Form</button>
+      <button class="btn {parent.buttonPositive}" type="submit" form="newGame" on:click={onFormSubmit}>Submit Form</button>
   </footer>
 	</div>
 {/if}
