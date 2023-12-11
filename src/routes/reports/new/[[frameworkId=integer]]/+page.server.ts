@@ -11,26 +11,41 @@ import {
 	type FullGame,
 	gamesToGenres,
 	gamesToCompanies,
-	gamesToPlatforms
+	gamesToPlatforms,
+	type NewGame
 } from '$lib/db/schema/game';
 import { companies } from '$lib/db/schema/company';
-import { genres } from '$lib/db/schema/genre';
+import { genres, type Genre } from '$lib/db/schema/genre';
 import { platforms } from '$lib/db/schema/platform';
+import { insertGameSchema } from '$lib/schemas/game';
+import { sql } from 'drizzle-orm';
+import type { FullFramework } from '$lib/db/schema';
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ fetch, locals, params }) => {
 	const session = await locals.auth.validate();
 	console.log('session', session);
 	if (!session) {
 		throw redirect(302, '/notLoggedIn');
 	}
 
-	const form = await superValidate(reportSchema);
+	const frameworkId = params.frameworkId ? +params.frameworkId : 1;
 
-	return { form };
+	const form = await superValidate(reportSchema);
+	const gameForm = await superValidate(insertGameSchema);
+	const framework = await fetchFramework();
+
+	async function fetchFramework() {
+		const response = await fetch(`/api/frameworks/full/${frameworkId}`);
+		const data: FullFramework = await response.json();
+
+		return data;
+	}
+
+	return { form, gameForm, framework };
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, locals }) => {
+	newReport: async ({ request, locals }) => {
 		const form = await superValidate(request, reportSchema);
 
 		// Convenient validation check:
@@ -64,6 +79,45 @@ export const actions = {
 
 		throw redirect(303, '/reports/' + reportId);
 		//TODO: Instead of redirect, send an alert to the user that the report was submitted with a button that redirects to the report page
+	},
+	newGame: async ({ request, locals }) => {
+		const form = await superValidate(request, insertGameSchema);
+		console.log('form', form);
+
+		// Convenient validation check:
+		if (!form.valid) {
+			// Again, always return { form } and things will just work.
+			return fail(400, { form });
+		}
+
+		const session = await locals.auth.validate();
+		if (!session) {
+			return fail(401, { message: 'Unauthorized', form });
+		}
+
+		const game: NewGame = form.data;
+
+		const minId = await db
+			.select({
+				minId: sql`min(${games.id})`.mapWith(games.id)
+			})
+			.from(games);
+
+		game.id = minId[0].minId - 1;
+		console.log('POSTING GAME:', game);
+
+		const insert = await db
+			.insert(games)
+			.values(game)
+			.returning({ insertedId: games.id, name: games.name, description: games.description });
+
+		const insertedGame: NewGame = {
+			id: insert[0].insertedId,
+			name: insert[0].name,
+			description: insert[0].description
+		};
+
+		return { form, game: insertedGame };
 	}
 };
 
@@ -126,63 +180,69 @@ function pushCategoryReportIntoArray(
 
 const uploadReport = async (report: ReportSchema, userId: string) => {
 	let reportId = -1;
-	const response = await getFullGameInfo(report.gameId);
-	if (response.status !== 200) throw new Error('Error fetching game info');
-	const game: FullGame = await response.json();
+	let game: FullGame;
+	if (report.gameId > 0) {
+		const response = await getFullGameInfo(report.gameId);
+		if (response.status !== 200) throw new Error('Error fetching game info');
+		game = await response.json();
+	}
 
+	//TODO: improve this flow. How can we signal that there is a custom game?
 	await db.transaction(async (tx) => {
 		console.log('DB: Inserting report', report);
 
-		await tx.insert(genres).values(game.genres).onConflictDoNothing();
+		if (game) {
+			await tx.insert(genres).values(game.genres).onConflictDoNothing();
 
-		await tx.insert(companies).values(game.companies).onConflictDoNothing();
+			await tx.insert(companies).values(game.companies).onConflictDoNothing();
 
-		await tx.insert(platforms).values(game.platforms).onConflictDoNothing();
+			await tx.insert(platforms).values(game.platforms).onConflictDoNothing();
 
-		if (game.imgUrl) {
+			if (game.imgUrl) {
+				await tx
+					.insert(games)
+					.values({
+						id: game.id,
+						name: game.name,
+						releaseDate: game.releaseDate,
+						imgUrl: game.imgUrl,
+						description: game.description
+					})
+					.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
+			} else {
+				await tx
+					.insert(games)
+					.values({
+						id: game.id,
+						name: game.name,
+						releaseDate: game.releaseDate,
+						imgUrl: game.imgUrl,
+						description: game.description
+					})
+					.onConflictDoNothing();
+			}
+
 			await tx
-				.insert(games)
-				.values({
-					id: game.id,
-					name: game.name,
-					releaseDate: game.releaseDate,
-					imgUrl: game.imgUrl,
-					description: game.description
-				})
-				.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
-		} else {
+				.insert(gamesToGenres)
+				.values(game.genres.map((genre) => ({ gameId: game.id, genreId: genre.id })))
+				.onConflictDoNothing();
+
 			await tx
-				.insert(games)
-				.values({
-					id: game.id,
-					name: game.name,
-					releaseDate: game.releaseDate,
-					imgUrl: game.imgUrl,
-					description: game.description
-				})
+				.insert(gamesToCompanies)
+				.values(game.companies.map((company) => ({ gameId: game.id, companyId: company.id })))
+				.onConflictDoNothing();
+
+			await tx
+				.insert(gamesToPlatforms)
+				.values(game.platforms.map((platform) => ({ gameId: game.id, platformId: platform.id })))
 				.onConflictDoNothing();
 		}
-
-		await tx
-			.insert(gamesToGenres)
-			.values(game.genres.map((genre) => ({ gameId: game.id, genreId: genre.id })))
-			.onConflictDoNothing();
-
-		await tx
-			.insert(gamesToCompanies)
-			.values(game.companies.map((company) => ({ gameId: game.id, companyId: company.id })))
-			.onConflictDoNothing();
-
-		await tx
-			.insert(gamesToPlatforms)
-			.values(game.platforms.map((platform) => ({ gameId: game.id, platformId: platform.id })))
-			.onConflictDoNothing();
 
 		const insertedReport = await tx
 			.insert(reports)
 			.values({
 				authorId: userId,
-				gameId: game.id,
+				gameId: game ? game.id : report.gameId,
 				frameworkId: report.frameworkId,
 				public: report.public,
 				gameMode: report.gameMode,

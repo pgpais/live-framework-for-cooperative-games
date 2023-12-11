@@ -20,6 +20,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.28.6
     version: 0.28.6(@types/pg@8.10.3)(pg@8.11.3)(postgres@3.3.5)
+  drizzle-zod:
+    specifier: ^0.5.1
+    version: 0.5.1(drizzle-orm@0.28.6)(zod@3.22.2)
   lucia:
     specifier: ^2.7.0
     version: 2.7.0
@@ -1461,6 +1464,16 @@ packages:
       '@types/pg': 8.10.3
       pg: 8.11.3
       postgres: 3.3.5
+    dev: false
+
+  /drizzle-zod@0.5.1(drizzle-orm@0.28.6)(zod@3.22.2):
+    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+      zod: '*'
+    dependencies:
+      drizzle-orm: 0.28.6(@types/pg@8.10.3)(pg@8.11.3)(postgres@3.3.5)
+      zod: 3.22.2
     dev: false
 
   /duplexer2@0.1.4:
@@ -3699,4 +3712,3 @@ packages:
 
   /zod@3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
-    dev: true
