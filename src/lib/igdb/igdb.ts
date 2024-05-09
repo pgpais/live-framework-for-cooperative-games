@@ -3,7 +3,7 @@ import type { NewCompany } from '$lib/db/schema/company';
 import type { FullGame } from '$lib/db/schema/game';
 import type { NewGenre } from '$lib/db/schema/genre';
 import type { NewPlatform } from '$lib/db/schema/platform';
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 
 export async function igdbAuth() {
 	const response = await fetch(
@@ -20,7 +20,7 @@ export async function searchForGames(name: string) {
 	const data = await igdbAuth();
 	const accessToken = data.access_token;
 
-	if (!accessToken) return new Response('Error authenticating with IGDB', { status: 500 });
+	if (!accessToken) throw error(500, 'Error authenticating with IGDB');
 
 	const gamesResponse = await fetch('https://api.igdb.com/v4/games', {
 		method: 'POST',
@@ -31,7 +31,12 @@ export async function searchForGames(name: string) {
 		},
 		body: `fields id, name, summary, genres.id, genres.name, involved_companies.company.id, involved_companies.company.name, platforms.id, platforms.name, first_release_date, cover.image_id; search "${name}";`
 	});
-	if (gamesResponse.status !== 200) return new Response('Error fetching games', { status: 500 });
+	if (gamesResponse.status == 429)
+		throw error(
+			429,
+			'Too many requests, try again later. If the error persists, let us know at pgpaisdev@gmail.com'
+		);
+	if (gamesResponse.status !== 200) throw error(500, 'Error fetching games');
 
 	type dataType = {
 		id: number;
