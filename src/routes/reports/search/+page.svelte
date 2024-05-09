@@ -99,7 +99,7 @@
 
 	<svelte:fragment slot="right">
 		{#if selectedGame}
-			<GameDetail game={selectedGame} />
+			<GameDetail game={selectedGame} reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())} />
 		{/if}
 	</svelte:fragment>
 </ThreeColumnLayout>

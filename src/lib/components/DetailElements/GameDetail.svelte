@@ -5,6 +5,12 @@
 	console.log('GameDetail.svelte');
 
 	export let game: Game;
+	export let reports: Promise<
+		(Report & {
+			author: User;
+			dimensionExamples: (DimensionExample & { dimension: Dimension })[];
+		})[]
+	>;
 
 	const reportsFetch: Promise<
 		(Report & {
@@ -21,7 +27,7 @@
 	<section>
 		<h3 class="h3">Reports</h3>
 		<hr class="pb-2" />
-		{#await reportsFetch}
+		{#await reports}
 			<div class="grid gap-2">
 				<div class="placeholder animate-pulse" />
 				<div class="placeholder animate-pulse" />
