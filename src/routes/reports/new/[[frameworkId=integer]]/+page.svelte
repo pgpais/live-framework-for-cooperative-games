@@ -66,6 +66,7 @@
 	});
 
 	let isSearching: Boolean | undefined = undefined;
+	let gameSearchError: String | undefined = undefined;
 
 	async function getFrameworks() {
 		const res = await fetch(`/api/frameworks`);
@@ -78,10 +79,16 @@
 	async function getGame(name: string) {
 		// Searches for a game through the API
 		isSearching = true;
+		gameSearchError = undefined;
 		const res = await fetch(`/api/games?name=${name}`);
-		const data = await res.json();
-		console.log(data);
-		gamesData = data;
+		if(res.ok){
+			const data = await res.json();
+			console.log(data);
+			gamesData = data;
+		}else{
+			console.log(res);
+			gameSearchError = "Error " + res.status + ": " + res.statusText;
+		}
 		isSearching = false;
 	}
 
@@ -220,6 +227,8 @@
 							</div>
 							{#if isSearching === true}
 								<Loader2 class="mx-5 animate-spin" />
+							{:else if isSearching === false && gameSearchError}
+								<p class="text-error-500">{gameSearchError}</p>
 							{:else if isSearching === false}
 								<select
 									class="select mx-5"
