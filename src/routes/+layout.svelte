@@ -1,13 +1,16 @@
 <script lang="ts">
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	import { Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { Modal, Toast, initializeStores, Drawer } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
 	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 	import { navigating } from '$app/stores';
 	import type { LayoutData } from './$types';
-
+	import { getDrawerStore } from "@skeletonlabs/skeleton";
+	import DimensionDetail from '$lib/components/DetailElements/DimensionDetail.svelte';
 	initializeStores();
+
+	const drawerStore = getDrawerStore();
 
 	export let data: LayoutData;
 	$: session = data.session;
@@ -18,6 +21,16 @@
 </svelte:head>
 <Modal />
 <Toast />
+<Drawer position={"right"}>
+	{#if $drawerStore.id === 'dimension-detail'}
+		<DimensionDetail/>
+	{:else if $drawerStore.id === 'example-2'}
+		<!-- (show 'example-2' contents) -->
+	{:else}
+		<!-- (fallback contents) -->
+	{/if}
+</Drawer>
+
 <!-- App Shell -->
 <div class="flex h-screen w-screen flex-col">
 	<!-- App Bar -->
