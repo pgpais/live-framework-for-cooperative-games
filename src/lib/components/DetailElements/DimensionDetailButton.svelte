@@ -31,5 +31,5 @@
 </button>
 
 <button type="button" on:click={() => changeDetailView(true)} class={isOfficial? "block xl:hidden py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary" : "py-1 px-4 variant-filled-warning rounded-full hover:variant-filled-secondary"}>
-	<b>{dimension.title} mobile</b>
+	<b>{dimension.title}</b>
 </button>
