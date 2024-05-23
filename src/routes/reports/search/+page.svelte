@@ -98,6 +98,7 @@
 	</div>
 
 	<svelte:fragment slot="right">
+		<!-- TODO: Abstract into component so you can use in Detail Drawer -->
 		{#if selectedGame}
 			<GameDetail game={selectedGame} reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())} />
 		{/if}

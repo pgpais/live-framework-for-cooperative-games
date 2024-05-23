@@ -374,6 +374,7 @@
 		</Step>
 	</Stepper>
 	<div slot="right">
+		<!-- TODO: Abstract into a component so you can use it in detail drawer -->
 		<TabGroup>
 			<Tab bind:group={tabSet} name="detail" value={0}>Detail</Tab>
 			{#if stepperStep == 1}
