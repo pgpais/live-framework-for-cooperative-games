@@ -8,6 +8,7 @@
 	import type { LayoutData } from './$types';
 	import { getDrawerStore } from "@skeletonlabs/skeleton";
 	import DimensionDetail from '$lib/components/DetailElements/DimensionDetail.svelte';
+	import CategoryDetail from '$lib/components/DetailElements/CategoryDetail.svelte';
 	initializeStores();
 
 	const drawerStore = getDrawerStore();
@@ -24,8 +25,8 @@
 <Drawer position={"right"}>
 	{#if $drawerStore.id === 'dimension-detail'}
 		<DimensionDetail/>
-	{:else if $drawerStore.id === 'example-2'}
-		<!-- (show 'example-2' contents) -->
+	{:else if $drawerStore.id === 'category-detail'}
+		<CategoryDetail/>
 	{:else}
 		<!-- (fallback contents) -->
 	{/if}
