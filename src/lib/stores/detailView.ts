@@ -15,3 +15,5 @@ export type DetailInfoData = {
 	description: string;
 	isOfficial: boolean;
 };
+
+//TODO: This should hold all info for detail view. New Framework forms and Game Detail Views should also be here
