@@ -49,6 +49,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@giscus/svelte": "^3.0.0",
 		"@lucia-auth/adapter-postgresql": "^2.0.1",
 		"@lucia-auth/oauth": "^3.3.0",
 		"@prisma/client": "5.1.1",

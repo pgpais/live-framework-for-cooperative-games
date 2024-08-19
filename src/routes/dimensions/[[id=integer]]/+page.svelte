@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Giscus from "@giscus/svelte";
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -45,4 +46,23 @@
 			</div>
 		</section>
 	{/if}
+	<Giscus id="comments" repo="pgpais/live-framework-for-cooperative-games" repoId="R_kgDOKEw5gg" category="Framework Discussions" categoryId="DIC_kwDOKEw5gs4ChxWY" mapping="specific" term={(category.superCategory? category.superCategory.title + " > " : "") + category.title + " > " + dimension.title} emitMetadata="0" reactionsEnabled="1" inputPosition="top" theme="preferred_color_scheme" lang="en" loading="lazy"/>
 </div>
+
+<!-- <script src="https://giscus.app/client.js"
+        data-repo="pgpais/live-framework-for-cooperative-games"
+        data-repo-id="R_kgDOKEw5gg"
+        data-category="Framework Discussions"
+        data-category-id="DIC_kwDOKEw5gs4ChxWY"
+        data-mapping="specific"
+        data-term="[ENTER TERM HERE]"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script> -->
