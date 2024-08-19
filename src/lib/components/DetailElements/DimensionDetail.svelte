@@ -3,6 +3,7 @@
 	import { detailInfoStore } from '$lib/stores/detailView';
 	import { Loader2 } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
+	import Giscus from "@giscus/svelte";
 
 	let response: Promise<DimensionDetail>;
 	let isOfficial: boolean;
@@ -77,6 +78,7 @@
 					</a>
 				</div>
 			{/if}
+			<Giscus id="comments" repo="pgpais/live-framework-for-cooperative-games" repoId="R_kgDOKEw5gg" category="Framework Discussions" categoryId="DIC_kwDOKEw5gs4ChxWY" mapping="specific" term={(dimension.category.superCategory? dimension.category.superCategory.title + " > " : "") + dimension.category.title + " > " + dimension.title} emitMetadata="0" reactionsEnabled="1" inputPosition="top" theme="preferred_color_scheme" lang="en" loading="lazy"/>
 		</div>
 	{/await}
 {:else}
