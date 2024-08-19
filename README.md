@@ -11,6 +11,7 @@ Additionally, it is using:
 - lucide for icons
 - superforms for forms
 - zod for typechecking
+- [giscus](https://giscus.app/) for github discussions embedding
 
 ## Developing
 
