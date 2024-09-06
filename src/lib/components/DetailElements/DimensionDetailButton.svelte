@@ -20,7 +20,7 @@
 		};
 
 		if(isDrawer){
-			const settings: DrawerSettings = { id: 'dimension-detail' };
+			const settings: DrawerSettings = { id: 'dimension-detail', position:'right' };
 			drawerStore.open(settings);
 		}
 	};
