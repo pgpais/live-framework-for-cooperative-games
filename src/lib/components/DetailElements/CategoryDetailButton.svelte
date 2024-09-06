@@ -17,7 +17,7 @@
 		console.log($detailInfoStore);
 
 		if(isDrawer){
-			const settings: DrawerSettings = { id: 'category-detail' };
+			const settings: DrawerSettings = { id: 'category-detail', position:'right' };
 			drawerStore.open(settings);
 		}
 	};
