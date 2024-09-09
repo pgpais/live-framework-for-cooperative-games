@@ -1,12 +1,21 @@
 <script lang="ts">
 	import type { DimensionDetail } from '$lib/db/schema';
 	import { detailInfoStore } from '$lib/stores/detailView';
-	import { Loader2 } from 'lucide-svelte';
+	import { ChevronLeft, Loader2 } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
-	import Giscus from "@giscus/svelte";
+	import Giscus from '@giscus/svelte';
+	import { getDrawerStore } from '@skeletonlabs/skeleton';
+
+	export let isDrawer: boolean = false;
 
 	let response: Promise<DimensionDetail>;
 	let isOfficial: boolean;
+
+	const drawerStore = getDrawerStore();
+
+	function drawerClose(): void {
+		drawerStore.close();
+	}
 
 	function isImage(url: string) {
 		return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -23,10 +32,17 @@
 		<Loader2 class="animate-spin" />
 	{:then dimension}
 		<div class="p-6">
-			<div class="h6">
-				{dimension.category.superCategory
-					? dimension.category.superCategory.title + ' > ' + dimension.category.title
-					: dimension.category.title}
+			<div class="flex items-center">
+				{#if isDrawer}
+					<button on:click={drawerClose} class="p-4">
+						<ChevronLeft />
+					</button>
+				{/if}
+				<div class="h6">
+					{dimension.category.superCategory
+						? dimension.category.superCategory.title + ' > ' + dimension.category.title
+						: dimension.category.title}
+				</div>
 			</div>
 			<h1 class="h1">{dimension.title}</h1>
 			<p>{dimension.description}</p>
@@ -78,7 +94,26 @@
 					</a>
 				</div>
 			{/if}
-			<Giscus id="comments" repo="pgpais/live-framework-for-cooperative-games" repoId="R_kgDOKEw5gg" category="Framework Discussions" categoryId="DIC_kwDOKEw5gs4ChxWY" mapping="specific" term={(dimension.category.superCategory? dimension.category.superCategory.title + " > " : "") + dimension.category.title + " > " + dimension.title} emitMetadata="0" reactionsEnabled="1" inputPosition="top" theme="preferred_color_scheme" lang="en" loading="lazy"/>
+			<Giscus
+				id="comments"
+				repo="pgpais/live-framework-for-cooperative-games"
+				repoId="R_kgDOKEw5gg"
+				category="Framework Discussions"
+				categoryId="DIC_kwDOKEw5gs4ChxWY"
+				mapping="specific"
+				term={(dimension.category.superCategory
+					? dimension.category.superCategory.title + ' > '
+					: '') +
+					dimension.category.title +
+					' > ' +
+					dimension.title}
+				emitMetadata="0"
+				reactionsEnabled="1"
+				inputPosition="top"
+				theme="preferred_color_scheme"
+				lang="en"
+				loading="lazy"
+			/>
 		</div>
 	{/await}
 {:else}

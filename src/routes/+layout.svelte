@@ -25,9 +25,9 @@
 <Toast />
 <Drawer>
 	{#if $drawerStore.id === 'dimension-detail'}
-		<DimensionDetail/>
+		<DimensionDetail isDrawer = {true}/>
 	{:else if $drawerStore.id === 'category-detail'}
-		<CategoryDetail/>
+		<CategoryDetail isDrawer = {true}/>
 	{:else if $drawerStore.id == 'nav-menu'}
 		<SidebarNavigation/>
 	{:else}
