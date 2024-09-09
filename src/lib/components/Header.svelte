@@ -13,6 +13,7 @@
 
 	const drawerStore = getDrawerStore();
 	
+	
 	function navigationDrawerOpen(): void {
 		drawerStore.open({id:'nav-menu', position:'left', width:'w-[280px] md:w-[480px]'});
 	}	
