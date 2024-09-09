@@ -30,6 +30,7 @@
 		>
 	</div>
 	<div class="hidden 2xl:flex flex-col-reverse flex-wrap">
+		<!-- ATTENTION: WHEN UPDATING THIS COMPONENT, DON'T FORGET TO UPDATE THE OTHER NAVBAR IN SidebarNavigation -->
 		<TabGroup
 			hover="hover:variant-filled-secondary"
 			active="text-black bg-surface-300"
