@@ -72,9 +72,9 @@
 			Show list of reports based on a number of filters (e.g. game, author, framework) and sort
 			(e.g. oldest, newest) options
 		</p>
-		<div class="m-5 grid grid-cols-4">
+		<div class="m-5 flex flex-wrap justify-center gap-10">
 			{#each games as game}
-				<GameCardView {game} onClick={() => (selectedGame = game)}/>
+				<GameCardView {game} onClick={() => (selectedGame = game)} />
 			{/each}
 		</div>
 	</div>
@@ -82,7 +82,10 @@
 	<svelte:fragment slot="right">
 		<!-- TODO: Abstract into component so you can use in Detail Drawer -->
 		{#if selectedGame}
-			<GameDetail game={selectedGame} reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())} />
+			<GameDetail
+				game={selectedGame}
+				reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())}
+			/>
 		{/if}
 	</svelte:fragment>
 </ThreeColumnLayout>
