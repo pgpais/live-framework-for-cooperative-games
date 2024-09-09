@@ -7,13 +7,28 @@
 	import GameDetail from '$lib/components/DetailElements/GameDetail.svelte';
 	import type { Game } from '$lib/db/schema';
 	import GameCardView from '$lib/components/GameViews/GameCardView.svelte';
+	import { type DrawerSettings, getDrawerStore } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
 	$: ({ games } = data);
 	let companyFilterSelected = data.companyFilter;
 	let genreFilterSelected = data.genreFilter;
 	let platformFilterSelected = data.platformFilter;
-	let selectedGame: Game | undefined;
+	let selectedGame: Game | undefined = undefined;
+
+	const drawerStore = getDrawerStore();
+
+	function changeDetailViewDrawer(game: Game): void {
+		selectedGame = game;
+		const settings: DrawerSettings = {
+			id: 'game-detail',
+			position: 'right',
+			meta: {
+				game: game
+			}
+		};
+		drawerStore.open(settings);
+	}
 </script>
 
 <!-- TODO: invalidate with filters so load happens again. Change query params -->
@@ -72,20 +87,23 @@
 			Show list of reports based on a number of filters (e.g. game, author, framework) and sort
 			(e.g. oldest, newest) options
 		</p>
-		<div class="m-5 flex flex-wrap justify-center gap-10">
+		<div class="m-5 hidden flex-wrap justify-center gap-10 xl:flex">
 			{#each games as game}
 				<GameCardView {game} onClick={() => (selectedGame = game)} />
+			{/each}
+		</div>
+		<div class="m-5 flex flex-wrap justify-center gap-10 xl:hidden">
+			{#each games as game}
+				<GameCardView {game} onClick={() => changeDetailViewDrawer(game)} />
 			{/each}
 		</div>
 	</div>
 
 	<svelte:fragment slot="right">
 		<!-- TODO: Abstract into component so you can use in Detail Drawer -->
-		{#if selectedGame}
-			<GameDetail
-				game={selectedGame}
-				reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())}
-			/>
+		{#if selectedGame != undefined}
+			<GameDetail game={selectedGame} />
+			<!-- reports={fetch('/api/reports?game=' + selectedGame.id).then((res) => res.json())} -->
 		{/if}
 	</svelte:fragment>
 </ThreeColumnLayout>

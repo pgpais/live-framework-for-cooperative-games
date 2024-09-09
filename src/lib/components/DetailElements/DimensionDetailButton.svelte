@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Dimension } from '$lib/db/schema';
 	import { detailInfoStore } from '$lib/stores/detailView';
-	import { getDrawerStore, type DrawerSettings } from "@skeletonlabs/skeleton";
+	import { getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
 
 	const drawerStore = getDrawerStore();
 
@@ -19,17 +19,29 @@
 			}
 		};
 
-		if(isDrawer){
-			const settings: DrawerSettings = { id: 'dimension-detail', position:'right' };
+		if (isDrawer) {
+			const settings: DrawerSettings = { id: 'dimension-detail', position: 'right' };
 			drawerStore.open(settings);
 		}
 	};
 </script>
 
-<button type="button" on:click={() => changeDetailView(false)} class={isOfficial? "hidden xl:block py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary" : "py-1 px-4 variant-filled-warning rounded-full hover:variant-filled-secondary"}>
+<button
+	type="button"
+	on:click={() => changeDetailView(false)}
+	class={isOfficial
+		? 'variant-filled-primary hidden rounded-full px-4 py-1 hover:variant-filled-secondary xl:block'
+		: 'variant-filled-warning rounded-full px-4 py-1 hover:variant-filled-secondary'}
+>
 	<b>{dimension.title}</b>
 </button>
 
-<button type="button" on:click={() => changeDetailView(true)} class={isOfficial? "block xl:hidden py-1 px-4 variant-filled-primary rounded-full hover:variant-filled-secondary" : "py-1 px-4 variant-filled-warning rounded-full hover:variant-filled-secondary"}>
+<button
+	type="button"
+	on:click={() => changeDetailView(true)}
+	class={isOfficial
+		? 'variant-filled-primary block rounded-full px-4 py-1 hover:variant-filled-secondary xl:hidden'
+		: 'variant-filled-warning rounded-full px-4 py-1 hover:variant-filled-secondary'}
+>
 	<b>{dimension.title}</b>
 </button>
