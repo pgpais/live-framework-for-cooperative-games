@@ -22,6 +22,7 @@
 	import NewGameFormModal from '$lib/components/Modals/NewGameFormModal.svelte';
 	import { insertGameSchema } from '$lib/schemas/game';
 	import GameCardView from '$lib/components/GameViews/GameCardView.svelte';
+	import GameSummaryView from '$lib/components/GameViews/GameSummaryView.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -81,13 +82,13 @@
 		isSearching = true;
 		gameSearchError = undefined;
 		const res = await fetch(`/api/games?name=${name}`);
-		if(res.ok){
+		if (res.ok) {
 			const data = await res.json();
 			console.log(data);
 			gamesData = data;
-		}else{
+		} else {
 			console.log(res);
-			gameSearchError = "Error " + res.status + ": " + res.statusText;
+			gameSearchError = 'Error ' + res.status + ': ' + res.statusText;
 		}
 		isSearching = false;
 	}
@@ -253,9 +254,9 @@
 							{/if}
 							<!-- if gameForm was submitted show custom game) -->
 							{#if selectedGame && $reportForm.gameId > 0}
-								<GameCardView game={selectedGame} />
+								<GameSummaryView game={selectedGame} />
 							{:else if customGame}
-								<GameCardView game={customGame} />
+								<GameSummaryView game={customGame} />
 							{/if}
 						</div>
 					</div>
