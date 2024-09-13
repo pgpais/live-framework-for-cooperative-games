@@ -4,8 +4,8 @@
 	export let game: NewGame & { genres?: Genre[] };
 </script>
 
-<div class="card variant-ghost-tertiary flex p-5">
-	<div class="card-header flex w-1/3 flex-col gap-2">
+<div class="card variant-ghost-tertiary flex flex-col gap-4 p-5 md:flex-row">
+	<div class="card-header flex flex-col gap-2 md:w-1/3">
 		<h3 class="h3">{game.name}</h3>
 		{#if game.imgUrl}
 			<img src={game.imgUrl} alt={game.name} class="h-64 w-full object-contain" />
@@ -15,7 +15,7 @@
 			</div>
 		{/if}
 	</div>
-	<div class="flex w-2/3 flex-col gap-4">
+	<div class="flex flex-col gap-4 md:w-2/3">
 		{#if game.releaseDate}
 			<p class="p">
 				<b>Release Date: </b>{Intl.DateTimeFormat('en-US', {
