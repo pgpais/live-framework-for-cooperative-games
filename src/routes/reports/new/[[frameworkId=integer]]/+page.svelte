@@ -267,7 +267,7 @@
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
 							<p>Game Mode</p>
-							<RadioGroup>
+							<RadioGroup display="contents lg:inline-flex">
 								<RadioItem bind:group={$reportForm.gameMode} name="gameMode" value={'coopCampaign'}>
 									Cooperative Campaign
 								</RadioItem>
@@ -303,7 +303,7 @@
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
 							<p>Analysis Level</p>
-							<RadioGroup>
+							<RadioGroup display="contents lg:inline-flex">
 								<RadioItem
 									bind:group={$reportForm.analysisLevel}
 									name="analysisLevel"
@@ -340,7 +340,7 @@
 					<div class="card flex flex-col gap-3 p-5">
 						<label>
 							<p>Value Identification</p>
-							<RadioGroup>
+							<RadioGroup display="contents lg:inline-flex">
 								<RadioItem
 									bind:group={$reportForm.valueIdentification}
 									name="valueIdentification"
@@ -439,7 +439,7 @@
 
 					<div class="card flex flex-col gap-3 p-5">
 						<p>Analysis Type</p>
-						<RadioGroup>
+						<RadioGroup display="contents lg:inline-flex">
 							<RadioItem bind:group={$reportForm.analysisType} name="analysisType" value={'played'}>
 								Played it
 							</RadioItem>
