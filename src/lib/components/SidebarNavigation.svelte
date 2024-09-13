@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { AppRail, getDrawerStore } from "@skeletonlabs/skeleton";
+	import { AppRail, getDrawerStore, LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
+	import type { Session } from 'lucia';
+	import Login from '$lib/components/Sessions/Login.svelte';
 
 	const drawerStore = getDrawerStore();
 
@@ -8,20 +11,70 @@
 		drawerStore.close();
 	}
 
-	$: listboxItemActiveIncludes = (href: string) => ($page.url.pathname?.includes(href) ? 'bg-primary-active-token' : '');
-	$: listboxItemActive = (href: string) => ($page.url.pathname === href ? 'bg-primary-active-token' : '');
-</script>
-<!-- ATTENTION: WHEN UPDATING THIS COMPONENT, DON'T FORGET TO UPDATE THE OTHER NAVBAR IN THE HEADER -->
+	export let session: Session | null;
 
+	$: listboxItemActiveIncludes = (href: string) =>
+		$page.url.pathname?.includes(href) ? 'bg-primary-active-token' : '';
+	$: listboxItemActive = (href: string) =>
+		$page.url.pathname === href ? 'bg-primary-active-token' : '';
+</script>
+
+<!-- ATTENTION: WHEN UPDATING THIS COMPONENT, DON'T FORGET TO UPDATE THE OTHER NAVBAR IN THE HEADER -->
+<AppRail width="w-full">
 	<nav class="list-nav">
 		<ul>
-			<li><a href="/" class={listboxItemActive("/")} data-sveltekit-preload-data="hover" on:keypress on:click={drawerStore.close}>Home</a></li>
-			<li><a href="/frameworks/search" class={listboxItemActiveIncludes("/frameworks/search")} data-sveltekit-preload-data="hover" on:keypress on:click={drawerStore.close}>Community</a></li>
-			<li><a href="/reports/new" class={listboxItemActiveIncludes("/reports/new")} data-sveltekit-preload-data="hover" on:keypress on:click={drawerStore.close}>New Report</a></li>
-			<li><a href="/frameworks/new" class={listboxItemActiveIncludes("/frameworks/new")} data-sveltekit-preload-data="hover" on:keypress on:click={drawerStore.close}>New Framework</a></li>
-			<li><a href="/reports/search" class={listboxItemActiveIncludes("/reports/search")} data-sveltekit-preload-data="hover" on:keypress on:click={drawerStore.close}>Game Analysis</a></li>
+			<li>
+				<a
+					href="/"
+					class={listboxItemActive('/')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}>Home</a
+				>
+			</li>
+			<li>
+				<a
+					href="/frameworks/search"
+					class={listboxItemActiveIncludes('/frameworks/search')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}>Community</a
+				>
+			</li>
+			<li>
+				<a
+					href="/reports/new"
+					class={listboxItemActiveIncludes('/reports/new')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}>New Report</a
+				>
+			</li>
+			<li>
+				<a
+					href="/frameworks/new"
+					class={listboxItemActiveIncludes('/frameworks/new')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}>New Framework</a
+				>
+			</li>
+			<li>
+				<a
+					href="/reports/search"
+					class={listboxItemActiveIncludes('/reports/search')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}>Game Analysis</a
+				>
+			</li>
 		</ul>
 	</nav>
+	<div slot="trail" class="card variant-filled-primary m-8 flex items-center justify-between p-4">
+		<Login {session} />
+		<LightSwitch />
+	</div>
+</AppRail>
 
 <!-- <TabAnchor
 				href="/"
