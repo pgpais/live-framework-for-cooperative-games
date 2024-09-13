@@ -31,7 +31,7 @@
 	{:else if $drawerStore.id === 'category-detail'}
 		<CategoryDetail isDrawer={true} />
 	{:else if $drawerStore.id == 'nav-menu'}
-		<SidebarNavigation />
+		<SidebarNavigation {session} />
 	{:else if $drawerStore.id == 'game-detail'}
 		<GameDetail game={$drawerStore.meta.game} isDrawer={true} />
 	{:else}

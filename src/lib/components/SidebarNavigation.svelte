@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { AppRail, getDrawerStore, LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
+	import type { Session } from 'lucia';
+	import Login from '$lib/components/Sessions/Login.svelte';
 
 	const drawerStore = getDrawerStore();
 
 	function drawerClose(): void {
 		drawerStore.close();
 	}
+
+	export let session: Session | null;
 
 	$: listboxItemActiveIncludes = (href: string) =>
 		$page.url.pathname?.includes(href) ? 'bg-primary-active-token' : '';
@@ -65,8 +70,8 @@
 			</li>
 		</ul>
 	</nav>
-	<div slot="trail" class="m-8 flex justify-between">
-		<div>login</div>
+	<div slot="trail" class="card variant-filled-primary m-8 flex items-center justify-between p-4">
+		<Login {session} />
 		<LightSwitch />
 	</div>
 </AppRail>

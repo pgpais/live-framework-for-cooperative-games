@@ -1,36 +1,46 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { getDrawerStore, initializeStores, LightSwitch, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
+	import {
+		getDrawerStore,
+		initializeStores,
+		LightSwitch,
+		TabAnchor,
+		TabGroup
+	} from '@skeletonlabs/skeleton';
 	import type { Session, User } from 'lucia';
 	import logo from '$lib/assets/framework-logo-text.png';
 	import { string } from 'zod';
 	import { Menu } from 'lucide-svelte';
+	import Login from '$lib/components/Sessions/Login.svelte';
 
 	export let session: Session | null;
 
 	// initializeStores();
 
 	const drawerStore = getDrawerStore();
-	
-	
+
 	function navigationDrawerOpen(): void {
-		drawerStore.open({id:'nav-menu', position:'left', width:'w-[280px] md:w-[480px]'});
-	}	
+		drawerStore.open({ id: 'nav-menu', position: 'left', width: 'w-[280px] md:w-[480px]' });
+	}
 </script>
 
-<div class="flex h-full justify-between bg-primary-500 p-5 gap-10">
+<div class="flex h-full justify-between gap-10 bg-primary-500 p-5">
 	<div class="flex">
 		<!-- Hamburger menu -->
-		<button class="2xl:hidden btn btn-sm mr-4" on:click={navigationDrawerOpen}>
-				<Menu color="black"/>            
-			</button>
+		<button class="btn btn-sm mr-4 2xl:hidden" on:click={navigationDrawerOpen}>
+			<Menu color="black" />
+		</button>
 
 		<a href="/" class="flex h-full flex-col-reverse"
-		><img src={logo} class="h-full w-[350px] min-w-[330px] object-contain align-bottom" alt="Website logo" /></a
+			><img
+				src={logo}
+				class="h-full w-[350px] min-w-[330px] object-contain align-bottom"
+				alt="Website logo"
+			/></a
 		>
 	</div>
-	<div class="hidden 2xl:flex flex-col-reverse flex-wrap">
+	<div class="hidden flex-col-reverse flex-wrap 2xl:flex">
 		<!-- ATTENTION: WHEN UPDATING THIS COMPONENT, DON'T FORGET TO UPDATE THE OTHER NAVBAR IN SidebarNavigation -->
 		<TabGroup
 			hover="hover:variant-filled-secondary"
@@ -38,11 +48,7 @@
 			regionList="flex-wrap"
 			padding="px-10 py-2"
 		>
-			<TabAnchor
-				href="/"
-				selected={$page.url.pathname === '/'}
-				class="text-surface-800"
-			>
+			<TabAnchor href="/" selected={$page.url.pathname === '/'} class="text-surface-800">
 				Home
 			</TabAnchor>
 			<TabAnchor
@@ -76,15 +82,8 @@
 			<!-- <TabAnchor href="/dimensions">Dimensions</TabAnchor> -->
 		</TabGroup>
 	</div>
-	<div class="flex flex-col">
+	<div class="card variant-filled-primary hidden place-items-end gap-4 p-4 xl:flex">
+		<Login {session} />
 		<LightSwitch />
-		{#if session}
-			<p class="text-surface-800 accent">Hello, {session.user.full_name}</p>
-			<form method="POST" action="/logout" use:enhance>
-				<input type="submit" class="variant-filled-secondary btn" value="Sign out" />
-			</form>
-		{:else}
-			<a class="variant-filled-secondary btn" href="/login/github"> Sign in with Github </a>
-		{/if}
 	</div>
 </div>
