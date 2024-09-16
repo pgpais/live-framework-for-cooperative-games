@@ -40,7 +40,7 @@
 	type="button"
 	on:click={() => changeDetailView(true)}
 	class={isOfficial
-		? 'variant-filled-primary block rounded-full px-4 py-1 hover:variant-filled-secondary xl:hidden'
+		? 'variant-filled-primary block rounded-full px-4 py-1 hover:variant-filled-secondary xl:hidden '
 		: 'variant-filled-warning rounded-full px-4 py-1 hover:variant-filled-secondary'}
 >
 	<b>{dimension.title}</b>

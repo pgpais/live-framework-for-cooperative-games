@@ -165,7 +165,7 @@
 	<div class="m-5">
 		<form method="POST" action="?/newReport" use:enhance>
 			<button type="submit" disabled style="display: none" aria-hidden="true" />
-			<Stepper class="card variant-filled-tertiary p-5" buttonCompleteType="submit">
+			<Stepper class="card bg-tertiary-800 p-5" buttonCompleteType="submit">
 				<!-- Framework Selection -->
 				<Step locked={selectedFrameworkId <= 0 || !framework}>
 					<svelte:fragment slot="header"

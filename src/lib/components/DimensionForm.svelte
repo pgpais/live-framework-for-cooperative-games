@@ -10,13 +10,11 @@
 </script>
 
 <!-- TODO: fix this label for property -->
-<div class="variant-filled-tertiary flex h-fit flex-shrink flex-col rounded-xl p-4">
-	<div class="flex">
+<div class="variant-filled-tertiary flex flex-col rounded-xl p-4">
+	<div class="flex items-center justify-between gap-2">
 		<DimensionDetailButton {dimension} {isOfficial} />
 
-		<div class="ml-4 w-fit self-center">
-			<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
-		</div>
+		<input class="checkbox" type="checkbox" name="dimension" bind:checked={value.included} />
 	</div>
 
 	{#if value.included}
