@@ -197,34 +197,38 @@
 				<Step locked={selectedGame == undefined && customGame == undefined}>
 					<svelte:fragment slot="header">What game are you reporting on?</svelte:fragment>
 					<div class="my-5 flex items-center">
-						<div class="flex w-full flex-col gap-3">
-							<div>
-								<input
-									type="text"
-									class="input w-1/4"
-									placeholder="Search for a Game"
-									bind:value={gameNameQuery}
-									on:submit={() => getGame(gameNameQuery)}
-									on:keydown={(e) => {
-										if (e.key === 'Enter') {
-											getGame(gameNameQuery);
-										}
-									}}
-								/>
-								<button
-									type="button"
-									class="variant-soft-primary btn ml-2"
-									on:click={() => getGame(gameNameQuery)}
-								>
-									<Search />
-								</button>
-								<button
-									type="button"
-									class="variant-soft-primary btn ml-2"
-									on:click={() => modalStore.trigger(modal)}
-								>
-									Create Custom Game
-								</button>
+						<div class="flex w-full flex-col justify-between gap-3">
+							<div class="flex flex-col gap-5">
+								<div class="flex justify-between">
+									<input
+										type="text"
+										class="input"
+										placeholder="Search for a Game"
+										bind:value={gameNameQuery}
+										on:submit={() => getGame(gameNameQuery)}
+										on:keydown={(e) => {
+											if (e.key === 'Enter') {
+												getGame(gameNameQuery);
+											}
+										}}
+									/>
+									<button
+										type="button"
+										class="variant-soft-primary btn ml-2"
+										on:click={() => getGame(gameNameQuery)}
+									>
+										<Search />
+									</button>
+								</div>
+								<div class="flex flex-row-reverse">
+									<button
+										type="button"
+										class="variant-soft-primary btn ml-2 max-w-fit"
+										on:click={() => modalStore.trigger(modal)}
+									>
+										Create Custom Game
+									</button>
+								</div>
 							</div>
 							{#if isSearching === true}
 								<Loader2 class="mx-5 animate-spin" />
