@@ -313,12 +313,14 @@
 		const responsejson = await response.json();
 		console.log(responsejson);
 		if (response.status === 201) {
-			toastStore.trigger({message : 'Framework submitted successfully'})
+			toastStore.trigger({ message: 'Framework submitted successfully' });
 			window.location.href = '/frameworks/' + responsejson.frameworkId;
 		} else {
 			submittingFramework = false;
 			console.log('Error submitting framework: ', responsejson.message ?? 'Unknown error');
-			toastStore.trigger({message : 'Error submitting framework: ' + responsejson.message ?? 'Unknown error'})
+			toastStore.trigger({
+				message: 'Error submitting framework: ' + responsejson.message ?? 'Unknown error'
+			});
 		}
 	}
 
@@ -333,7 +335,12 @@
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment> -->
-	<Stepper on:step={OnStep} on:complete={addFramework} buttonCompleteLabel={'Submit'} class="m-5 p-5 bg-tertiary-800 rounded-2xl">
+	<Stepper
+		on:step={OnStep}
+		on:complete={addFramework}
+		buttonCompleteLabel={'Submit'}
+		class="m-5 rounded-2xl bg-tertiary-800 p-5"
+	>
 		<Step>
 			<header slot="header">Fill some information about your framework</header>
 			<input
@@ -351,25 +358,23 @@
 			<!-- TODO: Add tooltip with a help for description -->
 		</Step>
 		<Step locked={submittingFramework}>
-			<div class="m-6">
-				<FrameworkView
-					{framework}
-					editable={true}
-					onCategoryRemove={removeCategory}
-					onDimensionRemove={removeDimension}
-				/>
-				<div class="flex">
-					<!-- <button
+			<FrameworkView
+				{framework}
+				editable={true}
+				onCategoryRemove={removeCategory}
+				onDimensionRemove={removeDimension}
+			/>
+			<div class="flex">
+				<!-- <button
 						class="btn variant-filled-primary"
 						on:click={addFramework}
 						disabled={addingFramework}
 					>
 						Save Framework
 					</button> -->
-					{#if submittingFramework}
-						<Loader class="animate-spin" />
-					{/if}
-				</div>
+				{#if submittingFramework}
+					<Loader class="animate-spin" />
+				{/if}
 			</div>
 		</Step>
 	</Stepper>
@@ -388,7 +393,7 @@
 					</div>
 				{:else if tabSet === 1}
 					<!-- Adding a new Category -->
-					<form class="text-token space-y-4 p-4 mx-4" on:submit|preventDefault={addCategory}>
+					<form class="text-token mx-4 space-y-4 p-4" on:submit|preventDefault={addCategory}>
 						<label class="label">
 							<span>Parent Category</span>
 							<select class="select" bind:value={$categoryForm.superCategoryId}>
@@ -425,12 +430,12 @@
 							{/if}
 						</label>
 						<div>
-							<button class="btn variant-filled-primary"> Add New Category </button>
+							<button class="variant-filled-primary btn"> Add New Category </button>
 						</div>
 					</form>
 				{:else if tabSet === 2}
 					<!-- Adding a new Dimension -->
-					<form class="text-token space-y-4 p-4 mx-4" on:submit|preventDefault={addDimension}>
+					<form class="text-token mx-4 space-y-4 p-4" on:submit|preventDefault={addDimension}>
 						<label class="label">
 							<span>Parent Category</span>
 							<select
@@ -472,7 +477,7 @@
 							{/if}
 						</label>
 						<div>
-							<button class="btn variant-filled-primary"> Add New Dimension </button>
+							<button class="variant-filled-primary btn"> Add New Dimension </button>
 						</div>
 					</form>
 				{/if}
