@@ -335,49 +335,55 @@
 		<SuperDebug data={$categoryForm} />
 		<SuperDebug data={$dimensionForm} />
 	</svelte:fragment> -->
-	<Stepper
-		on:step={OnStep}
-		on:complete={addFramework}
-		buttonCompleteLabel={'Submit'}
-		class="m-5 rounded-2xl bg-tertiary-800 p-5"
-	>
-		<Step>
-			<header slot="header">Fill some information about your framework</header>
-			<input
-				class="input"
-				type="text"
-				bind:value={framework.title}
-				placeholder="Insert the framework name"
-			/>
-			<input
-				class="input"
-				type="text"
-				bind:value={framework.description}
-				placeholder="Insert the framework description"
-			/>
-			<!-- TODO: Add tooltip with a help for description -->
-		</Step>
-		<Step locked={submittingFramework}>
-			<FrameworkView
-				{framework}
-				editable={true}
-				onCategoryRemove={removeCategory}
-				onDimensionRemove={removeDimension}
-			/>
-			<div class="flex">
-				<!-- <button
-						class="btn variant-filled-primary"
-						on:click={addFramework}
-						disabled={addingFramework}
-					>
-						Save Framework
-					</button> -->
-				{#if submittingFramework}
-					<Loader class="animate-spin" />
-				{/if}
-			</div>
-		</Step>
-	</Stepper>
+	<div class="block xl:hidden">
+		This functionality is still not available for mobile as it requires a major rework. Please
+		access this page from a computer to use.
+	</div>
+	<div class="hidden xl:block">
+		<Stepper
+			on:step={OnStep}
+			on:complete={addFramework}
+			buttonCompleteLabel={'Submit'}
+			class="m-5 rounded-2xl bg-tertiary-800 p-5"
+		>
+			<Step>
+				<header slot="header">Fill some information about your framework</header>
+				<input
+					class="input"
+					type="text"
+					bind:value={framework.title}
+					placeholder="Insert the framework name"
+				/>
+				<input
+					class="input"
+					type="text"
+					bind:value={framework.description}
+					placeholder="Insert the framework description"
+				/>
+				<!-- TODO: Add tooltip with a help for description -->
+			</Step>
+			<Step locked={submittingFramework}>
+				<FrameworkView
+					{framework}
+					editable={true}
+					onCategoryRemove={removeCategory}
+					onDimensionRemove={removeDimension}
+				/>
+				<div class="flex">
+					<!-- <button
+				class="btn variant-filled-primary"
+				on:click={addFramework}
+				disabled={addingFramework}
+				>
+				Save Framework
+				</button> -->
+					{#if submittingFramework}
+						<Loader class="animate-spin" />
+					{/if}
+				</div>
+			</Step>
+		</Stepper>
+	</div>
 	<div slot="right">
 		<!-- TODO: Abstract into a component so you can use it in detail drawer -->
 		<TabGroup>
