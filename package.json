@@ -57,7 +57,7 @@
 		"drizzle-orm": "^0.28.6",
 		"drizzle-zod": "^0.5.1",
 		"lucia": "^2.7.0",
-		"lucide-svelte": "^0.265.0",
+		"lucide-svelte": "^0.441.0",
 		"pdfmake": "^0.2.7",
 		"pg": "^8.11.3",
 		"postgres": "^3.3.5"
