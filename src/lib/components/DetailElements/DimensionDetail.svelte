@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DimensionDetail } from '$lib/db/schema';
+	import type { DimensionDetail, DimensionExample, dimensionExamples, Game } from '$lib/db/schema';
 	import { detailInfoStore } from '$lib/stores/detailView';
 	import { ChevronLeft, Loader2 } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
@@ -9,6 +9,7 @@
 	export let isDrawer: boolean = false;
 
 	let response: Promise<DimensionDetail>;
+	let examplesResponse: Promise<(Game & { examples: DimensionExample[] })[]>;
 	let isOfficial: boolean;
 
 	const drawerStore = getDrawerStore();
@@ -24,6 +25,9 @@
 	$: {
 		isOfficial = $detailInfoStore.data.isOfficial;
 		response = fetch(`/api/dimensions/${$detailInfoStore.data.id}`).then((res) => res.json());
+		examplesResponse = fetch(`api/examples/byDimension/${$detailInfoStore.data.id}`).then((res) =>
+			res.json()
+		);
 	}
 </script>
 
@@ -46,6 +50,49 @@
 			</div>
 			<h1 class="h1">{dimension.title}</h1>
 			<p>{dimension.description}</p>
+			{#await examplesResponse}
+				<div class="flex flex-col gap-5 pt-6">asd</div>
+			{:then games}
+				<div class="flex flex-col gap-5 pt-6">
+					<h3 class="h3">Examples:</h3>
+					{#each games as game}
+						{#each game.examples as example}
+							<a
+								class="card variant-ghost-surface card-hover flex h-fit flex-col gap-2 p-5"
+								href={`/reports/${example.reportId}`}
+								target="_blank"
+							>
+								<h4 class="h4 card-header mt-0 pt-0"><b>{game.name}</b></h4>
+								<div class="w-full">
+									<!-- TODO: if example has image, show it here -->
+									{#if example.imageURL && isImage(example.imageURL)}
+										<img
+											src={example.imageURL}
+											alt="Attached to example"
+											class="h-56 w-full place-self-center object-contain"
+										/>
+									{:else if game.imgUrl && isImage(game.imgUrl)}
+										<img
+											src={game.imgUrl}
+											alt="Game cover"
+											class="h-56 w-full place-self-center object-contain"
+										/>
+									{:else}
+										<div class="variant-outline-warning flex h-60 items-center justify-center">
+											<p class="p">No image available</p>
+										</div>
+									{/if}
+								</div>
+								{#if example.example}
+									<p class="line-clamp-3">
+										{example.example}
+									</p>
+								{/if}
+							</a>
+						{/each}
+					{/each}
+				</div>
+			{/await}
 			{#if dimension.dimensionExamples}
 				<div class="flex flex-col gap-5 pt-6">
 					<h3 class="h3">Examples:</h3>
