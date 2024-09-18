@@ -12,11 +12,11 @@
 	<div class="mx-10 flex w-full max-w-lg flex-col items-center gap-5">
 		<div class="card p-5">
 			<p class="my-2">
-				The Living Framework for Cooperative Games (LFCG), captures high-level structures
-				encountered in cooperative games divided into Play Structure, Player Context and Forms of
-				Cooperation; and includes a compendium of Cooperation Design Patterns. Ths framework is
-				derived from a multi-step systematic analysis of 129 cooperative games with contributions of
-				eleven researchers, and was <a
+				The Living Framework for Cooperative Games (LFCG) captures high-level structures encountered
+				in cooperative games divided into Play Structure, Player Context and Forms of Cooperation;
+				and includes a compendium of Cooperation Design Patterns. This framework is derived from a
+				multi-step systematic analysis of 129 cooperative games with contributions of eleven
+				researchers, and was <a
 					href="https://dl.acm.org/doi/pdf/10.1145/3613904.3641953"
 					target="_blank"
 					class="anchor"
