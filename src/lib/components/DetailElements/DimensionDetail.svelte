@@ -80,25 +80,27 @@
 								</div>
 							{/if}
 							{#each game.examples as example}
-								<a
-									href={`/reports/${example.reportId}`}
-									target="_blank"
-									class="card variant-ghost-primary card-hover flex flex-col gap-4 p-8"
-								>
-									<!-- TODO: if example has image, show it here -->
-									{#if example.imageURL && isImage(example.imageURL)}
-										<img
-											src={example.imageURL}
-											alt="Attached to example"
-											class="h-56 w-full place-self-center object-contain"
-										/>
-									{/if}
-									{#if example.example}
-										<p class="line-clamp-3">
-											{example.example}
-										</p>
-									{/if}
-								</a>
+								{#if example.example && example.example.trim() !== ''}
+									<a
+										href={`/reports/${example.reportId}`}
+										target="_blank"
+										class="card variant-ghost-primary card-hover flex flex-col gap-4 p-8"
+									>
+										<!-- TODO: if example has image, show it here -->
+										{#if example.imageURL && isImage(example.imageURL)}
+											<img
+												src={example.imageURL}
+												alt="Attached to example"
+												class="h-56 w-full place-self-center object-contain"
+											/>
+										{/if}
+										{#if example.example}
+											<p class="line-clamp-3">
+												{example.example}
+											</p>
+										{/if}
+									</a>
+								{/if}
 							{/each}
 						</div>
 					{/each}
