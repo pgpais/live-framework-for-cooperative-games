@@ -40,19 +40,26 @@
 			/></a
 		>
 	</div>
-	<div class="hidden flex-col-reverse flex-wrap 2xl:flex">
+	<div class="hidden max-w-5xl flex-grow flex-col-reverse flex-wrap 2xl:flex">
 		<TabGroup
 			hover="hover:variant-filled-secondary"
 			active="text-black bg-surface-300"
 			regionList="flex-wrap"
-			padding="px-10 py-2"
+			justify="justify-between"
 		>
 			<TabAnchor href="/" selected={$page.url.pathname === '/'} class="text-surface-800">
 				Home
 			</TabAnchor>
 			<TabAnchor
+				href="/frameworks"
+				selected={$page.url.pathname == '/frameworks'}
+				class="text-surface-800"
+			>
+				Framework
+			</TabAnchor>
+			<TabAnchor
 				href="/frameworks/search"
-				selected={$page.url.pathname.includes('/frameworks')}
+				selected={$page.url.pathname.includes('/frameworks/')}
 				class="text-surface-800"
 			>
 				Community

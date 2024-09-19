@@ -34,8 +34,18 @@
 			</li>
 			<li>
 				<a
+					href="/frameworks"
+					class={listboxItemActive('/frameworks')}
+					data-sveltekit-preload-data="hover"
+					on:keypress
+					on:click={drawerStore.close}
+					>Framework
+				</a>
+			</li>
+			<li>
+				<a
 					href="/frameworks/search"
-					class={listboxItemActiveIncludes('/frameworks/search')}
+					class={listboxItemActiveIncludes('/frameworks/')}
 					data-sveltekit-preload-data="hover"
 					on:keypress
 					on:click={drawerStore.close}>Community</a
