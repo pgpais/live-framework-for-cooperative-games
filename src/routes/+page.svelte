@@ -50,7 +50,7 @@
 			<a href="/reports/search" class="variant-filled btn">Reports</a>
 		</div>
 	</div>
-	<div class="mx-10 flex flex-col items-center gap-5">
+	<!-- <div class="mx-10 flex flex-col items-center gap-5">
 		<h2 class="h2">Authors</h2>
 		<div class="flex flex-wrap content-center justify-evenly gap-10">
 			<AuthorView
@@ -79,5 +79,5 @@
 				name="Pedro Pais"
 			/>
 		</div>
-	</div>
+	</div> -->
 </div>
