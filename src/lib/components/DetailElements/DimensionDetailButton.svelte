@@ -26,15 +26,15 @@
 	};
 </script>
 
-<!-- <button
+<button
 	type="button"
 	on:click={() => changeDetailView(false)}
 	class={isOfficial
-		? 'variant-filled-primary hidden rounded-full px-4 py-1 hover:variant-filled-secondary xl:block'
-		: 'variant-filled-warning rounded-full px-4 py-1 hover:variant-filled-secondary'}
+		? 'variant-filled-primary hidden h-fit rounded-full px-4 py-1 hover:variant-filled-secondary xl:block'
+		: 'variant-filled-warning h-fit rounded-full px-4 py-1 hover:variant-filled-secondary'}
 >
 	<b>{dimension.title}</b>
-</button> -->
+</button>
 
 <button
 	type="button"
