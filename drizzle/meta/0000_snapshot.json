@@ -1,10 +1,8 @@
 {
-  "version": "5",
-  "dialect": "pg",
-  "id": "d99d7e69-f451-4df1-8663-7bf5ae4c54ea",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "categories": {
+    "public.categories": {
       "name": "categories",
       "schema": "",
       "columns": {
@@ -59,21 +57,21 @@
         "categories_framework_id_frameworks_id_fk": {
           "name": "categories_framework_id_frameworks_id_fk",
           "tableFrom": "categories",
-          "tableTo": "frameworks",
           "columnsFrom": [
             "framework_id"
           ],
+          "tableTo": "frameworks",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "companies": {
+    "public.companies": {
       "name": "companies",
       "schema": "",
       "columns": {
@@ -95,7 +93,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "dimensions": {
+    "public.dimensions": {
       "name": "dimensions",
       "schema": "",
       "columns": {
@@ -136,21 +134,21 @@
         "dimensions_category_id_categories_id_fk": {
           "name": "dimensions_category_id_categories_id_fk",
           "tableFrom": "dimensions",
-          "tableTo": "categories",
           "columnsFrom": [
             "category_id"
           ],
+          "tableTo": "categories",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "dimension_examples": {
+    "public.dimension_examples": {
       "name": "dimension_examples",
       "schema": "",
       "columns": {
@@ -192,34 +190,34 @@
         "dimension_examples_dimension_id_dimensions_id_fk": {
           "name": "dimension_examples_dimension_id_dimensions_id_fk",
           "tableFrom": "dimension_examples",
-          "tableTo": "dimensions",
           "columnsFrom": [
             "dimension_id"
           ],
+          "tableTo": "dimensions",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "dimension_examples_report_id_reports_id_fk": {
           "name": "dimension_examples_report_id_reports_id_fk",
           "tableFrom": "dimension_examples",
-          "tableTo": "reports",
           "columnsFrom": [
             "report_id"
           ],
+          "tableTo": "reports",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "frameworks": {
+    "public.frameworks": {
       "name": "frameworks",
       "schema": "",
       "columns": {
@@ -275,21 +273,21 @@
         "frameworks_author_id_users_id_fk": {
           "name": "frameworks_author_id_users_id_fk",
           "tableFrom": "frameworks",
-          "tableTo": "users",
           "columnsFrom": [
             "author_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "games": {
+    "public.games": {
       "name": "games",
       "schema": "",
       "columns": {
@@ -329,7 +327,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "games_to_companies": {
+    "public.games_to_companies": {
       "name": "games_to_companies",
       "schema": "",
       "columns": {
@@ -351,28 +349,28 @@
         "games_to_companies_game_id_games_id_fk": {
           "name": "games_to_companies_game_id_games_id_fk",
           "tableFrom": "games_to_companies",
-          "tableTo": "games",
           "columnsFrom": [
             "game_id"
           ],
+          "tableTo": "games",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "games_to_companies_company_id_companies_id_fk": {
           "name": "games_to_companies_company_id_companies_id_fk",
           "tableFrom": "games_to_companies",
-          "tableTo": "companies",
           "columnsFrom": [
             "company_id"
           ],
+          "tableTo": "companies",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -386,7 +384,7 @@
       },
       "uniqueConstraints": {}
     },
-    "games_to_genres": {
+    "public.games_to_genres": {
       "name": "games_to_genres",
       "schema": "",
       "columns": {
@@ -408,28 +406,28 @@
         "games_to_genres_game_id_games_id_fk": {
           "name": "games_to_genres_game_id_games_id_fk",
           "tableFrom": "games_to_genres",
-          "tableTo": "games",
           "columnsFrom": [
             "game_id"
           ],
+          "tableTo": "games",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "games_to_genres_genre_id_genres_id_fk": {
           "name": "games_to_genres_genre_id_genres_id_fk",
           "tableFrom": "games_to_genres",
-          "tableTo": "genres",
           "columnsFrom": [
             "genre_id"
           ],
+          "tableTo": "genres",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -443,7 +441,7 @@
       },
       "uniqueConstraints": {}
     },
-    "games_to_platforms": {
+    "public.games_to_platforms": {
       "name": "games_to_platforms",
       "schema": "",
       "columns": {
@@ -465,28 +463,28 @@
         "games_to_platforms_game_id_games_id_fk": {
           "name": "games_to_platforms_game_id_games_id_fk",
           "tableFrom": "games_to_platforms",
-          "tableTo": "games",
           "columnsFrom": [
             "game_id"
           ],
+          "tableTo": "games",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "games_to_platforms_platform_id_platforms_id_fk": {
           "name": "games_to_platforms_platform_id_platforms_id_fk",
           "tableFrom": "games_to_platforms",
-          "tableTo": "platforms",
           "columnsFrom": [
             "platform_id"
           ],
+          "tableTo": "platforms",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -500,7 +498,7 @@
       },
       "uniqueConstraints": {}
     },
-    "genres": {
+    "public.genres": {
       "name": "genres",
       "schema": "",
       "columns": {
@@ -522,7 +520,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user_key": {
+    "public.user_key": {
       "name": "user_key",
       "schema": "",
       "columns": {
@@ -550,21 +548,21 @@
         "user_key_user_id_users_id_fk": {
           "name": "user_key_user_id_users_id_fk",
           "tableFrom": "user_key",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user_session": {
+    "public.user_session": {
       "name": "user_session",
       "schema": "",
       "columns": {
@@ -598,21 +596,21 @@
         "user_session_user_id_users_id_fk": {
           "name": "user_session_user_id_users_id_fk",
           "tableFrom": "user_session",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -661,21 +659,21 @@
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ]
+          ],
+          "nullsNotDistinct": false
         },
         "users_username_unique": {
           "name": "users_username_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "username"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "platforms": {
+    "public.platforms": {
       "name": "platforms",
       "schema": "",
       "columns": {
@@ -697,7 +695,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "reports": {
+    "public.reports": {
       "name": "reports",
       "schema": "",
       "columns": {
@@ -752,41 +750,41 @@
         "reports_game_id_games_id_fk": {
           "name": "reports_game_id_games_id_fk",
           "tableFrom": "reports",
-          "tableTo": "games",
           "columnsFrom": [
             "game_id"
           ],
+          "tableTo": "games",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "reports_framework_id_frameworks_id_fk": {
           "name": "reports_framework_id_frameworks_id_fk",
           "tableFrom": "reports",
-          "tableTo": "frameworks",
           "columnsFrom": [
             "framework_id"
           ],
+          "tableTo": "frameworks",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "reports_author_id_users_id_fk": {
           "name": "reports_author_id_users_id_fk",
           "tableFrom": "reports",
-          "tableTo": "users",
           "columnsFrom": [
             "author_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -794,14 +792,15 @@
     }
   },
   "enums": {
-    "categories_status": {
+    "public.categories_status": {
       "name": "categories_status",
-      "values": {
-        "unofficial": "unofficial",
-        "merged": "merged",
-        "declined": "declined",
-        "official": "official"
-      }
+      "schema": "public",
+      "values": [
+        "unofficial",
+        "merged",
+        "declined",
+        "official"
+      ]
     }
   },
   "schemas": {},
@@ -809,5 +808,8 @@
     "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "d99d7e69-f451-4df1-8663-7bf5ae4c54ea",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "sequences": {}
 }

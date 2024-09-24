@@ -15,7 +15,7 @@ export const categories = pgTable('categories', {
 	title: text('title').notNull(),
 	description: text('description').notNull(),
 	frameworkId: integer('framework_id')
-		.references(() => frameworks.id)
+		.references(() => frameworks.id, { onDelete: 'cascade' })
 		.notNull(),
 	superCategoryId: integer('super_category_id').notNull().default(0),
 	siblingCategoryId: integer('sibling_category_id').notNull().default(0),

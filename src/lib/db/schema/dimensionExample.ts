@@ -7,10 +7,10 @@ export const dimensionExamples = pgTable('dimension_examples', {
 	id: serial('id').primaryKey(),
 	dimensionId: integer('dimension_id')
 		.notNull()
-		.references(() => dimensions.id),
+		.references(() => dimensions.id, { onDelete: 'cascade' }),
 	reportId: integer('report_id')
 		.notNull()
-		.references(() => reports.id),
+		.references(() => reports.id, { onDelete: 'cascade' }),
 	example: text('example').default(''),
 	imageURL: text('image_url').default('')
 });

@@ -3,11 +3,10 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export default {
+	dialect: 'postgresql',
 	schema: './src/lib/db/schema/*',
-	driver: 'pg',
 	dbCredentials: {
-		connectionString:
-			process.env.DEV == 'true' ? process.env.DATABASE_URL_DEV! : process.env.DATABASE_URL!
+		url: process.env.DEV == 'true' ? process.env.DATABASE_URL_DEV! : process.env.DATABASE_URL!
 	},
 	out: './drizzle'
 } satisfies Config;

@@ -65,7 +65,7 @@
             "id"
           ],
           "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -142,7 +142,7 @@
             "id"
           ],
           "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -198,7 +198,7 @@
             "id"
           ],
           "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "cascade"
         },
         "dimension_examples_report_id_reports_id_fk": {
           "name": "dimension_examples_report_id_reports_id_fk",
@@ -211,7 +211,7 @@
             "id"
           ],
           "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -918,7 +918,7 @@
     "tables": {},
     "columns": {}
   },
-  "id": "7da42a19-3070-4eae-90c4-e4d2ef1c2555",
-  "prevId": "a2c6a658-711d-4b74-8897-f7b741200a07",
+  "id": "bbe6480c-4390-47e8-951c-544cacbd89e9",
+  "prevId": "7da42a19-3070-4eae-90c4-e4d2ef1c2555",
   "sequences": {}
 }

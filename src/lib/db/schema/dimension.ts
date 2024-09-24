@@ -19,7 +19,7 @@ export const dimensions = pgTable('dimensions', {
 	title: text('title').notNull(),
 	description: text('description').notNull(),
 	categoryId: integer('category_id')
-		.references(() => categories.id)
+		.references(() => categories.id, { onDelete: 'cascade' })
 		.notNull(),
 	status: dimensionStatus('status').notNull().default('unofficial')
 });
