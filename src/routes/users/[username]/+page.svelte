@@ -7,19 +7,23 @@
 	export let data: PageData;
 
 	const user: User = data.user;
-	const reports: (Report & { game: Game })[] = data.reports;
-	const frameworks: Framework[] = data.frameworks;
+	let reports: (Report & { game: Game })[] = data.reports;
 	const session = data.session;
-	console.log(frameworks);
+	function onDeleteReport(report: Report) {
+		const reportIndex = reports.findIndex((arrayReport) => arrayReport.id == report.id);
+		reports.splice(reportIndex, 1);
+		reports = reports;
+		console.log(reports);
+	}
 </script>
 
 <!-- <ThreeColumnLayout> -->
 <div class="flex w-full flex-col overflow-auto p-8">
 	<div class="flex w-full">{user.username}</div>
-	<div class="grid w-full grid-cols-2 grid-rows-1 justify-evenly gap-5 p-8">
-		<div class="card flex flex-col divide-y-2">
+	<div class="grid w-full justify-evenly gap-5 p-8">
+		<div class="card flex w-full flex-col divide-y-2">
 			<h2 class="h2 card-header p-4">Reports</h2>
-			<div class="grid grid-cols-2 flex-wrap justify-evenly gap-5 p-5">
+			<div class="flex flex-wrap justify-evenly gap-5 p-5">
 				{#if reports}
 					{#each reports as report}
 						<ReportSummary
@@ -27,6 +31,7 @@
 							game={report.game}
 							{user}
 							authenticatedAsUser={session?.user.username == user.username}
+							{onDeleteReport}
 						/>
 					{/each}
 				{:else}
@@ -34,7 +39,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="card flex flex-col divide-y-2">
+		<!-- <div class="card flex flex-col divide-y-2">
 			<h2 class="h2 card-header p-4">Frameworks</h2>
 			{#if frameworks.length > 0}
 				{#each frameworks as framework}
@@ -46,7 +51,7 @@
 			{:else}
 				<p>User has not made any reports</p>
 			{/if}
-		</div>
+		</div> -->
 	</div>
 </div>
 <!-- </ThreeColumnLayout> -->

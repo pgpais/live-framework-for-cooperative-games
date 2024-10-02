@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { invalidate, invalidateAll } from '$app/navigation';
 	import type { DimensionExample, Game, Report, User, Dimension } from '$lib/db/schema';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import type { Session } from 'lucia';
-	import { Eye, Trash, Trash2, EyeOff } from 'lucide-svelte';
+	import { Eye, Trash, Trash2, EyeOff, Loader2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	export let report: Report;
 	export let game: Game;
 	export let user: User | undefined = undefined;
 	export let authenticatedAsUser: boolean = false;
+	export let onDeleteReport: (report: Report) => void;
+
+	let isLoading: boolean = false;
+
+	const modalStore = getModalStore();
 
 	let examplesFetch: () => Promise<(DimensionExample & { dimension: Dimension })[]> = async () => {
 		const res = fetch('/api/examples/byReport/' + report.id).then((res) => res.json());
@@ -19,6 +26,7 @@
 		const newReport = report;
 		newReport.public = !newReport.public;
 
+		isLoading = true;
 		const response = await fetch(`/api/reports/${report.id}`, {
 			method: 'PUT',
 			body: JSON.stringify(newReport),
@@ -28,10 +36,27 @@
 		});
 		if (response) {
 			report = newReport;
+			isLoading = false;
 		}
 	}
 
+	function confirmDeleteReport() {
+		const modal: ModalSettings = {
+			type: 'confirm',
+			// Data
+			title: 'Please Confirm',
+			body: 'Are you sure you wish to proceed?',
+			// TRUE if confirm pressed, FALSE if cancel pressed
+			response: (r: boolean) => {
+				if (r) {
+					deleteReport();
+				}
+			}
+		};
+		modalStore.trigger(modal);
+	}
 	async function deleteReport() {
+		isLoading = true;
 		const response = await fetch(`/api/reports/${report.id}`, {
 			method: 'DELETE',
 			headers: {
@@ -39,43 +64,48 @@
 			}
 		});
 		if (response) {
-			invalidateAll();
+			onDeleteReport(report);
+			isLoading = false;
 		}
 	}
 
 	let date: Date = new Date(report.createdAt);
 </script>
 
-<div class="card variant-ringed-surface card-hover">
-	<header class="h3 card-header flex h-56 flex-col items-center gap-2">
-		<div class="flex w-full">
-			<div class="grow">
-				<a href={'/reports/' + report.id} class="h3">{game.name}</a>
+<div class="card variant-ringed-surface card-hover h-80 w-80">
+	<header class="card-header flex flex-col items-center gap-2">
+		<div class="flex w-full justify-between">
+			<div class="line-clamp-1">
+				<a href={'/reports/' + report.id} class="h4">{game.name}</a>
 			</div>
 			{#if authenticatedAsUser}
 				<div class="flex shrink">
-					<button class="btn-icon btn-icon-base" on:click={deleteReport}>
-						<Trash2 class="place-self-center" />
-					</button>
-					{#if report.public}
-						<button on:click={swapReportPublic} class="btn-icon btn-icon-base">
-							<Eye />
-						</button>
+					{#if isLoading}
+						<Loader2 class="animate-spin" />
 					{:else}
-						<button on:click={swapReportPublic} class="btn-icon btn-icon-base">
-							<EyeOff />
+						<button class="btn-icon btn-icon-sm" on:click={confirmDeleteReport}>
+							<Trash2 class="place-self-center" />
 						</button>
+						{#if report.public}
+							<button on:click={swapReportPublic} class="btn-icon btn-icon-sm">
+								<Eye />
+							</button>
+						{:else}
+							<button on:click={swapReportPublic} class="btn-icon btn-icon-sm">
+								<EyeOff />
+							</button>
+						{/if}
 					{/if}
 				</div>
 			{/if}
 		</div>
 
-		<div class="flex w-2/3 justify-between">
+		<div class="flex w-2/3 flex-col justify-between">
 			{#if user}
-				<div class="h6">
+				<div class="h6 line-clamp-1">
 					Author: {user.username}
 				</div>
-				<div class="h6">
+				<div class="h6 line-clamp-1">
 					Date: {date.toDateString()}
 				</div>
 			{/if}

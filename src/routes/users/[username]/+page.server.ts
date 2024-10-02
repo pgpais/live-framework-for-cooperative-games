@@ -12,8 +12,5 @@ export const load = (async ({ params, fetch, locals }) => {
 	const reports: (Report & { game: Game })[] = await fetch('/api/reports/user/' + user.id).then(
 		(res) => res.json()
 	);
-	const frameworks: Framework[] = await fetch('/api/frameworks/user/' + user.id).then((res) =>
-		res.json()
-	);
-	return { user, reports, frameworks, session };
+	return { user, reports, session };
 }) satisfies PageServerLoad;
