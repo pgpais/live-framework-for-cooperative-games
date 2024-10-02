@@ -78,7 +78,7 @@
 			<div class="line-clamp-1">
 				<a href={'/reports/' + report.id} class="h4">{game.name}</a>
 			</div>
-			<div class="flex shrink">
+			<div class="flex shrink gap-2">
 				{#if isLoading}
 					<Loader2 class="animate-spin" />
 				{:else}
