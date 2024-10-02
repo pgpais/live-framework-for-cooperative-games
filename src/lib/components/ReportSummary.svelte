@@ -4,7 +4,7 @@
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import type { Session } from 'lucia';
-	import { Eye, Trash, Trash2, EyeOff, Loader2 } from 'lucide-svelte';
+	import { Eye, Trash, Trash2, EyeOff, Loader2, Download } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	export let report: Report;
@@ -72,20 +72,20 @@
 	let date: Date = new Date(report.createdAt);
 </script>
 
-<div class="card variant-ringed-surface card-hover h-80 w-80">
+<div class="card variant-ringed-surface card-hover w-80">
 	<header class="card-header flex flex-col items-center gap-2">
 		<div class="flex w-full justify-between">
 			<div class="line-clamp-1">
 				<a href={'/reports/' + report.id} class="h4">{game.name}</a>
 			</div>
-			{#if authenticatedAsUser}
-				<div class="flex shrink">
-					{#if isLoading}
-						<Loader2 class="animate-spin" />
-					{:else}
-						<button class="btn-icon btn-icon-sm" on:click={confirmDeleteReport}>
-							<Trash2 class="place-self-center" />
-						</button>
+			<div class="flex shrink">
+				{#if isLoading}
+					<Loader2 class="animate-spin" />
+				{:else}
+					<button class="btn-icon btn-icon-sm">
+						<Download class="place-self-center" />
+					</button>
+					{#if authenticatedAsUser}
 						{#if report.public}
 							<button on:click={swapReportPublic} class="btn-icon btn-icon-sm">
 								<Eye />
@@ -95,9 +95,12 @@
 								<EyeOff />
 							</button>
 						{/if}
+						<button class="btn-icon btn-icon-sm" on:click={confirmDeleteReport}>
+							<Trash2 class="place-self-center" />
+						</button>
 					{/if}
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 
 		<div class="flex w-2/3 flex-col justify-between">
