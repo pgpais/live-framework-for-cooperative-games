@@ -18,8 +18,8 @@
 </script>
 
 <!-- <ThreeColumnLayout> -->
-<div class="flex w-full flex-col overflow-auto p-8">
-	<div class="flex w-full">{user.username}</div>
+<div class="flex w-full flex-col divide-y divide-dashed overflow-auto p-8">
+	<h1 class=" h1 mb-5 flex w-full">{user.username}'s profile</h1>
 	<div class="grid w-full justify-evenly gap-5 p-8">
 		<div class="card flex w-full flex-col divide-y-2">
 			<h2 class="h2 card-header p-4">Reports</h2>
