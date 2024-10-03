@@ -12,6 +12,8 @@
 	{:else if $detailInfoStore.type === 'category'}
 		<CategoryDetail />
 	{/if}
-<!-- {:else} -->
+	<!-- {:else} -->
 	<!-- <p>Click on a category or value to get more information</p> -->
+{:else}
+	<div class="p-8">Select an item to get more more information in this section</div>
 {/if}

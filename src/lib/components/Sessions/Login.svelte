@@ -7,7 +7,12 @@
 
 <div>
 	{#if session}
-		<p class="">Hello, {session.user.full_name}</p>
+		<p class="">
+			Hello, <a
+				class="text-secondary-500 hover:text-secondary-900"
+				href={'/users/' + session.user.username}>{session.user.full_name}</a
+			>
+		</p>
 		<form method="POST" action="/logout" use:enhance>
 			<input type="submit" class="variant-filled-tertiary btn" value="Sign out" />
 		</form>
