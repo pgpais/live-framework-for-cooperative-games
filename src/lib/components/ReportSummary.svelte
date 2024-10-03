@@ -82,9 +82,9 @@
 				{#if isLoading}
 					<Loader2 class="animate-spin" />
 				{:else}
-					<button class="btn-icon btn-icon-sm">
+					<a class="btn-icon btn-icon-sm" href={'/api/reports/print/' + report.id}>
 						<Download class="place-self-center" />
-					</button>
+					</a>
 					{#if authenticatedAsUser}
 						{#if report.public}
 							<button on:click={swapReportPublic} class="btn-icon btn-icon-sm">
