@@ -1,6 +1,5 @@
-import type { FullCategory, Dimension, DimensionExample, Game, Report } from '$lib/db/schema';
+import type { FullCategory, Dimension, DimensionExample, Game, Report, User } from '$lib/db/schema';
 import { GetFullFrameworkById } from '$lib/utils/frameworkFetchers';
-import { title } from 'process';
 import type { RequestHandler } from './$types';
 import PdfPrinter from 'pdfmake';
 
@@ -8,9 +7,8 @@ export const GET: RequestHandler = async ({ params, setHeaders, fetch }) => {
 	const reportId = params.id ? +params.id : 0;
 	console.log('reportId', reportId);
 
-	const report: Report & { game: Game; dimensionExamples: DimensionExample[] } = await fetch(
-		'/api/reports/' + reportId
-	).then((res) => res.json());
+	const report: Report & { game: Game; dimensionExamples: DimensionExample[]; author: User } =
+		await fetch('/api/reports/' + reportId).then((res) => res.json());
 
 	const fullFramework = await GetFullFrameworkById(report.frameworkId);
 
@@ -54,21 +52,60 @@ export const GET: RequestHandler = async ({ params, setHeaders, fetch }) => {
 		pdfContent.push(...halo);
 	}
 
+	const reportDetails = {
+		text:
+			'Analysis level: ' +
+			report.analysisLevel +
+			(report.analysisLevel == 'other' ? ' - ' + report.analysisLevelOther : '') +
+			' | Analysis type: ' +
+			report.analysisType +
+			(report.analysisType == 'other' ? ' - ' + report.otherAnalysisType : '')
+	};
+
+	const frameworkFeedback = {
+		text:
+			'Analysis difficulty: ' +
+			report.frameworkDifficulty +
+			' | Framework comments: ' +
+			(report.frameworkComments ? report.frameworkComments : '')
+	};
+
 	const titleMargin: [number, number, number, number] | [number, number] = [0, 0, 0, 10];
+	const authorMargin: [number, number, number, number] | [number, number] = [0, 0, 0, 10];
 
 	const dd = {
 		content: [
 			{
-				text: [report.game.name],
+				text: report.game.name,
 				margin: titleMargin,
 				style: ['title'],
 				tocItem: true
 			},
+			{
+				text: report.author.username,
+				margin: authorMargin,
+				style: ['author']
+			},
+			{
+				text: 'www.lfcooperativegames.com/reports/' + report.id,
+				margin: authorMargin,
+				link: 'www.lfcooperativegames.com/reports/' + report.id,
+				style: ['link']
+			},
+			reportDetails,
+			frameworkFeedback,
 			...pdfContent
 		],
 		styles: {
 			title: {
 				fontSize: 25
+			},
+			author: {
+				fontSize: 15
+			},
+			link: {
+				fontSize: 15,
+				color: 'blue'
 			}
 		}
 	};
