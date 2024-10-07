@@ -11,7 +11,8 @@ export const GET: RequestHandler = async ({ params }) => {
 		where: (reports, { eq }) => eq(reports.id, reportId),
 		with: {
 			game: true,
-			dimensionExamples: true
+			dimensionExamples: true,
+			author: true
 		}
 	});
 	return json(report);
