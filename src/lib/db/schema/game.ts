@@ -1,6 +1,6 @@
 import { platforms, type NewPlatform } from './platform';
 import { reports } from './report';
-import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
+import { relations, sql, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { integer, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { genres, type NewGenre } from './genre';
 import { companies, type NewCompany } from './company';
@@ -10,7 +10,9 @@ export const games = pgTable('games', {
 	id: integer('id').primaryKey(),
 	name: text('title').notNull(),
 	description: text('description'),
-	releaseDate: timestamp('release_date', { mode: 'string' }),
+	releaseDate: integer('release_date')
+		.notNull()
+		.default(sql`extract(epoch from now())`),
 	imgUrl: text('img_url')
 });
 
