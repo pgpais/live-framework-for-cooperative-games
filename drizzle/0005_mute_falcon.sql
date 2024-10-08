@@ -1,0 +1,1 @@
+ALTER TABLE "games" RENAME COLUMN "release_date" TO "release_date_old";

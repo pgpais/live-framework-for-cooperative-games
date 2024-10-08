@@ -208,7 +208,15 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 						imgUrl: game.imgUrl,
 						description: game.description
 					})
-					.onConflictDoUpdate({ target: games.id, set: { imgUrl: game.imgUrl } });
+					.onConflictDoUpdate({
+						target: games.id,
+						set: {
+							name: game.name,
+							releaseDate: game.releaseDate,
+							imgUrl: game.imgUrl,
+							description: game.description
+						}
+					});
 			} else {
 				await tx
 					.insert(games)
@@ -219,7 +227,15 @@ const uploadReport = async (report: ReportSchema, userId: string) => {
 						imgUrl: game.imgUrl,
 						description: game.description
 					})
-					.onConflictDoNothing();
+					.onConflictDoUpdate({
+						target: games.id,
+						set: {
+							name: game.name,
+							releaseDate: game.releaseDate,
+							imgUrl: game.imgUrl,
+							description: game.description
+						}
+					});
 			}
 
 			await tx
