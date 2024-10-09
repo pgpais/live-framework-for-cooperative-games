@@ -10,7 +10,7 @@
 		<p class="">
 			Hello, <a
 				class="text-secondary-500 hover:text-secondary-900"
-				href={'/users/' + session.user.username}>{session.user.full_name}</a
+				href={'/users/' + session.user.username}>{session.user.full_name? session.user.full_name : session.user.username}</a
 			>
 		</p>
 		<form method="POST" action="/logout" use:enhance>
